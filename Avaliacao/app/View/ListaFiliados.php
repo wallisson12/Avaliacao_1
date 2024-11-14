@@ -43,9 +43,9 @@ $oListaFiliados = $oFiliadosController->findAllFiliados();
                 <td><?php echo $oFiliado->getIdade()?></td>
                 <td><?php echo $oFiliado->getRG()?></td>
                 <td><?php echo $oFiliado->getDataNascimento()?></td>
-                <td><?php echo $oFiliado->getEmpresa()?></td>
-                <td><?php echo $oFiliado->getCargo()?></td>
-                <td><?php echo $oFiliado->getSituacao()?></td>
+                <td><?php echo !empty($oFiliado->getEmpresa()) ? $oFiliado->getEmpresa() : '-' ?></td>
+                <td><?php echo !empty($oFiliado->getCargo()) ? $oFiliado->getCargo() : '-' ?></td>
+                <td><?php echo !empty($oFiliado->getSituacao()) ? $oFiliado->getSituacao() : '-' ?></td>
                 <td><?php echo $oFiliado->getTelefoneResidencial()?></td>
                 <td><?php echo $oFiliado->getCelular()?></td>
                 <td><?php echo $oFiliado->getDataUltimaAtualizacao()?></td>

@@ -8,16 +8,17 @@ class Filiado
     private string $sRg;
     private DateTime $dDataNascimento;
     private int $iIdade;
-    private string $sEmpresa;
-    private string $sCargo;
-    private Situacao $sSituacao;
+    private ?string $sEmpresa;
+    private ?string $sCargo;
+    private ?Situacao $sSituacao;
     private string $sTelefoneResidencial;
     private string $sCelular;
     private DateTime $dDataUltimaAtualizacao;
 
     public function __construct(?int $iId,string $sNome,string $sCpf,string $sRg,string $dDataNascimento,int $iIdade,
-                                string $sEmpresa,string $sCargo,string $sSituacao,string $sTelefoneResidencial,string $sCelular,string $dDataUltimaAtualizacao)
+                                ?string $sEmpresa,?string $sCargo,?string $sSituacao,string $sTelefoneResidencial,string $sCelular,string $dDataUltimaAtualizacao)
     {
+
         $this->iId = $iId;
         $this->sNome = $sNome;
         $this->sCpf = $sCpf;
@@ -32,7 +33,6 @@ class Filiado
         $this->dDataUltimaAtualizacao = $this->setDataAtualizacao($dDataUltimaAtualizacao);
 
     }
-
 
     public function getId(): int
     {
@@ -63,17 +63,17 @@ class Filiado
         return $this->iIdade;
     }
 
-    public function getEmpresa(): string
+    public function getEmpresa(): ?string
     {
         return $this->sEmpresa;
     }
 
-    public function getCargo(): string
+    public function getCargo(): ?string
     {
         return $this->sCargo;
     }
 
-    public function getSituacao(): string
+    public function getSituacao(): ?string
     {
         return $this->sSituacao->value;
     }
@@ -92,7 +92,7 @@ class Filiado
         return $this->dDataUltimaAtualizacao->format('d/m/Y');
     }
 
-    private function setTipo_Situacao(string $sSituacao): Situacao
+    private function setTipo_Situacao(?string $sSituacao): ?Situacao
     {
         switch ($sSituacao)
         {
@@ -109,7 +109,7 @@ class Filiado
                 break;
 
             default:
-                throw new InvalidArgumentException("Tipo Situacao nao definido");
+                return null;
         }
     }
 
@@ -128,6 +128,5 @@ class Filiado
         $dataAgora = new DateTime('now', new DateTimeZone('America/Sao_Paulo'));
         return $dataAgora->format('Y-m-d H:i:s');
     }
-
 
 }

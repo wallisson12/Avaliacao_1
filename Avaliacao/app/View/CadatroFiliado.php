@@ -6,13 +6,24 @@ $filiadoController = new FiliadoController();
 
 if(isset($_POST["cadastrar"]))
 {
-    $filiadoController->cadastrar(
-            $_POST['nome'],$_POST['cpf'],$_POST['rg'],
-            $_POST['data_nascimento'],$_POST['idade'],
-            $_POST['empresa'],$_POST['cargo'],$_POST['situacao'],
-            $_POST['telefone'],$_POST['celular']);
-}
+    if(empty($_POST['empresa']) && empty($_POST['cargo']) && empty($_POST['situacao']))
+    {
+            $_POST['empresa'] = null;
+            $_POST['cargo'] = null;
+            $_POST['situacao'] = null;
+    }
 
+    $filiadoController->cadastrar(
+            $_POST['nome'],
+            $_POST['cpf'],
+            $_POST['rg'],
+            $_POST['data_nascimento'],
+            $_POST['empresa'],
+            $_POST['cargo'],
+            $_POST['situacao'],
+            $_POST['telefone'],
+            $_POST['celular']);
+}
 
 ?>
 
@@ -30,27 +41,22 @@ if(isset($_POST["cadastrar"]))
 
     <div>
         <label>Nome</label>
-        <input type="text" name="nome">
+        <input type="text" name="nome" required>
     </div>
 
     <div>
         <label>CPF</label>
-        <input type="text" name="cpf">
-    </div>
-
-    <div>
-        <label>Idade</label>
-        <input type="text" name="idade">
+        <input type="text" name="cpf" required>
     </div>
 
     <div>
         <label>RG</label>
-        <input type="text" name="rg">
+        <input type="text" name="rg" required>
     </div>
 
     <div>
         <label>Data Nascimento</label>
-        <input type="text" name="data_nascimento">
+        <input type="text" name="data_nascimento" required>
     </div>
 
     <div>
@@ -70,15 +76,15 @@ if(isset($_POST["cadastrar"]))
 
     <div>
         <label>Telefone Residencial</label>
-        <input type="text" name="telefone">
+        <input type="text" name="telefone" required>
     </div>
 
     <div>
         <label>Celular</label>
-        <input type="text" name="celular">
+        <input type="text" name="celular" required>
     </div>
 
-    <input type="submit" name="cadastrar" value="Cadastrar">
+        <input type="submit" name="cadastrar" value="Cadastrar">
 </form>
 
 

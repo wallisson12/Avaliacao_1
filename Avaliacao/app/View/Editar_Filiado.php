@@ -70,7 +70,12 @@ else
 
     <div>
         <label>Situacao</label>
-        <input type="text" name="situacao" value="<?php echo $oFiliado->getSituacao(); ?>">
+        <select name="situacao">
+            <option value="Ativo" <?php echo $oFiliado->getSituacao() == 'Ativo' ? 'selected' : ''; ?>>Ativo</option>
+            <option value="Aposentado" <?php echo $oFiliado->getSituacao() == 'Aposentado' ? 'selected' : ''; ?>>Aposentado</option>
+            <option value="Licenciado" <?php echo $oFiliado->getSituacao() == 'Licenciado' ? 'selected' : ''; ?>>Licenciado</option>
+            <option value="" <?php echo $oFiliado->getSituacao() == '' ? 'selected' : ''; ?>></option>
+        </select>
     </div>
 
     <div>
