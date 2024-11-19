@@ -2,23 +2,32 @@
 require_once 'autoLoad.php';
 class Rota
 {
-    public function __construct()
+    public static function rotear(array $aDados)
     {
-        $url = isset($_GET['url']) ? $_GET['url'] : 'home/index';
-        $url = rtrim($url, '/');
-        $segments = explode('/', $url);
+        $url = strip_tags(filter_input(INPUT_GET, 'url', FILTER_DEFAULT));
 
-        $controllerName = ucfirst($segments[0]) . 'Controller';
-        $metodoNome = isset($segments[1]) ? $segments[1] : 'index';
+        $verificacao = (!empty($url)) ? $url : 'home/index';
 
-        if (class_exists($controllerName) && method_exists($controllerName, $metodoNome)) {
-            $controller = new $controllerName();
-            $controller->$metodoNome();
-        } else
+        $url = array_filter(explode('/', $verificacao));
+
+        $controllerClass = ucfirst($url[0]) . 'Controller';
+        $metodo = $url[1];
+
+        var_dump($controllerClass);
+        var_dump($metodo);
+
+        if(class_exists($controllerClass) && method_exists($controllerClass,$metodo))
         {
-            $homeController = new HomeController();
-            $homeController->index();
+            $controller = new $controllerClass();
+            $controller->$metodo($aDados);
         }
+        else
+        {
+            var_dump('nao caiu');
+            $controller = new HomeController();
+            $controller->index($aDados);
+        }
+
     }
 
 }

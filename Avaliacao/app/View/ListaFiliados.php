@@ -1,12 +1,3 @@
-<?php
-require_once __DIR__ . '/../../Config/autoLoad.php';
-
-$oFiliadosController = new FiliadoController();
-
-$oListaFiliados = $oFiliadosController->findAllFiliados();
-
-?>
-
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -35,7 +26,7 @@ $oListaFiliados = $oFiliadosController->findAllFiliados();
         </thead>
 
         <tbody>
-         <?php foreach ($oListaFiliados as $oFiliado) : ?>
+         <?php foreach ($aFiliados as $oFiliado) : ?>
 
             <tr>
                 <td><?php echo $oFiliado->getNome()?></td>
@@ -49,9 +40,9 @@ $oListaFiliados = $oFiliadosController->findAllFiliados();
                 <td><?php echo $oFiliado->getTelefoneResidencial()?></td>
                 <td><?php echo $oFiliado->getCelular()?></td>
                 <td><?php echo $oFiliado->getDataUltimaAtualizacao()?></td>
-                <td><a href="/../Avaliacao/app/View/Editar_Filiado.php?id=<?php echo $oFiliado->getId()?>">Editar</td>
+                <td><a href="http://localhost:5000/Avaliacao/Filiado/editar?id=<?php echo $oFiliado->getId()?>">Editar</td>
                 <td>
-                    <form action="excluirFiliado.php" method="post">
+                    <form action="http://localhost:5000/Avaliacao/Filiado/excluir" method="post">
                         <input type="hidden" name="id" value="<?php echo $oFiliado->getId()?>">
                         <input type="submit" value="Excluir">
                     </form>
@@ -61,13 +52,10 @@ $oListaFiliados = $oFiliadosController->findAllFiliados();
         <?php endforeach; ?>
         </tbody>
 
-        <tbody>
-
-        </tbody>
     </table>
 </section>
 
-
+<a href="http://localhost:5000/Avaliacao/Filiado/indexAdmDashborad">Voltar</a>
 
 </body>
 </html>

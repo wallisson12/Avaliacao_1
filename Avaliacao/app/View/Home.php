@@ -1,8 +1,3 @@
-<?php
-
-
-?>
-
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -12,7 +7,7 @@
 </head>
 <body>
     <h1>Bem-vindo ao Sindicato dos Estágios</h1>
-    <a href="/../Avaliacao/app/View/LoginUsuario.php">Login</a>
+    <a href="http://localhost:5000/Avaliacao/LoginUsuario/index">Login</a>
 
 </body>
 </html>

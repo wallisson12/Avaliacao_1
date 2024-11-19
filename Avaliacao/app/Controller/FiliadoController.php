@@ -1,6 +1,6 @@
 <?php
 require_once __DIR__  . "/../../Config/MoobiDataBase.php";
-require_once __DIR__  . "/../../app/Model/Filiado.php";
+require_once __DIR__  . "/../Model/FiliadoDAO.php";
 class FiliadoController
 {
     private PDO $pdo;
@@ -10,138 +10,134 @@ class FiliadoController
         $this->pdo = $mobiDataBase->pdo;
     }
 
-    private function formaObjetoFiliado($aDados) : Filiado
-    {
-        return new Filiado(
-           $aDados["flo_Id"],
-           $aDados['flo_Nome'],
-           $aDados['flo_CPF'],
-           $aDados['flo_RG'],
-           $aDados['flo_Data_De_Nascimento'],
-           $aDados['flo_Idade'],
-           $aDados['flo_Empresa'],
-           $aDados['flo_Cargo'],
-           $aDados['flo_Situacao'],
-           $aDados['flo_Telefone_Residencial'],
-           $aDados['flo_Celular'],
-           $aDados['flo_Data_Ultima_Atualizacao'],
-        );
 
+    //Responsavel por pegar os dados que vem de get ou post
+    //Responsavel por chamar o dao especifico no modelo para buscar os dados no banco
+    public function listar(array $aDados = null)
+    {
+        $filiadoDAO = new FiliadoDAO();
+        $aFiliados = $filiadoDAO->finAllFiliados();
+
+        require_once __DIR__ . "/../View/ListaFiliados.php";
     }
 
-
-    public function findAllFiliados() : array
+    //Responsavel por pegar os dados que vem de get ou posta
+    //Responsavel por chamar o dao especifico no modelo para buscar os dados no banco
+    public function editar(array $aDados = null)
     {
-        $sql = "SELECT * FROM filiados";
-        $stmt = $this->pdo->query($sql);
-        $aListaFiliados = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-        $oTodosOsDados = array_map(function ($filiado){
-            return $this->formaObjetoFiliado($filiado);
-        },$aListaFiliados);
-
-        return $oTodosOsDados;
-    }
-
-    public function find(int $iIdFiliado): Filiado
-    {
-        $sql = "SELECT * FROM filiados WHERE flo_Id = ?";
-        $stmt = $this->pdo->prepare($sql);
-        $stmt->bindValue(1,$iIdFiliado);
-        $stmt->execute();
-
-        $aFiliado = $stmt->fetch(PDO::FETCH_ASSOC);
-
-        return $this->formaObjetoFiliado($aFiliado);
-    }
-
-
-    public function cadastrar(string $sNome,string $sCpf,string $sRg,string $dDataNascimento,
-                              ?string $sEmpresa,?string $sCargo,?string $sSituacao,
-                              string $sTelefoneResidencial,
-                              string $sCelular) : void
-    {
-
-        try
+        if(isset($aDados['id']))
         {
+            $filiadoDAO = new FiliadoDAO();
+            $oFiliado = $filiadoDAO->find($aDados['id']);
 
-
-            //Validacao do Cpf
-            $this->validarCpf($sCpf);
-
-            //Validacao Idade
-            $iIdade = $this->validarIdadeDataNascimento($dDataNascimento);
-
-            //Validacao Telefone Residencial
-            $this->validarTelefoneResidencial($sTelefoneResidencial);
-
-            //Validacao Celular
-            $this->validarCelular($sCelular);
-
-            //Validacao RG
-            $this->validarRg($sRg);
-
-
-            $sql = "INSERT INTO filiados (flo_Nome,flo_CPF,flo_RG,flo_Data_De_Nascimento,flo_Idade,flo_Empresa,flo_Cargo,
-                          flo_Situacao,flo_Telefone_Residencial,flo_Celular,flo_Data_Ultima_Atualizacao)  
-                    VALUES (?,?,?,?,?,?,?,?,?,?,?)";
-
-            $stmt = $this->pdo->prepare($sql);
-            $stmt->bindValue(1,$sNome);
-            $stmt->bindValue(2,$sCpf);
-            $stmt->bindValue(3,$sRg);
-            $stmt->bindValue(4,$dDataNascimento);
-            $stmt->bindValue(5,$iIdade);
-            $stmt->bindValue(6,$sEmpresa);
-            $stmt->bindValue(7,$sCargo);
-            $stmt->bindValue(8,$sSituacao);
-            $stmt->bindValue(9,$sTelefoneResidencial);
-            $stmt->bindValue(10,$sCelular);
-            $stmt->bindValue(11,Filiado::atualizaDataAtualizacao());
-            $stmt->execute();
-
-            require_once __DIR__ . "/../View/ListaFiliados.php";
-            exit();
-
-        }catch (Exception $exception)
-        {
-            echo"<script>alert('{$exception->getMessage()}')</script>";
+            require_once __DIR__ . "/../View/Editar_Filiado.php";
         }
     }
 
+    //Responsavel por pegar os dados que vem de get ou post
+    //Responsavel por chamar o dao especifico no modelo para buscar os dados no banco
+    public function excluir(array $aDados = null)
+    {
+        if(isset($aDados['id']))
+        {
+            $filiadoDAO = new FiliadoDAO();
+            $filiadoDAO->delete($aDados['id']);
+
+            header("Location: http://localhost:5000/Avaliacao/Filiado/listar");
+        }
+    }
+
+    //Responsavel por pegar os dados que vem de get ou post
+    //Responsavel por chamar o dao especifico no modelo para buscar os dados no banco
+
     //Fazer a validacao do campos antes de salvar no banco e permitir o cadastro remover e atualizar
     //Os dados, empresa, situacao, cargo
-    public function atualizar(int $iId,?string $sEmpresa,?string $sCargo,?string $sSituacao,string $sData):void
+    public function atualizar(array $aDados = null)
     {
-        $slq = "UPDATE filiados SET flo_Empresa = ?,flo_Cargo = ?,flo_Situacao = ?, flo_Data_Ultima_Atualizacao = ?
-                WHERE flo_Id = ?";
+        if(isset($aDados['editar']))
+        {
+            //Faz a validacao dos dados de empresa
+            $sEmpresa = $this->validacaoDadosEmpresa($aDados['empresa']);
+            $sCargo = $this->validacaoDadosEmpresa($aDados['cargo']);
+            $sSituacao = $this->validacaoDadosEmpresa($aDados['situacao']);
 
-        //Faz a validacao dos dados de empresa
-        $sEmpresa = $this->validacaoDadosEmpresa($sEmpresa);
-        $sCargo = $this->validacaoDadosEmpresa($sCargo);
-        $sSituacao = $this->validacaoDadosEmpresa($sSituacao);
+            $filiadoDAO = new FiliadoDAO();
+            $filiadoDAO->update($aDados['id'],$sEmpresa, $sCargo, $sSituacao,$aDados['data']);
 
-        $stmt = $this->pdo->prepare($slq);
-        $stmt->bindValue(1,$sEmpresa);
-        $stmt->bindValue(2,$sCargo);
-        $stmt->bindValue(3,$sSituacao);
-        $sData = Filiado::atualizaDataAtualizacao();
-        $stmt->bindValue(4,$sData);
-        $stmt->bindValue(5,$iId);
-        $stmt->execute();
+          header("Location: http://localhost:5000/Avaliacao/Filiado/listar");
 
-        require_once __DIR__ . "/../View/ListaFiliados.php";
-        exit();
-
+        }
     }
 
-    public function delete(int $iIdFiliado) : void
+
+    //Responsavel por fazer a validacao dos dados antes de inserir no banco
+    public function cadastrar(array $aDados = null)
     {
-        $slq = "DELETE FROM filiados WHERE flo_Id = ?";
-        $stmt = $this->pdo->prepare($slq);
-        $stmt->bindValue(1,$iIdFiliado);
-        $stmt->execute();
+        try
+        {
+            if(isset($aDados["cadastrar"]))
+            {
+                //Faz a validacao dos dados de empresa
+                $sEmpresa = $this->validacaoDadosEmpresa($aDados['empresa']);
+                $sCargo = $this->validacaoDadosEmpresa($aDados['cargo']);
+                $sSituacao = $this->validacaoDadosEmpresa($aDados['situacao']);
+
+                //Validacao do Cpf
+                $this->validarCpf($aDados["cpf"]);
+
+                //Validacao Idade
+                $iIdade = $this->validarIdadeDataNascimento($aDados['data_nascimento']);
+
+                //Validacao Telefone Residencial
+                $this->validarTelefoneResidencial($aDados['telefone']);
+
+                //Validacao Celular
+                $this->validarCelular($aDados['celular']);
+
+                //Validacao RG
+                $this->validarRg($aDados['rg']);
+
+                $filiadoDAO = new FiliadoDAO();
+
+                $filiadoDAO->insert($_POST['nome'],
+                    $aDados['cpf'],
+                    $aDados['rg'],
+                    $aDados['data_nascimento'],
+                    $iIdade,
+                    $sEmpresa,
+                    $sCargo,
+                    $sSituacao,
+                    $aDados['telefone'],
+                    $aDados['celular']);
+
+
+                header("Location: http://localhost:5000/Avaliacao/Filiado/listar");
+
+            }
+
+        }catch (Exception $e)
+        {
+            echo"<script>alert('{$e->getMessage()}')</script>";
+        }
     }
+
+
+    //**Indexs**
+    public function indexListar(array $aDados = null)
+    {
+        header("Location: http://localhost:5000/Avaliacao/Filiado/listar");
+    }
+    public function indexAdmDashborad(array $aDados = null)
+    {
+        require_once __DIR__ . "/../View/AdminDashboard.php";
+    }
+
+    public function indexCadastrar(array $aDados = null)
+    {
+        require_once __DIR__ . "/../View/CadatroFiliado.php";
+    }
+
+
 
 
 

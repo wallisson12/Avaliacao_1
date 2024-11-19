@@ -1,27 +1,3 @@
-<?php
-require_once __DIR__ . "/../../Config/MoobiDataBase.php";
-require_once __DIR__ . "/../Controller/FiliadoController.php";
-
-$filiadoController = new FiliadoController();
-
-if(isset($_POST['editar']))
-{
-    //Quando editar, tenho que atualizar a data da ultima atualizacao
-    $filiadoController->atualizar($_GET['id'],$_POST['empresa'],$_POST['cargo'],$_POST['situacao'],$_POST['data']);
-
-    //Carrega a view Lista de filiados
-    require_once __DIR__ . "/../View/ListaFiliados.php";
-    exit();
-
-
-}
-else
-{
-    $oFiliado = $filiadoController->find($_GET['id']);
-}
-
-?>
-
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -31,7 +7,7 @@ else
 </head>
 <body>
 
-<form method="post">
+<form action="http://localhost:5000/Avaliacao/Filiado/atualizar?id=<?php echo $oFiliado->getId()?>" method="post">
 
     <div>
         <label>Nome</label>
@@ -96,5 +72,6 @@ else
     <input type="submit" name="editar" value="Editar">
 </form>
 
+<a href="http://localhost:5000/Avaliacao/Filiado/indexListar">Voltar</a>
 </body>
 </html>

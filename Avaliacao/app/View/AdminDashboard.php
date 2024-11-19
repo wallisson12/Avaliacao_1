@@ -1,13 +1,3 @@
-<?php
-session_start();
-
-if(!isset($_SESSION['admin']))
-{
-    header('location: ../View/LoginUsuario.php');
-}
-
-?>
-
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -20,7 +10,7 @@ if(!isset($_SESSION['admin']))
 
 <label>Cadastrar Usuario</label>
 <input name="cadastrarUsuario" type="hidden">
-<a href="/../Avaliacao/app/View/CadastroUsuario.php">Cadastrar</a>
+<a href="http://localhost:5000/Avaliacao/Usuario/indexCadastrar">Cadastrar</a>
 
 <br>
 <br>
@@ -32,19 +22,19 @@ if(!isset($_SESSION['admin']))
 <br>
 
 <label>Cadastrar Filiado</label>
-<a href="/../Avaliacao/app/View/CadatroFiliado.php">Cadastrar</a>
+<a href="http://localhost:5000/Avaliacao/Filiado/indexCadastrar">Cadastrar</a>
 
 <br>
 <br>
 
 <label>Listar Filiados</label>
-<a href="/../Avaliacao/app/View/ListaFiliados.php">Listar</a>
+<a href="http://localhost:5000/Avaliacao/Filiado/listar">Listar</a>
 
 <br>
 <br>
 
-<input type="submit" name="logout" value="logout">
 
+<a href="http://localhost:5000/Avaliacao/Usuario/logoutAdm">Logout</a>
 
 
 </body>

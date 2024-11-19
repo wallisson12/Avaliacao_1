@@ -11,6 +11,11 @@ class Usuario
         $this->Tipo_Usuario = $this->setTipo_Usuario($sTipo_Usuario);
     }
 
+    public static function formarObjetoUsuario(array $aDados) : Usuario
+    {
+        return new Usuario($aDados['uso_Nome'],$aDados['uso_Tipo_Usuario']);
+    }
+
     public function getNome(): string
     {
         return $this->Nome;

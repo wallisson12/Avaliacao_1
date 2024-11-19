@@ -1,33 +1,3 @@
-<?php
-require_once __DIR__ . "/../../Config/MoobiDataBase.php";
-require_once __DIR__ . "/../Controller/FiliadoController.php";
-
-$filiadoController = new FiliadoController();
-
-if(isset($_POST["cadastrar"]))
-{
-    if(empty($_POST['empresa']) && empty($_POST['cargo']) && empty($_POST['situacao']))
-    {
-            $_POST['empresa'] = null;
-            $_POST['cargo'] = null;
-            $_POST['situacao'] = null;
-    }
-
-    $filiadoController->cadastrar(
-            $_POST['nome'],
-            $_POST['cpf'],
-            $_POST['rg'],
-            $_POST['data_nascimento'],
-            $_POST['empresa'],
-            $_POST['cargo'],
-            $_POST['situacao'],
-            $_POST['telefone'],
-            $_POST['celular']);
-}
-
-?>
-
-
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -37,7 +7,7 @@ if(isset($_POST["cadastrar"]))
 </head>
 <body>
 
-<form method="post">
+<form action="http://localhost:5000/Avaliacao/Filiado/cadastrar"  method="post">
 
     <div>
         <label>Nome</label>
@@ -87,7 +57,7 @@ if(isset($_POST["cadastrar"]))
         <input type="submit" name="cadastrar" value="Cadastrar">
 </form>
 
-
+<a href="http://localhost:5000/Avaliacao/Filiado/indexAdmDashborad">Voltar</a>
 
 </body>
 </html>

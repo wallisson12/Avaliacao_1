@@ -34,6 +34,24 @@ class Filiado
 
     }
 
+    public static function formarObjetoFiliado(array $aDados) : Filiado
+    {
+        return new Filiado(
+            $aDados["flo_Id"],
+            $aDados['flo_Nome'],
+            $aDados['flo_CPF'],
+            $aDados['flo_RG'],
+            $aDados['flo_Data_De_Nascimento'],
+            $aDados['flo_Idade'],
+            $aDados['flo_Empresa'],
+            $aDados['flo_Cargo'],
+            $aDados['flo_Situacao'],
+            $aDados['flo_Telefone_Residencial'],
+            $aDados['flo_Celular'],
+            $aDados['flo_Data_Ultima_Atualizacao'],
+        );
+    }
+
     public function getId(): int
     {
         return $this->iId;
