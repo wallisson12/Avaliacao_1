@@ -99,6 +99,12 @@ class FiliadoController
 
                 $filiadoDAO = new FiliadoDAO();
 
+                if($filiadoDAO->isFiliadoExiste($aDados['cpf']))
+                {
+                    throw new Exception('Filiado ja existe!');
+                }
+
+
                 $filiadoDAO->insert($_POST['nome'],
                     $aDados['cpf'],
                     $aDados['rg'],
@@ -118,6 +124,7 @@ class FiliadoController
         }catch (Exception $e)
         {
             echo"<script>alert('{$e->getMessage()}')</script>";
+            $this->indexCadastrar();
         }
     }
 
@@ -127,9 +134,9 @@ class FiliadoController
     {
         header("Location: http://localhost:5000/Avaliacao/Filiado/listar");
     }
-    public function indexAdmDashborad(array $aDados = null)
+    public function indexDashborad(array $aDados = null)
     {
-        require_once __DIR__ . "/../View/AdminDashboard.php";
+        require_once __DIR__ . "/../View/Dashboard.php";
     }
 
     public function indexCadastrar(array $aDados = null)
@@ -170,7 +177,7 @@ class FiliadoController
         }
         else
         {
-            throw new Exception("Formato da data incorreto! EX (AAAA-MM-DD)");
+            throw new Exception("Formato da data incorreto! EX (YYYY-MM-DD)");
         }
     }
 

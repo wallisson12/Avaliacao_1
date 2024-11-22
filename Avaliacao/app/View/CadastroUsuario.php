@@ -31,7 +31,7 @@
     <input type="submit" name="cadastrar" value="Cadastrar">
 
 </form>
-<a href="http://localhost:5000/Avaliacao/Usuario/indexAdmDashborad">Voltar</a>
+<a href="http://localhost:5000/Avaliacao/Usuario/indexDashborad">Voltar</a>
 
 </body>
 </html>

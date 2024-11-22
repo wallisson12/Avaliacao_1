@@ -26,7 +26,7 @@
 
     <div>
         <label>Data Nascimento</label>
-        <input type="text" name="data_nascimento" required>
+        <input type="date" name="data_nascimento" required>
     </div>
 
     <div>
@@ -41,7 +41,11 @@
 
     <div>
         <label>Situacao</label>
-        <input type="text" name="situacao">
+        <select name="situacao">
+            <option value="Ativo">Ativo</option>
+            <option value="Aposentado">Aposentado</option>
+            <option value="Licenciado">Licenciado</option>
+        </select>
     </div>
 
     <div>
@@ -57,7 +61,7 @@
         <input type="submit" name="cadastrar" value="Cadastrar">
 </form>
 
-<a href="http://localhost:5000/Avaliacao/Filiado/indexAdmDashborad">Voltar</a>
+<a href="http://localhost:5000/Avaliacao/Filiado/indexDashborad">Voltar</a>
 
 </body>
 </html>

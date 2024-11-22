@@ -36,6 +36,26 @@ class FiliadoDAO
         return Filiado::formarObjetoFiliado($aFiliado);
     }
 
+    public function isFiliadoExiste(string $cpf) : bool
+    {
+        $sql = "SELECT * FROM filiados WHERE flo_CPF = ?";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->bindValue(1,$cpf);
+        $stmt->execute();
+
+        $aFiliado = $stmt->fetch(PDO::FETCH_ASSOC);
+        var_dump($aFiliado);
+
+        if($aFiliado)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
     public function delete(int $iIdFiliado) : void
     {
         $slq = "DELETE FROM filiados WHERE flo_Id = ?";

@@ -1,3 +1,6 @@
+<?php
+require_once __DIR__ . "/../../Config/Session_Handler.php";
+?>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -19,16 +22,26 @@
         </thead>
 
         <tbody>
-        <?php foreach ($usuarios as $usuario) : ?>
+        <?php foreach ($usuarios as $oUsuario) : ?>
             <tr>
-                <td><?php echo $usuario->getNome() ?></td>
-                <td><?php echo $usuario->getTipo_Usuario()->value ?></td>
+                <td><?php echo $oUsuario->getNome() ?></td>
+                <td><?php echo $oUsuario->getTipo_Usuario()->value ?></td>
+                <td>
+                    <form action="http://localhost:5000/Avaliacao/Usuario/excluir" method="post">
+                        <input type="hidden" name="id" value="<?php echo $oUsuario->getId()?>">
+                        <input type="submit" value="Excluir">
+                    </form>
+                </td>
             </tr>
+
         <?php endforeach; ?>
         </tbody>
 
     </table>
 </section>
+
+
+<a href="http://localhost:5000/Avaliacao/Usuario/indexDashborad">Voltar</a>
 
 </body>
 </html>

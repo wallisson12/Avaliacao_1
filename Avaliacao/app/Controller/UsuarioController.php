@@ -19,14 +19,19 @@ class UsuarioController
     {
         try
         {
-            //Validacao login usuario
-            $aDados['nome'] = $this->validarNome($aDados['nome']);
-
             if(isset($aDados['login']))
             {
+                //Validacao login usuario
+                $aDados['nome'] = $this->validarNome($aDados['nome']);
+
                 $oUsuarioDAO = new UsuarioDAO();
                 $oUsuarioDAO->findUsuarioAdm($aDados['nome'],$aDados['senha']);
             }
+            else
+            {
+                $this->indexLogin();
+            }
+
 
         }catch (Exception $e)
         {
@@ -44,12 +49,11 @@ class UsuarioController
     {
         try
         {
-            //Validacao Do Nome
-            $aDados['nome'] = $this->validarNome($aDados['nome']);
-
-
             if(isset($aDados['cadastrar']))
             {
+                //Validacao Do Nome
+                $aDados['nome'] = $this->validarNome($aDados['nome']);
+
                 $oUsuarioDAO = new UsuarioDAO();
 
                 if($oUsuarioDAO->isUsuarioExiste($aDados['nome']))
@@ -83,6 +87,18 @@ class UsuarioController
         require_once __DIR__  . "/../View/ListaUsuarios.php";
     }
 
+    public function excluir(array $aDados = null)
+    {
+        if(isset($aDados['id']))
+        {
+            $oUsuarioDAO = new UsuarioDAO();
+            $oUsuarioDAO->delete($aDados['id']);
+
+            header("Location: http://localhost:5000/Avaliacao/Usuario/listar");
+        }
+
+    }
+
     //Responsavel por fazer a validacao
     //Responsavel por pegar os dados que vem de get ou post
     //Responsavel por chamar o dao especifico no modelo para buscar os dados no banco
@@ -113,9 +129,9 @@ class UsuarioController
     {
         require_once __DIR__ . "/../View/LoginUsuario.php";
     }
-    public function indexAdmDashborad(array $aDados = null)
+    public function indexDashborad(array $aDados = null)
     {
-        require_once __DIR__ . "/../View/AdminDashboard.php";
+        require_once __DIR__ . "/../View/Dashboard.php";
     }
 
 

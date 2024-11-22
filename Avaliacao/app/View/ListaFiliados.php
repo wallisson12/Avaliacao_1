@@ -1,3 +1,6 @@
+<?php
+require_once __DIR__ . "/../../Config/Session_Handler.php";
+?>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -40,13 +43,15 @@
                 <td><?php echo $oFiliado->getTelefoneResidencial()?></td>
                 <td><?php echo $oFiliado->getCelular()?></td>
                 <td><?php echo $oFiliado->getDataUltimaAtualizacao()?></td>
-                <td><a href="http://localhost:5000/Avaliacao/Filiado/editar?id=<?php echo $oFiliado->getId()?>">Editar</td>
-                <td>
-                    <form action="http://localhost:5000/Avaliacao/Filiado/excluir" method="post">
-                        <input type="hidden" name="id" value="<?php echo $oFiliado->getId()?>">
-                        <input type="submit" value="Excluir">
-                    </form>
-                </td>
+                <?php if(Session_Handler::obterSessao('tipo') === 'Administrador') : ?>
+                    <td><a href="http://localhost:5000/Avaliacao/Filiado/editar?id=<?php echo $oFiliado->getId()?>">Editar</td>
+                    <td>
+                        <form action="http://localhost:5000/Avaliacao/Filiado/excluir" method="post">
+                            <input type="hidden" name="id" value="<?php echo $oFiliado->getId()?>">
+                            <input type="submit" value="Excluir">
+                        </form>
+                    </td>
+                <?php endif; ?>
             </tr>
 
         <?php endforeach; ?>
@@ -55,7 +60,7 @@
     </table>
 </section>
 
-<a href="http://localhost:5000/Avaliacao/Filiado/indexAdmDashborad">Voltar</a>
+<a href="http://localhost:5000/Avaliacao/Filiado/indexDashborad">Voltar</a>
 
 </body>
 </html>

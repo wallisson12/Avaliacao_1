@@ -15,62 +15,69 @@ class UsuarioDAO
 
     public function findUsuarioAdm(string $sNome,string $sSenha) : void
     {
+        $slq = "SELECT * FROM usuarios WHERE uso_Nome = ? AND uso_Tipo_Usuario = 'Administrador'";
+        $stmt = $this->pdo->prepare($slq);
+        $stmt->bindValue(1, $sNome);
+        $stmt->execute();
 
-        $slq = "SELECT * FROM usuarios WHERE uso_Tipo_Usuario = 'Administrador'";
-        $stmt = $this->pdo->query($slq);
-        $aUsuarios = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $aUsuario = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        foreach ($aUsuarios as $aUsuario)
+        if ($aUsuario)
         {
             if($aUsuario["uso_Nome"] == $sNome && password_verify($sSenha,$aUsuario["uso_Senha"]))
             {
                 if(Usuario::formarObjetoUsuario($aUsuario) != null)
                 {
                     //Salva o usuario que esta logado
-                    Session_Handler::definirSessao('admin',$sNome);
+                    Session_Handler::definirSessao('usuario',$sNome);
+                    Session_Handler::definirSessao('tipo','Administrador');
 
-                    //Carrega a view AdminDashboard
-                    require_once __DIR__ . "/../View/AdminDashboard.php";
+                    //Carrega a view Dashboard
+                    require_once __DIR__ . "/../View/Dashboard.php";
                     exit();
                 }
             }
-            else
-            {
-                $this->findUsuarioComun($sNome,$sSenha);
-            }
-
-            require __DIR__ . "/../View/LoginUsuario.php";
-            exit();
         }
+        else
+        {
+            $this->findUsuarioComun($sNome,$sSenha);
+        }
+
+        require __DIR__ . "/../View/LoginUsuario.php";
+        exit();
+
     }
 
 
     private function findUsuarioComun(string $sNome,string $sSenha)
     {
-        $slq = "SELECT * FROM usuarios WHERE uso_Tipo_Usuario = 'Comum'";
-        $stmt = $this->pdo->query($slq);
-        $aUsuariosComuns = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $slq = "SELECT * FROM usuarios WHERE uso_Nome = ? AND uso_Tipo_Usuario = 'Comum'";
+        $stmt = $this->pdo->prepare($slq);
+        $stmt->bindValue(1, $sNome);
+        $stmt->execute();
 
-        foreach($aUsuariosComuns as $aUsuarioComun)
+        $aUsuarioComun = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if($aUsuarioComun)
         {
             if($aUsuarioComun["uso_Nome"] == $sNome && password_verify($sSenha,$aUsuarioComun["uso_Senha"]))
             {
                 if(Usuario::formarObjetoUsuario($aUsuarioComun) != null)
                 {
                     //Salva o usuario que esta logado
-                    Session_Handler::definirSessao('comun',$sNome);
+                    Session_Handler::definirSessao('usuario',$sNome);
+                    Session_Handler::definirSessao('tipo','Comum');
 
                     //Carrega a view ComunDashboard
-                    require_once __DIR__ . "/../View/ComunDashboard.php";
+                    require_once __DIR__ . "/../View/Dashboard.php";
                     exit();
 
                 }
             }
-            else
-            {
-                throw new Exception('Usuario nao encontrado!');
-            }
+
         }
+
+        throw new Exception('Usuario nao encontrado!');
 
     }
 
@@ -98,6 +105,14 @@ class UsuarioDAO
         }, $aUsuarios);
 
         return $aUsuariosComuns;
+    }
+
+    public function delete(int $idUsuario) : void
+    {
+        $sql = "DELETE FROM usuarios WHERE uso_Id = ? ";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->bindValue(1,$idUsuario);
+        $stmt->execute();
     }
 
 

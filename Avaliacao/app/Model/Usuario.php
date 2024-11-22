@@ -2,18 +2,20 @@
 require_once __DIR__ . "/../Model/Tipo_Usuario.php";
 class Usuario
 {
+    private int $iId;
     private string $Nome;
     private Tipo_Usuario $Tipo_Usuario;
 
-    public function __construct(string $Nome,string $sTipo_Usuario)
+    public function __construct(?int $iId,string $Nome,string $sTipo_Usuario)
     {
+        $this->iId = $iId;
         $this->Nome = $Nome;
         $this->Tipo_Usuario = $this->setTipo_Usuario($sTipo_Usuario);
     }
 
     public static function formarObjetoUsuario(array $aDados) : Usuario
     {
-        return new Usuario($aDados['uso_Nome'],$aDados['uso_Tipo_Usuario']);
+        return new Usuario($aDados['uso_Id'],$aDados['uso_Nome'],$aDados['uso_Tipo_Usuario']);
     }
 
     public function getNome(): string
@@ -24,6 +26,11 @@ class Usuario
     public function getTipo_Usuario(): Tipo_Usuario
     {
         return $this->Tipo_Usuario;
+    }
+
+    public function getId(): int
+    {
+        return $this->iId;
     }
     public function setTipo_Usuario(string $Tipo_Usuario) : Tipo_Usuario
     {
