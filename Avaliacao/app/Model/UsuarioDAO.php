@@ -66,6 +66,10 @@ class UsuarioDAO
 
                 }
             }
+            else
+            {
+                throw new Exception('Usuario nao encontrado!');
+            }
         }
 
     }
@@ -79,6 +83,24 @@ class UsuarioDAO
         $stmt->bindValue(3,$sTipo);
         $stmt->execute();
     }
+
+    public function findAllUsuarios() : array
+    {
+        $slq = "SELECT * FROM usuarios";
+        $stmt = $this->pdo->query($slq);
+        $stmt->execute();
+
+        $aUsuarios = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        $aUsuariosComuns = array_map(function ($aUsuario)
+        {
+            return Usuario::formarObjetoUsuario($aUsuario);
+        }, $aUsuarios);
+
+        return $aUsuariosComuns;
+    }
+
+
 
     //Usar na hora do cadastro
     public function isUsuarioExiste(string $sNome) : bool

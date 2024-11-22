@@ -17,10 +17,23 @@ class UsuarioController
     //Responsavel por chamar o dao especifico no modelo para buscar os dados no banco
     public function autenticar(array $aDados = null)
     {
-        if(isset($aDados['login']))
+        try
         {
-            $oUsuarioDAO = new UsuarioDAO();
-            $oUsuarioDAO->findUsuarioAdm($aDados['nome'],$aDados['senha']);
+            //Validacao login usuario
+            $aDados['nome'] = $this->validarNome($aDados['nome']);
+
+            if(isset($aDados['login']))
+            {
+                $oUsuarioDAO = new UsuarioDAO();
+                $oUsuarioDAO->findUsuarioAdm($aDados['nome'],$aDados['senha']);
+            }
+
+        }catch (Exception $e)
+        {
+
+            echo"<script>alert('{$e->getMessage()}')</script>";
+            $this->indexLogin();
+
         }
     }
 
@@ -31,17 +44,25 @@ class UsuarioController
     {
         try
         {
+            //Validacao Do Nome
+            $aDados['nome'] = $this->validarNome($aDados['nome']);
+
+
             if(isset($aDados['cadastrar']))
             {
                 $oUsuarioDAO = new UsuarioDAO();
+
                 if($oUsuarioDAO->isUsuarioExiste($aDados['nome']))
                 {
                     throw new Exception('Usuario ja existe!');
                 }
 
                 $oUsuarioDAO->insert($aDados['nome'],$aDados['senha'],$aDados['tipo']);
-                //Criar o metodo para levar para o listar usuario
-                //header("Location: http://localhost:5000/Avaliacao/Usuario/");
+
+                //Cadastro realizado com sucesso
+                echo"<script>alert('Cadastro Realizado Com Sucesso!')</script>";
+                $this->indexCadastrar();
+
             }
 
 
@@ -52,6 +73,14 @@ class UsuarioController
 
         }
 
+    }
+
+    public function listar(array $aDados = null)
+    {
+        $usuarioDAO = new UsuarioDAO();
+        $usuarios = $usuarioDAO->findAllUsuarios();
+
+        require_once __DIR__  . "/../View/ListaUsuarios.php";
     }
 
     //Responsavel por fazer a validacao
@@ -80,9 +109,32 @@ class UsuarioController
         require_once __DIR__ . "/../View/CadastroUsuario.php";
     }
 
+    public function indexLogin(array $aDados = null)
+    {
+        require_once __DIR__ . "/../View/LoginUsuario.php";
+    }
     public function indexAdmDashborad(array $aDados = null)
     {
         require_once __DIR__ . "/../View/AdminDashboard.php";
+    }
+
+
+    //**Validacao**
+
+    public function validarNome(string $sNome) : string
+    {
+        //Verifica se possui numero
+        if(preg_match('/\d/', $sNome) == 1)
+        {
+            throw new Exception('Nome Do Usuario Invalido!');
+        }
+        else
+        {
+            //Retira caracteres especiais
+            $sNome = preg_replace('/[^[:alpha:]_]/','',$sNome);
+            return $sNome;
+        }
+
     }
 
 }

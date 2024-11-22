@@ -1,5 +1,5 @@
 <?php
-require_once "Tipo_Usuario.php";
+require_once __DIR__ . "/../Model/Tipo_Usuario.php";
 class Usuario
 {
     private string $Nome;

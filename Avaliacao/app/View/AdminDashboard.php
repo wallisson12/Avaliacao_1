@@ -16,7 +16,7 @@
 <br>
 
 <label>Listar Usuarios</label>
-<a href="/../Avaliacao/app/View/ListaUsuarios.php">Listar</a>
+<a href="http://localhost:5000/Avaliacao/Usuario/listar">Listar</a>
 
 <br>
 <br>
