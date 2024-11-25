@@ -52,6 +52,7 @@ require_once __DIR__ . "/../../Config/Session_Handler.php";
                         </form>
                     </td>
                 <?php endif; ?>
+                <td><a href="http://localhost:5000/Avaliacao/Dependente/listar?id=<?php echo $oFiliado->getId()?>">Dependentes</a></td>
             </tr>
 
         <?php endforeach; ?>

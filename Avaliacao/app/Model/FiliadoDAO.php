@@ -13,7 +13,7 @@ class FiliadoDAO
 
     public function finAllFiliados() : array
     {
-        $sql = "SELECT * FROM filiados";
+        $sql = "SELECT * FROM fls_filiados";
         $stmt = $this->pdo->query($sql);
         $aListaFiliados = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
@@ -26,7 +26,7 @@ class FiliadoDAO
 
     public function find(int $iIdFiliado): Filiado
     {
-        $sql = "SELECT * FROM filiados WHERE flo_Id = ?";
+        $sql = "SELECT * FROM fls_filiados WHERE flo_Id = ?";
         $stmt = $this->pdo->prepare($sql);
         $stmt->bindValue(1,$iIdFiliado);
         $stmt->execute();
@@ -38,7 +38,7 @@ class FiliadoDAO
 
     public function isFiliadoExiste(string $cpf) : bool
     {
-        $sql = "SELECT * FROM filiados WHERE flo_CPF = ?";
+        $sql = "SELECT * FROM fls_filiados WHERE flo_CPF = ?";
         $stmt = $this->pdo->prepare($sql);
         $stmt->bindValue(1,$cpf);
         $stmt->execute();
@@ -58,7 +58,7 @@ class FiliadoDAO
 
     public function delete(int $iIdFiliado) : void
     {
-        $slq = "DELETE FROM filiados WHERE flo_Id = ?";
+        $slq = "DELETE FROM fls_filiados WHERE flo_Id = ?";
         $stmt = $this->pdo->prepare($slq);
         $stmt->bindValue(1,$iIdFiliado);
         $stmt->execute();
@@ -66,7 +66,7 @@ class FiliadoDAO
 
     public function update(int $iId,?string $sEmpresa,?string $sCargo,?string $sSituacao,string $sData):void
     {
-        $slq = "UPDATE filiados SET flo_Empresa = ?,flo_Cargo = ?,flo_Situacao = ?, flo_Data_Ultima_Atualizacao = ?
+        $slq = "UPDATE fls_filiados SET flo_Empresa = ?,flo_Cargo = ?,flo_Situacao = ?, flo_Data_Ultima_Atualizacao = ?
                 WHERE flo_Id = ?";
 
 
@@ -78,7 +78,6 @@ class FiliadoDAO
         $stmt->bindValue(4,$sData);
         $stmt->bindValue(5,$iId);
         $stmt->execute();
-
     }
 
 
@@ -88,7 +87,7 @@ class FiliadoDAO
                               string $sCelular) : void
     {
 
-            $sql = "INSERT INTO filiados (flo_Nome,flo_CPF,flo_RG,flo_Data_De_Nascimento,flo_Idade,flo_Empresa,flo_Cargo,
+            $sql = "INSERT INTO fls_filiados (flo_Nome,flo_CPF,flo_RG,flo_Data_De_Nascimento,flo_Idade,flo_Empresa,flo_Cargo,
                           flo_Situacao,flo_Telefone_Residencial,flo_Celular,flo_Data_Ultima_Atualizacao)  
                     VALUES (?,?,?,?,?,?,?,?,?,?,?)";
 
@@ -105,7 +104,6 @@ class FiliadoDAO
             $stmt->bindValue(10,$sCelular);
             $stmt->bindValue(11,Filiado::atualizaDataAtualizacao());
             $stmt->execute();
-
     }
 
 }

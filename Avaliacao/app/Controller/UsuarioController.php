@@ -1,16 +1,7 @@
 <?php
-require_once __DIR__  . "/../../Config/MoobiDataBase.php";
 require_once __DIR__ . "/../Model/UsuarioDAO.php";
 class UsuarioController
 {
-    private PDO $pdo;
-
-    public function __construct()
-    {
-        $mobiDataBase = new MoobiDataBase();
-        $this->pdo = $mobiDataBase->pdo;
-    }
-
 
     //Responsavel por fazer a validacao
     //Responsavel por pegar os dados que vem de get ou post
@@ -76,7 +67,6 @@ class UsuarioController
             $this->indexCadastrar();
 
         }
-
     }
 
     public function listar(array $aDados = null)
@@ -96,7 +86,6 @@ class UsuarioController
 
             header("Location: http://localhost:5000/Avaliacao/Usuario/listar");
         }
-
     }
 
     //Responsavel por fazer a validacao
@@ -150,7 +139,6 @@ class UsuarioController
             $sNome = preg_replace('/[^[:alpha:]_]/','',$sNome);
             return $sNome;
         }
-
     }
 
 }

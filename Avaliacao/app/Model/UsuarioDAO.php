@@ -15,7 +15,7 @@ class UsuarioDAO
 
     public function findUsuarioAdm(string $sNome,string $sSenha) : void
     {
-        $slq = "SELECT * FROM usuarios WHERE uso_Nome = ? AND uso_Tipo_Usuario = 'Administrador'";
+        $slq = "SELECT * FROM uss_usuarios WHERE uso_Nome = ? AND uso_Tipo_Usuario = 'Administrador'";
         $stmt = $this->pdo->prepare($slq);
         $stmt->bindValue(1, $sNome);
         $stmt->execute();
@@ -51,7 +51,7 @@ class UsuarioDAO
 
     private function findUsuarioComun(string $sNome,string $sSenha)
     {
-        $slq = "SELECT * FROM usuarios WHERE uso_Nome = ? AND uso_Tipo_Usuario = 'Comum'";
+        $slq = "SELECT * FROM uss_usuarios WHERE uso_Nome = ? AND uso_Tipo_Usuario = 'Comum'";
         $stmt = $this->pdo->prepare($slq);
         $stmt->bindValue(1, $sNome);
         $stmt->execute();
@@ -83,7 +83,7 @@ class UsuarioDAO
 
     public function insert(string $sNome,string $sSenha,string $sTipo) : void
     {
-        $sql = "INSERT INTO usuarios (uso_Nome,uso_Senha,uso_Tipo_Usuario) VALUES (?,?,?)";
+        $sql = "INSERT INTO uss_usuarios (uso_Nome,uso_Senha,uso_Tipo_Usuario) VALUES (?,?,?)";
         $stmt = $this->pdo->prepare($sql);
         $stmt->bindValue(1,$sNome);
         $stmt->bindValue(2,password_hash($sSenha,PASSWORD_DEFAULT));
@@ -93,7 +93,7 @@ class UsuarioDAO
 
     public function findAllUsuarios() : array
     {
-        $slq = "SELECT * FROM usuarios";
+        $slq = "SELECT * FROM uss_usuarios";
         $stmt = $this->pdo->query($slq);
         $stmt->execute();
 
@@ -109,7 +109,7 @@ class UsuarioDAO
 
     public function delete(int $idUsuario) : void
     {
-        $sql = "DELETE FROM usuarios WHERE uso_Id = ? ";
+        $sql = "DELETE FROM uss_usuarios WHERE uso_Id = ? ";
         $stmt = $this->pdo->prepare($sql);
         $stmt->bindValue(1,$idUsuario);
         $stmt->execute();
@@ -120,7 +120,7 @@ class UsuarioDAO
     //Usar na hora do cadastro
     public function isUsuarioExiste(string $sNome) : bool
     {
-        $sql = "SELECT * FROM usuarios WHERE uso_Nome = ?";
+        $sql = "SELECT * FROM uss_usuarios WHERE uso_Nome = ?";
         $stmt = $this->pdo->prepare($sql);
         $stmt->bindValue(1,$sNome);
         $stmt->execute();

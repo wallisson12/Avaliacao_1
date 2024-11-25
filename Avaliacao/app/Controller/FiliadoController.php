@@ -1,15 +1,7 @@
 <?php
-require_once __DIR__  . "/../../Config/MoobiDataBase.php";
 require_once __DIR__  . "/../Model/FiliadoDAO.php";
 class FiliadoController
 {
-    private PDO $pdo;
-    public function __construct()
-    {
-        $mobiDataBase = new MoobiDataBase();
-        $this->pdo = $mobiDataBase->pdo;
-    }
-
 
     //Responsavel por pegar os dados que vem de get ou post
     //Responsavel por chamar o dao especifico no modelo para buscar os dados no banco
@@ -65,7 +57,6 @@ class FiliadoController
             $filiadoDAO->update($aDados['id'],$sEmpresa, $sCargo, $sSituacao,$aDados['data']);
 
           header("Location: http://localhost:5000/Avaliacao/Filiado/listar");
-
         }
     }
 
@@ -118,7 +109,6 @@ class FiliadoController
 
 
                 header("Location: http://localhost:5000/Avaliacao/Filiado/listar");
-
             }
 
         }catch (Exception $e)
@@ -225,10 +215,7 @@ class FiliadoController
         {
             throw new Exception("Formato De RG Incorreto. EX: XX.XXX.XXX-X");
         }
-
     }
-
-
 
 
 
