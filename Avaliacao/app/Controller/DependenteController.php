@@ -10,20 +10,10 @@ class DependenteController
     {
         try
         {
-            if(isset($aDados["id"]))
-            {
-                $dependenteDAO = new DependenteDAO();
-                $aDependentes = $dependenteDAO->findByIdFiliado($aDados["id"]);
+            $dependenteDAO = new DependenteDAO();
+            $aDependentes = $dependenteDAO->findByIdFiliado($aDados["id"]);
 
-                if($aDependentes != null)
-                {
-                    require_once __DIR__ . "/../View/ListaDependentes.php";
-                }
-                else
-                {
-                    throw new Exception("Nenhum Dependente Encontrado!");
-                }
-            }
+            require_once __DIR__ . "/../View/ListaDependentes.php";
 
         }catch (Exception $e)
         {
@@ -32,6 +22,29 @@ class DependenteController
                     window.location.href='http://localhost:5000/Avaliacao/Filiado/listar';
                  </script>";
         }
+    }
+
+    public function cadastrar(array $aDados = null)
+    {
+        try
+        {
+            if(isset($aDados["cadastrar"]))
+            {
+                foreach ($aDados["dependentes"] as $campo => $valor)
+                {
+                    $dependenteDAO = new DependenteDAO();
+                    $dependenteDAO->insert($aDados['id'],$valor['nome'],$valor['data_nascimento'],$valor['grau_parentesco']);
+                }
+
+                header("Location: http://localhost:5000/Avaliacao/Dependente/listar");
+            }
+
+
+        }catch (Exception $e)
+        {
+            echo"<script>alert('{$e->getMessage()}')</script>";
+        }
+
     }
 
     //**Indexs**

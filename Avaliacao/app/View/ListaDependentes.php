@@ -1,4 +1,3 @@
-
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -30,11 +29,21 @@
     </tbody>
 </table>
 
-    <a href="http://localhost:5000/Avaliacao/Filiado/listar">Voltar</a>
-    <!-- Vai permitir que cadastre mais de 1 dependente desse usuario !-->
-    <a href="">Cadastrar dependente</a>
-    <!-- Vai efetivamente fazer chamar a funcao para realizar o cadastro no banco, seguindo o id do filiado !-->
-    <a href="">Cadastrar</a>
+<form action="http://localhost:5000/Avaliacao/Dependente/cadastrar?id=<?php echo $oDependente->getIdFiliado() ?>" method="post">
 
+    <div id="dependente"></div>
+
+    <!-- Vai permitir que cadastre mais de 1 dependente desse usuario !-->
+    <a href="#" id="add">Cadastrar dependente</a>
+    <!-- Vai efetivamente fazer chamar a funcao para realizar o cadastro no banco, seguindo o id do filiado !-->
+    <input type="submit" name="cadastrar" value="Cadastrar">
+
+</form>
+
+
+
+<a href="http://localhost:5000/Avaliacao/Filiado/listar">Voltar</a>
+
+<script src="/../Avaliacao/app/View/Js/Dependentes.js"></script>
 </body>
 </html>
