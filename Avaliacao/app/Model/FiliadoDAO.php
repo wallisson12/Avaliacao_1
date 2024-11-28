@@ -3,19 +3,17 @@ require_once __DIR__  . "/../../Config/MoobiDataBase.php";
 require_once __DIR__  . "/../Model/Filiado.php";
 class FiliadoDAO
 {
-    private $pdo;
+    private MoobiDataBase $moobiDataBase;
 
     public function __construct()
     {
-        $moobiDataBase = new MoobiDataBase();
-        $this->pdo = $moobiDataBase->pdo;
+        $this->moobiDataBase = new MoobiDataBase();
     }
 
     public function finAllFiliados() : array
     {
         $sql = "SELECT * FROM fls_filiados";
-        $stmt = $this->pdo->query($sql);
-        $aListaFiliados = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $aListaFiliados = $this->moobiDataBase->query($sql);
 
         $oTodosOsDados = array_map(function ($filiado){
             return Filiado::formarObjetoFiliado($filiado);
@@ -24,29 +22,26 @@ class FiliadoDAO
         return $oTodosOsDados;
     }
 
-    public function find(int $iIdFiliado): Filiado
+    public function find(int $iIdFiliado): array
     {
         $sql = "SELECT * FROM fls_filiados WHERE flo_Id = ?";
-        $stmt = $this->pdo->prepare($sql);
-        $stmt->bindValue(1,$iIdFiliado);
-        $stmt->execute();
+        $parametro = [$iIdFiliado];
 
-        $aFiliado = $stmt->fetch(PDO::FETCH_ASSOC);
+        $aFiliado = $this->moobiDataBase->query($sql,$parametro);
 
-        return Filiado::formarObjetoFiliado($aFiliado);
+        return array_map(function ($filiado){
+            return Filiado::formarObjetoFiliado($filiado);
+        },$aFiliado);
     }
 
     public function isFiliadoExiste(string $cpf) : bool
     {
         $sql = "SELECT * FROM fls_filiados WHERE flo_CPF = ?";
-        $stmt = $this->pdo->prepare($sql);
-        $stmt->bindValue(1,$cpf);
-        $stmt->execute();
+        $parametro = [$cpf];
 
-        $aFiliado = $stmt->fetch(PDO::FETCH_ASSOC);
-        var_dump($aFiliado);
+        $aFiliado = $this->moobiDataBase->query($sql,$parametro);
 
-        if($aFiliado)
+        if($aFiliado[0])
         {
             return true;
         }
@@ -59,9 +54,9 @@ class FiliadoDAO
     public function delete(int $iIdFiliado) : void
     {
         $slq = "DELETE FROM fls_filiados WHERE flo_Id = ?";
-        $stmt = $this->pdo->prepare($slq);
-        $stmt->bindValue(1,$iIdFiliado);
-        $stmt->execute();
+        $parametro = [$iIdFiliado];
+
+        $this->moobiDataBase->execute($slq,$parametro);
     }
 
     public function update(int $iId,?string $sEmpresa,?string $sCargo,?string $sSituacao,string $sData):void
@@ -70,14 +65,9 @@ class FiliadoDAO
                 WHERE flo_Id = ?";
 
 
-        $stmt = $this->pdo->prepare($slq);
-        $stmt->bindValue(1,$sEmpresa);
-        $stmt->bindValue(2,$sCargo);
-        $stmt->bindValue(3,$sSituacao);
-        $sData = Filiado::atualizaDataAtualizacao();
-        $stmt->bindValue(4,$sData);
-        $stmt->bindValue(5,$iId);
-        $stmt->execute();
+        $parametro = [$sEmpresa,$sCargo,$sSituacao,Filiado::atualizaDataAtualizacao(),$iId];
+
+        $this->moobiDataBase->execute($slq,$parametro);
     }
 
 
@@ -91,19 +81,32 @@ class FiliadoDAO
                           flo_Situacao,flo_Telefone_Residencial,flo_Celular,flo_Data_Ultima_Atualizacao)  
                     VALUES (?,?,?,?,?,?,?,?,?,?,?)";
 
-            $stmt = $this->pdo->prepare($sql);
-            $stmt->bindValue(1,$sNome);
-            $stmt->bindValue(2,$sCpf);
-            $stmt->bindValue(3,$sRg);
-            $stmt->bindValue(4,$dDataNascimento);
-            $stmt->bindValue(5,$iIdade);
-            $stmt->bindValue(6,$sEmpresa);
-            $stmt->bindValue(7,$sCargo);
-            $stmt->bindValue(8,$sSituacao);
-            $stmt->bindValue(9,$sTelefoneResidencial);
-            $stmt->bindValue(10,$sCelular);
-            $stmt->bindValue(11,Filiado::atualizaDataAtualizacao());
-            $stmt->execute();
+            $parametro = [$sNome,$sCpf,$sRg,$dDataNascimento,$iIdade,$sEmpresa,$sCargo,$sSituacao,$sTelefoneResidencial,
+                          $sCelular,Filiado::atualizaDataAtualizacao()];
+
+            $this->moobiDataBase->execute($sql,$parametro);
     }
 
+    public function findByFiltros(?array $aFiltro): array
+    {
+        $sSql = "SELECT * FROM fls_filiados WHERE 1=1";
+        $parametros = [];
+
+        if (!empty($aFiltro['nome'])) {
+            $sSql .= " AND flo_Nome = ?";
+            $parametros[] = $aFiltro['nome'];
+        }
+
+        if (!empty($aFiltro['mes'])) {
+            $sSql .= " AND MONTH(flo_Data_De_Nascimento) = ?";
+            $parametros[] = intval($aFiltro['mes']);
+        }
+
+        $aFiliados = $this->moobiDataBase->query($sSql, $parametros);
+
+        return array_map(function($filiado){
+            return Filiado::formarObjetoFiliado($filiado);
+        },$aFiliados);
+
+    }
 }

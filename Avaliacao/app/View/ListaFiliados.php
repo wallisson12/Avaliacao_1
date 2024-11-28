@@ -9,6 +9,30 @@ require_once __DIR__ . "/../../Config/Session_Handler.php";
     <h3>Lista De Filiados</h3>
 </head>
 <body>
+<!--Formulario responsavel por mandar como array para o dependentes controller os filtros-->
+<form action="http://localhost:5000/Avaliacao/Filiado/filtros" method="post">
+
+    <label>Nome: </label>
+    <input type="text" name="filtros[nome]">
+
+    <select name="filtros[mes]">
+        <option value=""></option>
+        <option value="1">Janeiro</option>
+        <option value="2">Fevereiro</option>
+        <option value="3">Marco</option>
+        <option value="4">Abril</option>
+        <option value="5">Maio</option>
+        <option value="6">Junho</option>
+        <option value="7">Julho</option>
+        <option value="8">Agosto</option>
+        <option value="9">Setembro</option>
+        <option value="10">Outubro</option>
+        <option value="11">Novembro</option>
+        <option value="12">Dezembro</option>
+    </select>
+
+    <input type="submit" value="Filtrar">
+</form>
 
 <section>
     <table>

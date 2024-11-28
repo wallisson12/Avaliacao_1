@@ -1,5 +1,6 @@
 <?php
 require_once __DIR__ . "/../Model/UsuarioDAO.php";
+require_once __DIR__ . "/../../Utils/Validacoes.php";
 class UsuarioController
 {
 
@@ -13,7 +14,7 @@ class UsuarioController
             if(isset($aDados['login']))
             {
                 //Validacao login usuario
-                $aDados['nome'] = $this->validarNome($aDados['nome']);
+                $aDados['nome'] = Validacoes::validarNome($aDados['nome']);
 
                 $oUsuarioDAO = new UsuarioDAO();
                 $oUsuarioDAO->findUsuarioAdm($aDados['nome'],$aDados['senha']);
@@ -43,7 +44,7 @@ class UsuarioController
             if(isset($aDados['cadastrar']))
             {
                 //Validacao Do Nome
-                $aDados['nome'] = $this->validarNome($aDados['nome']);
+                $aDados['nome'] = Validacoes::validarNome($aDados['nome']);
 
                 $oUsuarioDAO = new UsuarioDAO();
 
@@ -84,7 +85,10 @@ class UsuarioController
             $oUsuarioDAO = new UsuarioDAO();
             $oUsuarioDAO->delete($aDados['id']);
 
-            header("Location: http://localhost:5000/Avaliacao/Usuario/listar");
+            echo "<script>
+                    alert('Usuario Deletado Com Sucesso!')
+                    window.location.href='http://localhost:5000/Avaliacao/Usuario/listar';
+                  </script>";
         }
     }
 
@@ -121,24 +125,6 @@ class UsuarioController
     public function indexDashborad(array $aDados = null)
     {
         require_once __DIR__ . "/../View/Dashboard.php";
-    }
-
-
-    //**Validacao**
-
-    public function validarNome(string $sNome) : string
-    {
-        //Verifica se possui numero
-        if(preg_match('/\d/', $sNome) == 1)
-        {
-            throw new Exception('Nome Do Usuario Invalido!');
-        }
-        else
-        {
-            //Retira caracteres especiais
-            $sNome = preg_replace('/[^[:alpha:]_]/','',$sNome);
-            return $sNome;
-        }
     }
 
 }

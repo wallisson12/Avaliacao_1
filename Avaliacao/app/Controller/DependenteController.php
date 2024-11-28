@@ -1,5 +1,6 @@
 <?php
 require_once __DIR__ . "/../Model/DependenteDAO.php";
+require_once __DIR__ . "/../../Utils/Validacoes.php";
 class DependenteController
 {
 
@@ -12,6 +13,7 @@ class DependenteController
         {
             $dependenteDAO = new DependenteDAO();
             $aDependentes = $dependenteDAO->findByIdFiliado($aDados["id"]);
+            $iIdFiliado = $aDados["id"];
 
             require_once __DIR__ . "/../View/ListaDependentes.php";
 
@@ -32,21 +34,45 @@ class DependenteController
             {
                 foreach ($aDados["dependentes"] as $campo => $valor)
                 {
+                    //Validacao Data Nascimento
+                    Validacoes::validarDataNascimentoDependente($valor['data_nascimento']);
+
+                    //Validacao Nome
+                    Validacoes::validarNomeDependente($valor['nome']);
+
                     $dependenteDAO = new DependenteDAO();
                     $dependenteDAO->insert($aDados['id'],$valor['nome'],$valor['data_nascimento'],$valor['grau_parentesco']);
                 }
 
-                header("Location: http://localhost:5000/Avaliacao/Dependente/listar");
+                echo "<script>
+                        alert('Dependente Cadastrado Com Sucesso')
+                        window.location.href='http://localhost:5000/Avaliacao/Filiado/listar';
+                      </script>";
             }
 
 
         }catch (Exception $e)
         {
-            echo"<script>alert('{$e->getMessage()}')</script>";
+            echo"<script>
+                    alert('{$e->getMessage()}')
+                    window.location.href='http://localhost:5000/Avaliacao/Filiado/listar';
+                 </script>";
         }
 
     }
 
-    //**Indexs**
+    public function excluir(array $aDados = null)
+    {
+        if(isset($aDados["idD"]))
+        {
+            $dependenteDAO = new DependenteDAO();
+            $dependenteDAO->delete($aDados['idD']);
+
+            echo "<script>
+                    alert('Dependente Deletado Com Sucesso!')
+                    window.location.href='http://localhost:5000/Avaliacao/Filiado/listar';
+                  </script>";
+        }
+    }
 }
 

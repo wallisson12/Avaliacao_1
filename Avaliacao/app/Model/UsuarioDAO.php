@@ -4,29 +4,26 @@ require_once __DIR__ . "/../Model/Usuario.php";
 require_once __DIR__ . "/../../Config/Session_Handler.php";
 class UsuarioDAO
 {
-    private PDO $pdo;
+    private MoobiDataBase $moobiDataBase;
 
     public function __construct()
     {
-        $mobiDataBase = new MoobiDataBase();
-        $this->pdo = $mobiDataBase->pdo;
+        $this->moobiDataBase = new MoobiDataBase();
     }
 
 
     public function findUsuarioAdm(string $sNome,string $sSenha) : void
     {
         $slq = "SELECT * FROM uss_usuarios WHERE uso_Nome = ? AND uso_Tipo_Usuario = 'Administrador'";
-        $stmt = $this->pdo->prepare($slq);
-        $stmt->bindValue(1, $sNome);
-        $stmt->execute();
+        $parametro = [$sNome];
 
-        $aUsuario = $stmt->fetch(PDO::FETCH_ASSOC);
+        $aUsuario = $this->moobiDataBase->query($slq, $parametro);
 
-        if ($aUsuario)
+        if ($aUsuario[0])
         {
-            if($aUsuario["uso_Nome"] == $sNome && password_verify($sSenha,$aUsuario["uso_Senha"]))
+            if($aUsuario[0]["uso_Nome"] == $sNome && password_verify($sSenha,$aUsuario[0]["uso_Senha"]))
             {
-                if(Usuario::formarObjetoUsuario($aUsuario) != null)
+                if(Usuario::formarObjetoUsuario($aUsuario[0]) != null)
                 {
                     //Salva o usuario que esta logado
                     Session_Handler::definirSessao('usuario',$sNome);
@@ -52,17 +49,15 @@ class UsuarioDAO
     private function findUsuarioComun(string $sNome,string $sSenha)
     {
         $slq = "SELECT * FROM uss_usuarios WHERE uso_Nome = ? AND uso_Tipo_Usuario = 'Comum'";
-        $stmt = $this->pdo->prepare($slq);
-        $stmt->bindValue(1, $sNome);
-        $stmt->execute();
+        $parametro = [$sNome];
 
-        $aUsuarioComun = $stmt->fetch(PDO::FETCH_ASSOC);
+        $aUsuarioComun = $this->moobiDataBase->query($slq,$parametro);
 
-        if($aUsuarioComun)
+        if($aUsuarioComun[0])
         {
-            if($aUsuarioComun["uso_Nome"] == $sNome && password_verify($sSenha,$aUsuarioComun["uso_Senha"]))
+            if($aUsuarioComun[0]['uso_Nome'] == $sNome && password_verify($sSenha,$aUsuarioComun[0]["uso_Senha"]))
             {
-                if(Usuario::formarObjetoUsuario($aUsuarioComun) != null)
+                if(Usuario::formarObjetoUsuario($aUsuarioComun[0]) != null)
                 {
                     //Salva o usuario que esta logado
                     Session_Handler::definirSessao('usuario',$sNome);
@@ -84,20 +79,15 @@ class UsuarioDAO
     public function insert(string $sNome,string $sSenha,string $sTipo) : void
     {
         $sql = "INSERT INTO uss_usuarios (uso_Nome,uso_Senha,uso_Tipo_Usuario) VALUES (?,?,?)";
-        $stmt = $this->pdo->prepare($sql);
-        $stmt->bindValue(1,$sNome);
-        $stmt->bindValue(2,password_hash($sSenha,PASSWORD_DEFAULT));
-        $stmt->bindValue(3,$sTipo);
-        $stmt->execute();
+        $parametro = [$sNome,password_hash($sSenha,PASSWORD_DEFAULT),$sTipo];
+
+        $this->moobiDataBase->execute($sql,$parametro);
     }
 
     public function findAllUsuarios() : array
     {
         $slq = "SELECT * FROM uss_usuarios";
-        $stmt = $this->pdo->query($slq);
-        $stmt->execute();
-
-        $aUsuarios = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $aUsuarios = $this->moobiDataBase->query($slq);
 
         $aUsuariosComuns = array_map(function ($aUsuario)
         {
@@ -110,9 +100,9 @@ class UsuarioDAO
     public function delete(int $idUsuario) : void
     {
         $sql = "DELETE FROM uss_usuarios WHERE uso_Id = ? ";
-        $stmt = $this->pdo->prepare($sql);
-        $stmt->bindValue(1,$idUsuario);
-        $stmt->execute();
+        $parametro =[$idUsuario];
+
+        $this->moobiDataBase->execute($sql,$parametro);
     }
 
 
@@ -121,11 +111,9 @@ class UsuarioDAO
     public function isUsuarioExiste(string $sNome) : bool
     {
         $sql = "SELECT * FROM uss_usuarios WHERE uso_Nome = ?";
-        $stmt = $this->pdo->prepare($sql);
-        $stmt->bindValue(1,$sNome);
-        $stmt->execute();
+        $parametro =[$sNome];
 
-        $aUsuarios = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $aUsuarios = $this->moobiDataBase->query($sql,$parametro);
 
         if(count($aUsuarios) != 0)
         {
@@ -135,6 +123,5 @@ class UsuarioDAO
         {
             return false;
         }
-
     }
 }

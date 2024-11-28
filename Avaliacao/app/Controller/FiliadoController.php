@@ -1,5 +1,6 @@
 <?php
 require_once __DIR__  . "/../Model/FiliadoDAO.php";
+require_once __DIR__  . "/../../Utils/Validacoes.php";
 class FiliadoController
 {
 
@@ -35,7 +36,10 @@ class FiliadoController
             $filiadoDAO = new FiliadoDAO();
             $filiadoDAO->delete($aDados['id']);
 
-            header("Location: http://localhost:5000/Avaliacao/Filiado/listar");
+            echo "<script>
+                    alert('Usuario Deletado Com Sucesso!')
+                    window.location.href='http://localhost:5000/Avaliacao/Filiado/listar';
+                  </script>";
         }
     }
 
@@ -49,14 +53,17 @@ class FiliadoController
         if(isset($aDados['editar']))
         {
             //Faz a validacao dos dados de empresa
-            $sEmpresa = $this->validacaoDadosEmpresa($aDados['empresa']);
-            $sCargo = $this->validacaoDadosEmpresa($aDados['cargo']);
-            $sSituacao = $this->validacaoDadosEmpresa($aDados['situacao']);
+            $sEmpresa = Validacoes::validarDadosEmpresa($aDados['empresa']);
+            $sCargo = Validacoes::validarDadosEmpresa($aDados['cargo']);
+            $sSituacao = Validacoes::validarDadosEmpresa($aDados['situacao']);
 
             $filiadoDAO = new FiliadoDAO();
             $filiadoDAO->update($aDados['id'],$sEmpresa, $sCargo, $sSituacao,$aDados['data']);
 
-          header("Location: http://localhost:5000/Avaliacao/Filiado/listar");
+            echo "<script>
+                        alert('Filiado Editado Com Sucesso!')
+                        window.location.href='http://localhost:5000/Avaliacao/Filiado/listar';
+                  </script>";
         }
     }
 
@@ -69,24 +76,24 @@ class FiliadoController
             if(isset($aDados["cadastrar"]))
             {
                 //Faz a validacao dos dados de empresa
-                $sEmpresa = $this->validacaoDadosEmpresa($aDados['empresa']);
-                $sCargo = $this->validacaoDadosEmpresa($aDados['cargo']);
-                $sSituacao = $this->validacaoDadosEmpresa($aDados['situacao']);
+                $sEmpresa = Validacoes::validarDadosEmpresa($aDados['empresa']);
+                $sCargo = Validacoes::validarDadosEmpresa($aDados['cargo']);
+                $sSituacao = Validacoes::validarDadosEmpresa($aDados['situacao']);
 
                 //Validacao do Cpf
-                $this->validarCpf($aDados["cpf"]);
+                Validacoes::validarCpf($aDados["cpf"]);
 
                 //Validacao Idade
-                $iIdade = $this->validarIdadeDataNascimento($aDados['data_nascimento']);
+                $iIdade = Validacoes::validarIdadeDataNascimento($aDados['data_nascimento']);
 
                 //Validacao Telefone Residencial
-                $this->validarTelefoneResidencial($aDados['telefone']);
+                Validacoes::validarTelefoneResidencial($aDados['telefone']);
 
                 //Validacao Celular
-                $this->validarCelular($aDados['celular']);
+                Validacoes::validarCelular($aDados['celular']);
 
                 //Validacao RG
-                $this->validarRg($aDados['rg']);
+                Validacoes::validarRg($aDados['rg']);
 
                 $filiadoDAO = new FiliadoDAO();
 
@@ -107,14 +114,34 @@ class FiliadoController
                     $aDados['telefone'],
                     $aDados['celular']);
 
-
-                header("Location: http://localhost:5000/Avaliacao/Filiado/listar");
+                echo"<script>
+                        alert('Filiado Cadastrado Com Sucesso!');
+                        window.location = 'http://localhost:5000/Avaliacao/Filiado/listar';
+                     </script>";
             }
 
         }catch (Exception $e)
         {
             echo"<script>alert('{$e->getMessage()}')</script>";
             $this->indexCadastrar();
+        }
+    }
+
+    public function filtros(array $aDados = null)
+    {
+        try
+        {
+            //Validacao do filtro nome
+            Validacoes::validarFiltros($aDados['filtros']['nome']);
+
+            $filiadoDAO = new FiliadoDAO();
+            $aFiliados = $filiadoDAO->findByFiltros($aDados['filtros']);
+
+            require_once __DIR__ . "/../View/ListaFiliados.php";
+
+        }catch (Exception $e)
+        {
+            echo"<script>alert('{$e->getMessage()}')</script>";
         }
     }
 
@@ -133,90 +160,6 @@ class FiliadoController
     {
         require_once __DIR__ . "/../View/CadatroFiliado.php";
     }
-
-
-
-
-
-    //***VALIDACOES***
-
-    private function validacaoDadosEmpresa(string $sDado) : ?string
-    {
-        return !empty($sDado) ? $sDado : null;
-    }
-
-    private function validarIdadeDataNascimento(string $sDataNascimento) : ?int
-    {
-        if(preg_match('/^\d{4}-\d{2}-\d{2}$/',$sDataNascimento))
-        {
-            $oDataHoje = new DateTime('now',new DateTimeZone('America/Sao_Paulo'));
-            $oDataHojeFormatada = $oDataHoje->format('Y-m-d');
-
-            $sDataNascimento = Filiado::setDataNascimento($sDataNascimento);
-
-            $intervalo = $oDataHoje->diff($sDataNascimento);
-
-            if($intervalo->format('%y') >= 18)
-            {
-                return $intervalo->format('%y');
-            }
-            else
-            {
-                throw new Exception("Idade minima para cadastro, é 18 anos");
-            }
-        }
-        else
-        {
-            throw new Exception("Formato da data incorreto! EX (YYYY-MM-DD)");
-        }
-    }
-
-    private function validarCpf(string $sCpf) : void
-    {
-        $sCpf = preg_replace('/[^0-9]/is', '', $sCpf);
-
-        if (strlen($sCpf) != 11 || preg_match('/(\d)\1{10}/', $sCpf))
-        {
-            throw new Exception("Formato De CPF Incorreto! EX (xxx.xxx.xxx-xx)");
-        }
-
-        for ($t = 9; $t < 11; $t++) {
-            for ($d = 0, $c = 0; $c < $t; $c++) {
-                $d += $sCpf[$c] * (($t + 1) - $c);
-            }
-            $d = ((10 * $d) % 11) % 10;
-            if ($sCpf[$c] != $d) {
-                throw new Exception("CPF Incorreto! EX (xxx.xxx.xxx-xx)");
-            }
-        }
-    }
-
-    private function validarTelefoneResidencial(string $sTelefoneResidencial):void
-    {
-        if (!preg_match('/^\(?\d{2}\)? ?\d{4}-?\d{4}$/',$sTelefoneResidencial))
-        {
-            throw new Exception("Formato De Telefone Residencial Incorreto. EX: (XX) XXXX-XXXX");
-        }
-
-    }
-
-    private function validarCelular(string $sCelular):void
-    {
-        if(!preg_match('/^\(?\d{2}\)? ?9\d{4}-?\d{4}$/',$sCelular))
-        {
-            throw new Exception("Formato De Celular Incorreto. EX: (XX) 9XXXX-XXXX");
-        }
-
-    }
-
-    private function validarRg($sRg):void
-    {
-        if(!preg_match('/^\d{2}\.?\d{3}\.?\d{3}-?\d{1}$/',$sRg))
-        {
-            throw new Exception("Formato De RG Incorreto. EX: XX.XXX.XXX-X");
-        }
-    }
-
 
 
 }
