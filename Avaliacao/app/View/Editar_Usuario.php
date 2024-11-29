@@ -1,0 +1,31 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Document</title>
+    <h3>Editar Usuario</h3>
+</head>
+<body>
+<form action="http://localhost:5000/Avaliacao/Usuario/atualizar?id=<?php echo $aUsuarios[0]->getId()?>" method="post">
+
+    <div>
+        <label>Nome</label>
+        <input type="text" name="nome" value="<?php echo $aUsuarios[0]->getNome();?>" required>
+    </div>
+
+    <div>
+        <label>Tipo</label>
+        <select name="tipo">
+            <option value="Administrador" <?php echo $aUsuarios[0]->getTipo_Usuario() == 'Administrador' ? 'selected' : ''; ?>>Administrador</option>
+            <option value="Comum" <?php echo $aUsuarios[0]->getTipo_Usuario() == 'Comum' ? 'selected' : ''; ?>>Comum</option>
+        </select>
+    </div>
+
+    <input type="submit" name="editar" value="Editar">
+
+</form>
+
+<a href="http://localhost:5000/Avaliacao/Usuario/listar">Voltar</a>
+
+</body>
+</html>

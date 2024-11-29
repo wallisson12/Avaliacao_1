@@ -33,6 +33,13 @@ class Session_Handler
         unset($_SESSION[$sChave]);
     }
 
+    public static function destruirSessao()
+    {
+        self::iniciarSessao();
+        $_SESSION = array();
+        session_destroy();
+    }
+
     //Responsavel por verificar se uma determinada sessao existe
     public static function existirSessao(string $sChave) : bool
     {

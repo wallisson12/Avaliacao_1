@@ -46,11 +46,46 @@ class DependenteController
 
                 echo "<script>
                         alert('Dependente Cadastrado Com Sucesso')
-                        window.location.href='http://localhost:5000/Avaliacao/Filiado/listar';
+                        window.location.href='http://localhost:5000/Avaliacao/Dependente/listar?id={$aDados['id']}';
                       </script>";
             }
 
 
+        }catch (Exception $e)
+        {
+            echo"<script>
+                    alert('{$e->getMessage()}')
+                    window.location.href='http://localhost:5000/Avaliacao/Filiado/listar';
+                 </script>";
+        }
+
+    }
+
+    public function editar(array $aDados = null)
+    {
+        if(isset($aDados["id"]))
+        {
+            $dependenteDAO = new DependenteDAO();
+            $aDependente = $dependenteDAO->find($aDados["id"]);
+
+            require_once __DIR__ . "/../View/Editar_Dependente.php";
+        }
+    }
+
+    public function atualizar(array $aDados = null)
+    {
+        try
+        {
+            if(isset($aDados["editar"]))
+            {
+                $dependenteDAO = new DependenteDAO();
+                $dependenteDAO->update($aDados['id'],$aDados['nome'],$aDados['data_nascimento'],$aDados['parentesco']);
+
+                echo "<script>
+                            alert('Dependente Editado Com Sucesso')
+                            window.location.href='http://localhost:5000/Avaliacao/Dependente/listar?id={$aDados['idF']}';
+                          </script>";
+            }
         }catch (Exception $e)
         {
             echo"<script>
@@ -70,7 +105,7 @@ class DependenteController
 
             echo "<script>
                     alert('Dependente Deletado Com Sucesso!')
-                    window.location.href='http://localhost:5000/Avaliacao/Filiado/listar';
+                    window.location.href='http://localhost:5000/Avaliacao/Dependente/listar?id={$aDados['idF']}';
                   </script>";
         }
     }

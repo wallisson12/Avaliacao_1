@@ -96,6 +96,25 @@ class UsuarioDAO
 
         return $aUsuariosComuns;
     }
+    public function find(int $iIdUsuario): array
+    {
+        $sql = "SELECT * FROM uss_usuarios WHERE uso_Id = ?";
+        $parametro = [$iIdUsuario];
+
+        $aUsuario = $this->moobiDataBase->query($sql,$parametro);
+
+        return array_map(function ($ausuario){
+            return Usuario::formarObjetoUsuario($ausuario);
+        },$aUsuario);
+    }
+
+    public function update(int $iIdUsuario,string $sNome,string $sTipo)
+    {
+        $sql = "UPDATE uss_usuarios SET uso_Nome = ?, uso_Tipo_Usuario = ? WHERE uso_Id = ?";
+        $parametro = [$sNome,$sTipo,$iIdUsuario];
+
+        $this->moobiDataBase->execute($sql,$parametro);
+    }
 
     public function delete(int $idUsuario) : void
     {

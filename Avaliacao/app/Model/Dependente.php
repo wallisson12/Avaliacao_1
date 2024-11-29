@@ -46,7 +46,6 @@ class Dependente
     {
         return $this->dDataNascimento->format('d/m/Y');
     }
-
     public function getGrauParentesco():string
     {
         return $this->sGrauParentesco->value;

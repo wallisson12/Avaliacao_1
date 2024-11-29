@@ -35,6 +35,26 @@ class DependenteDAO
         $this->moobiDataBase->execute($slq,$parametro);
     }
 
+    public function find(int $iDependente_Id) : array
+    {
+        $sql = "SELECT * FROM dps_dependentes WHERE dpe_Id = ?";
+        $parametro = [$iDependente_Id];
+
+        $aDependentes = $this->moobiDataBase->query($sql, $parametro);
+
+        return array_map(function ($dependentes){
+            return Dependente::formarObjetoDependente($dependentes);
+        },$aDependentes);
+    }
+    public function update(int $iId_Dependente,string $sNome,string $sData_Nascimento,string $sGrau_Parentesco)
+    {
+        $sql = "UPDATE dps_dependentes SET dpe_Nome = ?, dpe_Data_De_Nascimento = ?, dpe_Grau_De_parentesco = ? WHERE dpe_Id = ?";
+
+        $parametro = [$sNome,$sData_Nascimento,$sGrau_Parentesco,$iId_Dependente];
+
+        $this->moobiDataBase->execute($sql,$parametro);
+    }
+
     public function delete(int $iDependente_Id)
     {
         $slq = "DELETE FROM dps_dependentes WHERE dpe_Id = ?";

@@ -48,7 +48,7 @@ require_once __DIR__ . "/../../Config/Session_Handler.php";
 <br>
 
 
-<a href="http://localhost:5000/Avaliacao/Usuario/logoutAdm">Logout</a>
+<a href="http://localhost:5000/Avaliacao/Usuario/logout">Logout</a>
 
 
 </body>

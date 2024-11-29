@@ -23,9 +23,9 @@ class Usuario
         return $this->Nome;
     }
 
-    public function getTipo_Usuario(): Tipo_Usuario
+    public function getTipo_Usuario(): string
     {
-        return $this->Tipo_Usuario;
+        return $this->Tipo_Usuario->value;
     }
 
     public function getId(): int

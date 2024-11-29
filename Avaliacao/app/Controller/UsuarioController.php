@@ -64,18 +64,69 @@ class UsuarioController
 
         }catch (Exception $e)
         {
-            echo"<script>alert('{$e->getMessage()}')</script>";
-            $this->indexCadastrar();
+            echo " <script>
+                    alert('{$e->getMessage()}')
+                 </script> ";
 
+            $this->indexLogin();
         }
     }
 
     public function listar(array $aDados = null)
     {
-        $usuarioDAO = new UsuarioDAO();
-        $usuarios = $usuarioDAO->findAllUsuarios();
+        try
+        {
+            $usuarioDAO = new UsuarioDAO();
+            $usuarios = $usuarioDAO->findAllUsuarios();
 
-        require_once __DIR__  . "/../View/ListaUsuarios.php";
+            require_once __DIR__  . "/../View/ListaUsuarios.php";
+
+        }catch (Exception $e)
+        {
+            echo " <script>
+                    alert('{$e->getMessage()}')
+                 </script> ";
+
+            $this->indexLogin();
+        }
+    }
+
+    public function editar(array $aDados = null)
+    {
+        try
+        {
+            if(isset($aDados["id"]))
+            {
+               $oUsuarioDAO = new UsuarioDAO();
+               $aUsuarios = $oUsuarioDAO->find($aDados['id']);
+
+               require_once __DIR__  . "/../View/Editar_Usuario.php";
+            }
+            else
+            {
+                $this->indexLogin();
+            }
+
+        }catch (Exception $e)
+        {
+            echo " <script>
+                    alert('{$e->getMessage()}')
+                 </script> ";
+        }
+    }
+
+    public function atualizar(array $aDados = null)
+    {
+        if(isset($aDados["id"]))
+        {
+            $oUsuarioDAO = new UsuarioDAO();
+            $oUsuarioDAO->update($aDados['id'],$aDados['nome'],$aDados['tipo']);
+
+            echo "<script>
+                        alert('Dependente Editado Com Sucesso')
+                        window.location.href='http://localhost:5000/Avaliacao/Usuario/listar';
+                  </script>";
+        }
     }
 
     public function excluir(array $aDados = null)
@@ -95,19 +146,9 @@ class UsuarioController
     //Responsavel por fazer a validacao
     //Responsavel por pegar os dados que vem de get ou post
     //Responsavel por chamar o dao especifico no modelo para buscar os dados no banco
-    public function logoutAdm(array $aDados = null)
+    public function logout(array $aDados = null)
     {
-        Session_Handler::removerSessao('admin');
-        header('Location: http://localhost:5000/Avaliacao/home/index');
-    }
-
-
-    //Responsavel por fazer a validacao
-    //Responsavel por pegar os dados que vem de get ou post
-    //Responsavel por chamar o dao especifico no modelo para buscar os dados no banco
-    public function logoutComun(array $aDados = null)
-    {
-        Session_Handler::removerSessao('comun');
+        Session_Handler::destruirSessao();
         header('Location: http://localhost:5000/Avaliacao/home/index');
     }
 
