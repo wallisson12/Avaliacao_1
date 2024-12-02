@@ -1,3 +1,6 @@
+<?php
+require_once __DIR__ . "/../../Config/Ambiente.php";
+?>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -7,7 +10,7 @@
 </head>
 <body>
 
-<form action="http://localhost:5000/Avaliacao/Filiado/atualizar?id=<?php echo $oFiliado[0]->getId()?>" method="post">
+<form action="<?php Ambiente::getUrl('Filiado/atualizar',true)?>?id=<?php echo $oFiliado[0]->getId()?>" method="post">
 
     <div>
         <label>Nome</label>
@@ -72,6 +75,6 @@
     <input type="submit" name="editar" value="Editar">
 </form>
 
-<a href="http://localhost:5000/Avaliacao/Filiado/indexListar">Voltar</a>
+<a href="<?php Ambiente::getUrl('Filiado/indexListar',true)?>">Voltar</a>
 </body>
 </html>

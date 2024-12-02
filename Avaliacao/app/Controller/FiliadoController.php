@@ -1,8 +1,13 @@
 <?php
 require_once __DIR__  . "/../Model/FiliadoDAO.php";
 require_once __DIR__  . "/../../Utils/Validacoes.php";
-class FiliadoController
+require_once __DIR__ . "/../../Config/Ambiente.php";
+class FiliadoController extends ControllerAbstract
 {
+    public function __construct()
+    {
+        parent::__construct();
+    }
 
     //Responsavel por pegar os dados que vem de get ou post
     //Responsavel por chamar o dao especifico no modelo para buscar os dados no banco
@@ -36,9 +41,11 @@ class FiliadoController
             $filiadoDAO = new FiliadoDAO();
             $filiadoDAO->delete($aDados['id']);
 
+            $path = Ambiente::getUrl('Filiado/listar');
+
             echo "<script>
                     alert('Usuario Deletado Com Sucesso!')
-                    window.location.href='http://localhost:5000/Avaliacao/Filiado/listar';
+                    window.location.href='{$path}';
                   </script>";
         }
     }
@@ -60,9 +67,11 @@ class FiliadoController
             $filiadoDAO = new FiliadoDAO();
             $filiadoDAO->update($aDados['id'],$sEmpresa, $sCargo, $sSituacao,$aDados['data']);
 
+            $path = Ambiente::getUrl('Filiado/listar');
+
             echo "<script>
                         alert('Filiado Editado Com Sucesso!')
-                        window.location.href='http://localhost:5000/Avaliacao/Filiado/listar';
+                        window.location.href='{$path}';
                   </script>";
         }
     }
@@ -114,9 +123,11 @@ class FiliadoController
                     $aDados['telefone'],
                     $aDados['celular']);
 
+                $path = Ambiente::getUrl('Filiado/listar');
+
                 echo"<script>
                         alert('Filiado Cadastrado Com Sucesso!');
-                        window.location = 'http://localhost:5000/Avaliacao/Filiado/listar';
+                        window.location = '{$path}';
                      </script>";
             }
 
@@ -160,6 +171,4 @@ class FiliadoController
     {
         require_once __DIR__ . "/../View/CadatroFiliado.php";
     }
-
-
 }

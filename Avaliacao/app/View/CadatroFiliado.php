@@ -1,3 +1,6 @@
+<?php
+require_once __DIR__ . "/../../Config/Ambiente.php";
+?>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -7,7 +10,7 @@
 </head>
 <body>
 
-<form action="http://localhost:5000/Avaliacao/Filiado/cadastrar"  method="post">
+<form action="<?php Ambiente::getUrl('Filiado/cadastrar',true)?>" method="post">
 
     <div>
         <label>Nome</label>
@@ -61,7 +64,7 @@
         <input type="submit" name="cadastrar" value="Cadastrar">
 </form>
 
-<a href="http://localhost:5000/Avaliacao/Filiado/indexDashborad">Voltar</a>
+<a href=<?php Ambiente::getUrl('Filiado/indexDashborad',true)?>>Voltar</a>
 
 </body>
 </html>

@@ -1,4 +1,3 @@
-
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -8,7 +7,7 @@
 </head>
 <body>
 
-<form action="http://localhost:5000/Avaliacao/Usuario/autenticar" method="post">
+<form action="http://localhost:5000/Avaliacao/Login/logar" method="post">
 
     <label>Nome: </label>
     <input type="text" name="nome" id="nome" required>

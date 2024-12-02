@@ -47,4 +47,6 @@ class Session_Handler
         return isset($_SESSION[$sChave]);
     }
 
+
+
 }

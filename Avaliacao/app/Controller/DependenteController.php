@@ -1,8 +1,13 @@
 <?php
 require_once __DIR__ . "/../Model/DependenteDAO.php";
 require_once __DIR__ . "/../../Utils/Validacoes.php";
-class DependenteController
+require_once __DIR__ . "/../../Config/Ambiente.php";
+class DependenteController extends ControllerAbstract
 {
+    public function __construct()
+    {
+        parent::__construct();
+    }
 
     //Responsavel por pegar os dados que vem de get ou post na rota por array merge
     //Responsavel por chamar o dao especifica para buscar os dados no banco
@@ -19,9 +24,11 @@ class DependenteController
 
         }catch (Exception $e)
         {
+            $path = Ambiente::getUrl('Filiado/listar');
+
             echo"<script>
                     alert('{$e->getMessage()}')
-                    window.location.href='http://localhost:5000/Avaliacao/Filiado/listar';
+                    window.location.href='{$path}';
                  </script>";
         }
     }
@@ -44,18 +51,22 @@ class DependenteController
                     $dependenteDAO->insert($aDados['id'],$valor['nome'],$valor['data_nascimento'],$valor['grau_parentesco']);
                 }
 
+                $path = Ambiente::getUrl('Dependente/listar');
+
                 echo "<script>
                         alert('Dependente Cadastrado Com Sucesso')
-                        window.location.href='http://localhost:5000/Avaliacao/Dependente/listar?id={$aDados['id']}';
+                        window.location.href='{$path}?id={$aDados['id']}';
                       </script>";
             }
 
 
         }catch (Exception $e)
         {
+            $path = Ambiente::getUrl('Filiado/listar');
+
             echo"<script>
                     alert('{$e->getMessage()}')
-                    window.location.href='http://localhost:5000/Avaliacao/Filiado/listar';
+                    window.location.href='{$path}';
                  </script>";
         }
 
@@ -81,16 +92,19 @@ class DependenteController
                 $dependenteDAO = new DependenteDAO();
                 $dependenteDAO->update($aDados['id'],$aDados['nome'],$aDados['data_nascimento'],$aDados['parentesco']);
 
+                $path = Ambiente::getUrl('Dependente/listar');
                 echo "<script>
                             alert('Dependente Editado Com Sucesso')
-                            window.location.href='http://localhost:5000/Avaliacao/Dependente/listar?id={$aDados['idF']}';
+                            window.location.href='{$path}?id={$aDados['idF']}';
                           </script>";
             }
         }catch (Exception $e)
         {
+            $path = Ambiente::getUrl('Filiado/listar');
+
             echo"<script>
                     alert('{$e->getMessage()}')
-                    window.location.href='http://localhost:5000/Avaliacao/Filiado/listar';
+                    window.location.href='{$path}';
                  </script>";
         }
 
@@ -103,9 +117,11 @@ class DependenteController
             $dependenteDAO = new DependenteDAO();
             $dependenteDAO->delete($aDados['idD']);
 
+            $path = Ambiente::getUrl('Dependente/listar');
+
             echo "<script>
                     alert('Dependente Deletado Com Sucesso!')
-                    window.location.href='http://localhost:5000/Avaliacao/Dependente/listar?id={$aDados['idF']}';
+                    window.location.href='{$path}?id={$aDados['idF']}';
                   </script>";
         }
     }

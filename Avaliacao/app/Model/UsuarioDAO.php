@@ -12,7 +12,7 @@ class UsuarioDAO
     }
 
 
-    public function findUsuarioAdm(string $sNome,string $sSenha) : void
+    public function findUsuarioAdm(string $sNome,string $sSenha) : bool
     {
         $slq = "SELECT * FROM uss_usuarios WHERE uso_Nome = ? AND uso_Tipo_Usuario = 'Administrador'";
         $parametro = [$sNome];
@@ -29,24 +29,18 @@ class UsuarioDAO
                     Session_Handler::definirSessao('usuario',$sNome);
                     Session_Handler::definirSessao('tipo','Administrador');
 
-                    //Carrega a view Dashboard
-                    require_once __DIR__ . "/../View/Dashboard.php";
-                    exit();
+                    return true;
+
                 }
             }
         }
-        else
-        {
-            $this->findUsuarioComun($sNome,$sSenha);
-        }
 
-        require __DIR__ . "/../View/LoginUsuario.php";
-        exit();
+        return $this->findUsuarioComun($sNome,$sSenha);
 
     }
 
 
-    private function findUsuarioComun(string $sNome,string $sSenha)
+    private function findUsuarioComun(string $sNome,string $sSenha) : bool
     {
         $slq = "SELECT * FROM uss_usuarios WHERE uso_Nome = ? AND uso_Tipo_Usuario = 'Comum'";
         $parametro = [$sNome];
@@ -63,17 +57,13 @@ class UsuarioDAO
                     Session_Handler::definirSessao('usuario',$sNome);
                     Session_Handler::definirSessao('tipo','Comum');
 
-                    //Carrega a view ComunDashboard
-                    require_once __DIR__ . "/../View/Dashboard.php";
-                    exit();
-
+                    return true;
                 }
             }
 
         }
 
-        throw new Exception('Usuario nao encontrado!');
-
+        return false;
     }
 
     public function insert(string $sNome,string $sSenha,string $sTipo) : void

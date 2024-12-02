@@ -1,3 +1,6 @@
+<?php
+require_once __DIR__ . "/../../Config/Ambiente.php";
+?>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -6,7 +9,7 @@
     <h3>Editar Dependente</h3>
 </head>
 <body>
-<form action="http://localhost:5000/Avaliacao/Dependente/atualizar?id=<?php echo $aDependente[0]->getIdDependente()?>" method="post">
+<form action="<?php Ambiente::getUrl('Dependente/atualizar',true)?>?id=<?php echo $aDependente[0]->getIdDependente()?>" method="post">
 
     <div>
         <label>Nome</label>
@@ -33,6 +36,6 @@
 
 </form>
 
-<a href="http://localhost:5000/Avaliacao/Dependente/listar?id=<?php echo $aDependente[0]->getIdFiliado()?>">Voltar</a>
+<a href="<?php Ambiente::getUrl('Dependente/listar',true)?>?id=<?php echo $aDependente[0]->getIdFiliado()?>">Voltar</a>
 </body>
 </html>

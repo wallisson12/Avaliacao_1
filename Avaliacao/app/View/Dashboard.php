@@ -1,5 +1,6 @@
 <?php
 require_once __DIR__ . "/../../Config/Session_Handler.php";
+require_once __DIR__ . "/../../Config/Ambiente.php";
 ?>
 <html lang="en">
 <head>
@@ -16,7 +17,7 @@ require_once __DIR__ . "/../../Config/Session_Handler.php";
 
     <label>Cadastrar Usuario</label>
     <input name="cadastrarUsuario" type="hidden">
-    <a  href="http://localhost:5000/Avaliacao/Usuario/indexCadastrar">Cadastrar</a>
+    <a  href=<?php Ambiente::getUrl('Usuario/indexCadastrar',true)?>>Cadastrar</a>
 <?php else: ?>
     <span class="hidden">Cadastrar Usuario</span>
 <?php endif;?>
@@ -25,14 +26,14 @@ require_once __DIR__ . "/../../Config/Session_Handler.php";
 <br>
 
     <label>Listar Usuarios</label>
-    <a href="http://localhost:5000/Avaliacao/Usuario/listar">Listar</a>
+    <a href=<?php Ambiente::getUrl('Usuario/listar',true)?>>Listar</a>
 
 <br>
 <br>
 
 <?php if(Session_Handler::obterSessao('tipo') === 'Administrador'): ?>
     <label>Cadastrar Filiado</label>
-    <a href="http://localhost:5000/Avaliacao/Filiado/indexCadastrar">Cadastrar</a>
+    <a href=<?php Ambiente::getUrl('Filiado/indexCadastrar',true) ?>>Cadastrar</a>
 <?php else: ?>
     <span class="hidden">Cadastrar Filiado</span>
 <?php endif;?>
@@ -42,13 +43,13 @@ require_once __DIR__ . "/../../Config/Session_Handler.php";
 <br>
 
 <label>Listar Filiados</label>
-<a href="http://localhost:5000/Avaliacao/Filiado/listar">Listar</a>
+<a href=<?php Ambiente::getUrl('Filiado/listar',true)?>>Listar</a>
 
 <br>
 <br>
 
 
-<a href="http://localhost:5000/Avaliacao/Usuario/logout">Logout</a>
+<a href=<?php Ambiente::getUrl('Usuario/logout',true)?>>Logout</a>
 
 
 </body>

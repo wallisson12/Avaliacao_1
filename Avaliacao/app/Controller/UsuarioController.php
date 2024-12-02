@@ -1,37 +1,12 @@
 <?php
 require_once __DIR__ . "/../Model/UsuarioDAO.php";
 require_once __DIR__ . "/../../Utils/Validacoes.php";
-class UsuarioController
+require_once __DIR__ . "/../../Config/Ambiente.php";
+class UsuarioController extends ControllerAbstract
 {
-
-    //Responsavel por fazer a validacao
-    //Responsavel por pegar os dados que vem de get ou post
-    //Responsavel por chamar o dao especifico no modelo para buscar os dados no banco
-    public function autenticar(array $aDados = null)
+    public function __construct()
     {
-        try
-        {
-            if(isset($aDados['login']))
-            {
-                //Validacao login usuario
-                $aDados['nome'] = Validacoes::validarNome($aDados['nome']);
-
-                $oUsuarioDAO = new UsuarioDAO();
-                $oUsuarioDAO->findUsuarioAdm($aDados['nome'],$aDados['senha']);
-            }
-            else
-            {
-                $this->indexLogin();
-            }
-
-
-        }catch (Exception $e)
-        {
-
-            echo"<script>alert('{$e->getMessage()}')</script>";
-            $this->indexLogin();
-
-        }
+        parent::__construct();
     }
 
     //Responsavel por fazer a validacao
@@ -122,10 +97,13 @@ class UsuarioController
             $oUsuarioDAO = new UsuarioDAO();
             $oUsuarioDAO->update($aDados['id'],$aDados['nome'],$aDados['tipo']);
 
+            $path = Ambiente::getUrl('Usuario/listar');
+
             echo "<script>
                         alert('Dependente Editado Com Sucesso')
-                        window.location.href='http://localhost:5000/Avaliacao/Usuario/listar';
+                        window.location.href = '{$path}';
                   </script>";
+
         }
     }
 
@@ -136,9 +114,11 @@ class UsuarioController
             $oUsuarioDAO = new UsuarioDAO();
             $oUsuarioDAO->delete($aDados['id']);
 
+            $path = Ambiente::getUrl('Usuario/listar');
+
             echo "<script>
                     alert('Usuario Deletado Com Sucesso!')
-                    window.location.href='http://localhost:5000/Avaliacao/Usuario/listar';
+                    window.location.href='{$path}';
                   </script>";
         }
     }
@@ -149,7 +129,7 @@ class UsuarioController
     public function logout(array $aDados = null)
     {
         Session_Handler::destruirSessao();
-        header('Location: http://localhost:5000/Avaliacao/home/index');
+        $this->indexLogin();
     }
 
     //**Indexs**
