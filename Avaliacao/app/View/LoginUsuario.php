@@ -1,3 +1,6 @@
+<?php
+require_once __DIR__ . "/../../Config/Ambiente.php";
+?>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -7,7 +10,7 @@
 </head>
 <body>
 
-<form action="http://localhost:5000/Avaliacao/Login/logar" method="post">
+<form action="<?php Ambiente::getUrl('Login/logar',true)?>" method="post">
 
     <label>Nome: </label>
     <input type="text" name="nome" id="nome" required>

@@ -12,9 +12,9 @@ class LoginController
         {
             if(isset($aDados['login']))
             {
+
                 //Validacao login usuario
                 $aDados['nome'] = Validacoes::validarNome($aDados['nome']);
-
                 $oUsuarioDAO = new UsuarioDAO();
 
                 if($oUsuarioDAO->findUsuarioAdm($aDados['nome'],$aDados['senha']))

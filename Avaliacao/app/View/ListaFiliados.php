@@ -1,5 +1,6 @@
 <?php
 require_once __DIR__ . "/../../Config/Session_Handler.php";
+require_once __DIR__ . "/../../Config/Ambiente.php"
 ?>
 <html lang="en">
 <head>
@@ -10,7 +11,7 @@ require_once __DIR__ . "/../../Config/Session_Handler.php";
 </head>
 <body>
 <!--Formulario responsavel por mandar como array para o dependentes controller os filtros-->
-<form action="http://localhost:5000/Avaliacao/Filiado/filtros" method="post">
+<form action="<?php Ambiente::getUrl('Filiado/filtros',true)?>" method="post">
 
     <label>Nome: </label>
     <input type="text" name="filtros[nome]">
@@ -68,15 +69,15 @@ require_once __DIR__ . "/../../Config/Session_Handler.php";
                 <td><?php echo $oFiliado->getCelular()?></td>
                 <td><?php echo $oFiliado->getDataUltimaAtualizacao()?></td>
                 <?php if(Session_Handler::obterSessao('tipo') === 'Administrador') : ?>
-                    <td><a href="http://localhost:5000/Avaliacao/Filiado/editar?id=<?php echo $oFiliado->getId()?>">Editar</td>
+                    <td><a href=<?php Ambiente::getUrl('Filiado/editar',true)?>?id=<?php echo $oFiliado->getId()?>>Editar</td>
                     <td>
-                        <form action="http://localhost:5000/Avaliacao/Filiado/excluir" method="post">
+                        <form action="<?php Ambiente::getUrl('Filiado/excluir',true)?>" method="post">
                             <input type="hidden" name="id" value="<?php echo $oFiliado->getId()?>">
                             <input type="submit" value="Excluir">
                         </form>
                     </td>
                 <?php endif; ?>
-                <td><a href="http://localhost:5000/Avaliacao/Dependente/listar?id=<?php echo $oFiliado->getId()?>">Dependentes</a></td>
+                <td><a href=<?php Ambiente::getUrl('Dependente/listar',true)?>?id=<?php echo $oFiliado->getId()?>>Dependentes</a></td>
             </tr>
 
         <?php endforeach; ?>
@@ -85,7 +86,22 @@ require_once __DIR__ . "/../../Config/Session_Handler.php";
     </table>
 </section>
 
-<a href="http://localhost:5000/Avaliacao/Filiado/indexDashborad">Voltar</a>
+<br>
+
+<div>
+<a href=<?php Ambiente::getUrl('Filiado/listar',true)?>?pagina=1>Primeira</a>
+    <a href="?pagina=<?php echo $iPagina-1 ?>"><<</a>
+
+    <?php echo $iPagina?>
+
+    <a href="">>></a>
+<a href="">Ultima</a>
+
+</div>
+
+<br>
+
+<a href=<?php Ambiente::getUrl('Filiado/indexDashborad',true)?>>Voltar</a>
 
 </body>
 </html>

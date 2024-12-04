@@ -43,7 +43,7 @@ class UsuarioController extends ControllerAbstract
                     alert('{$e->getMessage()}')
                  </script> ";
 
-            $this->indexLogin();
+            $this->indexCadastrar();
         }
     }
 

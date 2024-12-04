@@ -1,3 +1,6 @@
+<?php
+require_once __DIR__ . "/../../Config/Ambiente.php";
+?>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -6,7 +9,7 @@
     <h3>Editar Usuario</h3>
 </head>
 <body>
-<form action="http://localhost:5000/Avaliacao/Usuario/atualizar?id=<?php echo $aUsuarios[0]->getId()?>" method="post">
+<form action="<?php Ambiente::getUrl('Usuario/atualizar',true)?>?id=<?php echo $aUsuarios[0]->getId()?>" method="post">
 
     <div>
         <label>Nome</label>
@@ -25,7 +28,7 @@
 
 </form>
 
-<a href="http://localhost:5000/Avaliacao/Usuario/listar">Voltar</a>
+<a href=<?php Ambiente::getUrl('Usuario/listar',true)?>>Voltar</a>
 
 </body>
 </html>

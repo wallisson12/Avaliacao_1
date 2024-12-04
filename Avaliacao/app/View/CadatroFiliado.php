@@ -48,6 +48,7 @@ require_once __DIR__ . "/../../Config/Ambiente.php";
             <option value="Ativo">Ativo</option>
             <option value="Aposentado">Aposentado</option>
             <option value="Licenciado">Licenciado</option>
+            <option value=""></option>
         </select>
     </div>
 

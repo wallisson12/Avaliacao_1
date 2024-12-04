@@ -10,16 +10,35 @@ class FiliadoDAO
         $this->moobiDataBase = new MoobiDataBase();
     }
 
-    public function finAllFiliados() : array
+    public function findAllFiliados(array $aDados) : array
     {
-        $sql = "SELECT * FROM fls_filiados";
-        $aListaFiliados = $this->moobiDataBase->query($sql);
+        $sSql = "SELECT * FROM fls_filiados WHERE 1=1";
+        $parametros = [];
+
+        if (!empty($aDados['limit'])) {
+            $sSql .= " LIMIT ?";
+            $parametros[] = intval($aDados['limit']);
+        }
+
+        if (!empty($aDados['offset'])) {
+            $sSql .= " OFFSET ?";
+            $parametros[] = intval(isset($aDados['offset']) ? $aDados['offset'] : 0);
+        }
+
+        $aListaFiliados = $this->moobiDataBase->query($sSql, $parametros);
 
         $oTodosOsDados = array_map(function ($filiado){
             return Filiado::formarObjetoFiliado($filiado);
         },$aListaFiliados);
 
         return $oTodosOsDados;
+    }
+
+    public function TotalFiliados() : int
+    {
+        $sql = "SELECT COUNT(*) AS total FROM fls_filiados";
+        $aListaFiliados = $this->moobiDataBase->query($sql);
+        return $aListaFiliados[0]["total"];
     }
 
     public function find(int $iIdFiliado): array
@@ -53,10 +72,10 @@ class FiliadoDAO
 
     public function delete(int $iIdFiliado) : void
     {
-        $slq = "DELETE FROM fls_filiados WHERE flo_Id = ?";
+        $sql = "DELETE FROM fls_filiados WHERE flo_Id = ?";
         $parametro = [$iIdFiliado];
 
-        $this->moobiDataBase->execute($slq,$parametro);
+        $this->moobiDataBase->execute($sql,$parametro);
     }
 
     public function update(int $iId,?string $sEmpresa,?string $sCargo,?string $sSituacao,string $sData):void
@@ -93,8 +112,8 @@ class FiliadoDAO
         $parametros = [];
 
         if (!empty($aFiltro['nome'])) {
-            $sSql .= " AND flo_Nome = ?";
-            $parametros[] = $aFiltro['nome'];
+            $sSql .= " AND flo_Nome LIKE ?";
+            $parametros[] = "%" . $aFiltro['nome'] . "%";
         }
 
         if (!empty($aFiltro['mes'])) {

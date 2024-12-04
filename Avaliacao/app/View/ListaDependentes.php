@@ -1,5 +1,6 @@
 <?php
 require_once __DIR__ . "/../../Config/Session_Handler.php";
+require_once __DIR__ . "/../../Config/Ambiente.php";
 ?>
 <html lang="en">
 <head>
@@ -27,9 +28,9 @@ require_once __DIR__ . "/../../Config/Session_Handler.php";
             <td><?php echo $oDependente->getDataNascimento() ?></td>
             <td><?php echo $oDependente->getGrauParentesco() ?></td>
             <?php if(Session_Handler::obterSessao('tipo') === 'Administrador') : ?>
-                <td><a href="http://localhost:5000/Avaliacao/Dependente/editar?id=<?php echo $oDependente->getIdDependente()?>">Editar</td>
+                <td><a href=<?php Ambiente::getUrl('Dependente/editar',true)?>?id=<?php echo $oDependente->getIdDependente()?>>Editar</td>
                 <td>
-                    <form action="http://localhost:5000/Avaliacao/Dependente/excluir?idF=<?php echo $oDependente->getIdFiliado()?>" method="post">
+                    <form action="<?php Ambiente::getUrl('Dependente/excluir',true)?>?idF=<?php echo $oDependente->getIdFiliado()?>" method="post">
                         <input type="hidden" name="idD" value="<?php echo $oDependente->getIdDependente()?>">
                         <input type="submit" value="Excluir">
                     </form>
@@ -40,7 +41,7 @@ require_once __DIR__ . "/../../Config/Session_Handler.php";
     </tbody>
 </table>
 
-<form action="http://localhost:5000/Avaliacao/Dependente/cadastrar?id=<?php echo $iIdFiliado ?>" method="post">
+<form action="<?php Ambiente::getUrl('Dependente/cadastrar',true)?>?id=<?php echo $iIdFiliado ?>" method="post">
 
     <div id="dependente"></div>
 
@@ -50,8 +51,9 @@ require_once __DIR__ . "/../../Config/Session_Handler.php";
     <?php endif; ?>
 </form>
 
-<a href="http://localhost:5000/Avaliacao/Filiado/listar">Voltar</a>
+<a href=<?php Ambiente::getUrl('Filiado/listar',true)?>>Voltar</a>
 
 <script src="/../Avaliacao/app/View/Js/Dependentes.js"></script>
+
 </body>
 </html>

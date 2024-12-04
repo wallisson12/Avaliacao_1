@@ -13,8 +13,21 @@ class FiliadoController extends ControllerAbstract
     //Responsavel por chamar o dao especifico no modelo para buscar os dados no banco
     public function listar(array $aDados = null)
     {
+
+        $iPagina = (isset($aDados['pagina'])) ? $aDados['pagina'] : 1;
+        $iLimite = 1;
+        $iOffSet = ($iPagina - 1) * $iLimite;
+
+        $aDadosPaginacao = [];
+        $aDadosPaginacao['limit'] = $iLimite;
+        $aDadosPaginacao['offset'] = $iOffSet;
+
         $filiadoDAO = new FiliadoDAO();
-        $aFiliados = $filiadoDAO->finAllFiliados();
+        $aFiliados = $filiadoDAO->findAllFiliados($aDadosPaginacao);
+
+        $iTotalFiliados = $filiadoDAO->TotalFiliados();
+
+        $iTotalPaginas = ceil($iTotalFiliados/ $iLimite);
 
         require_once __DIR__ . "/../View/ListaFiliados.php";
     }
@@ -44,7 +57,7 @@ class FiliadoController extends ControllerAbstract
             $path = Ambiente::getUrl('Filiado/listar');
 
             echo "<script>
-                    alert('Usuario Deletado Com Sucesso!')
+                    alert('Filiado Deletado Com Sucesso!')
                     window.location.href='{$path}';
                   </script>";
         }
@@ -155,7 +168,6 @@ class FiliadoController extends ControllerAbstract
             echo"<script>alert('{$e->getMessage()}')</script>";
         }
     }
-
 
     //**Indexs**
     public function indexListar(array $aDados = null)

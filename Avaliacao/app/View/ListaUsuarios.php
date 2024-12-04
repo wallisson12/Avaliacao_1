@@ -1,5 +1,6 @@
 <?php
 require_once __DIR__ . "/../../Config/Session_Handler.php";
+require_once __DIR__ . "/../../Config/Ambiente.php";
 ?>
 <html lang="en">
 <head>
@@ -27,9 +28,9 @@ require_once __DIR__ . "/../../Config/Session_Handler.php";
                 <td><?php echo $oUsuario->getNome() ?></td>
                 <td><?php echo $oUsuario->getTipo_Usuario() ?></td>
                 <?php if(Session_Handler::obterSessao('tipo') === 'Administrador') : ?>
-                    <td><a href="http://localhost:5000/Avaliacao/Usuario/editar?id=<?php echo $oUsuario->getId()?>">Editar</td>
+                    <td><a href=<?php Ambiente::getUrl('Usuario/editar',true)?>?id=<?php echo $oUsuario->getId()?>>Editar</td>
                     <td>
-                        <form action="http://localhost:5000/Avaliacao/Usuario/excluir" method="post">
+                        <form action="<?php Ambiente::getUrl('Usuario/excluir',true)?>" method="post">
                             <input type="hidden" name="id" value="<?php echo $oUsuario->getId()?>">
                             <input type="submit" value="Excluir">
                         </form>
@@ -44,7 +45,7 @@ require_once __DIR__ . "/../../Config/Session_Handler.php";
 </section>
 
 
-<a href="http://localhost:5000/Avaliacao/Usuario/indexDashborad">Voltar</a>
+<a href=<?php Ambiente::getUrl('Usuario/indexDashborad',true)?>>Voltar</a>
 
 </body>
 </html>

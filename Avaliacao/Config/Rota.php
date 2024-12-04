@@ -23,7 +23,6 @@ class Rota
         }
         else
         {
-            var_dump('nao caiu');
             $controller = new HomeController();
             $controller->index($aDados);
         }

@@ -1,22 +1,14 @@
 <?php
-
-class MoobiDataBase
+require_once __DIR__ . "/../Config/DataBaseConfig.php";
+class MoobiDataBase extends DataBaseConfig
 {
     public PDO $pdo;
-    private string $sHost;
-    private string $sPorta;
-    private string $sBanco;
-    private string $sUsuario;
-    private string $sSenha;
     public function __construct()
     {
-        $this->sHost = "localhost";
-        $this->sPorta = "3305";
-        $this->sBanco = "Wallisson";
-        $this->sUsuario = "root";
-        $this->sSenha = "";
+        parent::__construct();
+        $aConfig = $this->getConfiguracao();
 
-        $this->pdo = new PDO("mysql:host={$this->sHost};port={$this->sPorta};dbname={$this->sBanco}", $this->sUsuario, $this->sSenha);
+        $this->pdo = new PDO("mysql:host={$aConfig['Host']};port={$aConfig['Porta']};dbname={$aConfig['Banco']}", $aConfig['Usuario'], $aConfig['Senha']);
     }
 
     /*
@@ -39,9 +31,10 @@ class MoobiDataBase
 
             if(!empty($aParams))
             {
+                var_dump($sSql);
                 foreach($aParams as $sKey => $sValue)
                 {
-                    $PDOStatement->bindValue($sKey + 1, $sValue);
+                    $PDOStatement->bindValue($sKey + 1, $sValue, is_int($sValue) ? PDO::PARAM_INT : PDO::PARAM_STR);
                 }
 
                 $PDOStatement->execute();
@@ -54,7 +47,7 @@ class MoobiDataBase
             }
         }catch (PDOException $e)
         {
-            $e->getMessage();
+            echo $e->getMessage();
             return [];
         }
 
