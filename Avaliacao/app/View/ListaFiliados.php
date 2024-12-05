@@ -1,6 +1,6 @@
 <?php
-require_once __DIR__ . "/../../Config/Session_Handler.php";
 require_once __DIR__ . "/../../Config/Ambiente.php";
+require_once __DIR__ . "/../../Config/Session_Handler.php";
 ?>
 <html lang="en">
 <head>
@@ -11,10 +11,10 @@ require_once __DIR__ . "/../../Config/Ambiente.php";
 </head>
 <body>
 
-<form action="<?php Ambiente::getUrl('Filiado/filtros',true)?>" method="post">
+<form action="<?php Ambiente::getUrl('Filiado/listar',true)?>" method="post">
 
     <label>Nome: </label>
-    <input type="text" name="filtros[nome]">
+    <input type="text" name="filtros[nome]" value="<?php echo json_decode(Session_Handler::obterSessao('filtros'),true)['nome'] ?>">
 
     <select name="filtros[mes]">
         <option value=""></option>
@@ -34,6 +34,7 @@ require_once __DIR__ . "/../../Config/Ambiente.php";
 
     <input type="submit" value="Filtrar">
 </form>
+
 
 <section>
     <table>

@@ -13,9 +13,6 @@ class Rota
         $controllerClass = ucfirst($url[0]) . 'Controller';
         $metodo = $url[1];
 
-        var_dump($controllerClass);
-        var_dump($metodo);
-
         if(class_exists($controllerClass) && method_exists($controllerClass,$metodo))
         {
             $controller = new $controllerClass();

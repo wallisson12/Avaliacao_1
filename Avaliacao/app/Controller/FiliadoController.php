@@ -2,6 +2,7 @@
 require_once __DIR__  . "/../Model/FiliadoDAO.php";
 require_once __DIR__  . "/../../Utils/Validacoes.php";
 require_once __DIR__ . "/../../Config/Ambiente.php";
+require_once __DIR__  . "/../../Config/Session_Handler.php";
 class FiliadoController extends ControllerAbstract
 {
     public function __construct()
@@ -13,22 +14,50 @@ class FiliadoController extends ControllerAbstract
     //Responsavel por chamar o dao especifico no modelo para buscar os dados no banco
     public function listar(array $aDados = null)
     {
-        $iPagina = (isset($aDados['pagina'])) ? $aDados['pagina'] : 1;
-        $iLimite = 5;
-        $iOffSet = ($iPagina - 1) * $iLimite;
+        try
+        {
+            $aFiltros = Session_Handler::obterSessao('filtros') ?? '';
 
-        $aDadosPaginacao = [];
-        $aDadosPaginacao['limit'] = $iLimite;
-        $aDadosPaginacao['offset'] = $iOffSet;
+            if (!is_array($aFiltros)) {
+                $aFiltros = json_decode($aFiltros, true) ?? [];
+            }
 
-        $filiadoDAO = new FiliadoDAO();
-        $aFiliados = $filiadoDAO->findAllFiliados($aDadosPaginacao);
 
-        $iTotalFiliados = $filiadoDAO->TotalFiliados();
+            if (!empty($aDados['filtros'])) {
+                $aFiltros = array_merge($aFiltros, $aDados['filtros']);
+                Session_Handler::definirSessao('filtros', json_encode($aFiltros));
+            }
 
-        $iTotalPaginas = ceil($iTotalFiliados/ $iLimite);
 
-        require_once __DIR__ . "/../View/ListaFiliados.php";
+            $iPagina = (isset($aDados['pagina'])) ? $aDados['pagina'] : 1;
+            $iLimite = 5;
+            $iOffSet = ($iPagina - 1) * $iLimite;
+
+            $aDadosPaginacao = [];
+            $aDadosPaginacao['limit'] = $iLimite;
+            $aDadosPaginacao['offset'] = $iOffSet;
+
+            //Validacao do filtro nome
+            Validacoes::validarFiltros($aDados['filtros']['nome']);
+
+            $filiadoDAO = new FiliadoDAO();
+            $aFiliados = $filiadoDAO->findByFiltros($aDados['filtros'],$aDadosPaginacao);
+
+            $iTotalFiliados = $filiadoDAO->TotalFiliados();
+
+            $iTotalPaginas = ceil($iTotalFiliados/ $iLimite);
+
+            require_once __DIR__ . "/../View/ListaFiliados.php";
+
+        }catch (Exception $e)
+        {
+            echo"<script>alert('{$e->getMessage()}')</script>";
+        }
+    }
+    public function limparFiltros()
+    {
+        Session_Handler::destruirSessionFiltros('filtros');
+        $path = Ambiente::getUrl('Filiado;listar');
     }
 
     //Responsavel por pegar os dados que vem de get ou posta
@@ -147,24 +176,6 @@ class FiliadoController extends ControllerAbstract
         {
             echo"<script>alert('{$e->getMessage()}')</script>";
             $this->indexCadastrar();
-        }
-    }
-
-    public function filtros(array $aDados = null)
-    {
-        try
-        {
-            //Validacao do filtro nome
-            Validacoes::validarFiltros($aDados['filtros']['nome']);
-
-            $filiadoDAO = new FiliadoDAO();
-            $aFiliados = $filiadoDAO->findByFiltros($aDados['filtros']);
-
-            require_once __DIR__ . "/../View/ListaFiliados.php";
-
-        }catch (Exception $e)
-        {
-            echo"<script>alert('{$e->getMessage()}')</script>";
         }
     }
 

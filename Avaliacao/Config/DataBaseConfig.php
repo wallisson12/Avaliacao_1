@@ -1,5 +1,4 @@
 <?php
-require_once __DIR__ . "/../Config/ConfiguracaoBanco.json";
 abstract class DataBaseConfig
 {
     private array $aConfiguracao;

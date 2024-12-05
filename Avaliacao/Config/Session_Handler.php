@@ -20,7 +20,7 @@ class Session_Handler
     }
 
     //Responsavel por obter o valor da sessao guardado em uma determinada chave
-    public static function obterSessao(string $sChave) : string
+    public static function obterSessao(string $sChave) : ?string
     {
         self::iniciarSessao();
         return $_SESSION[$sChave];
@@ -38,6 +38,11 @@ class Session_Handler
         self::iniciarSessao();
         $_SESSION = array();
         session_destroy();
+    }
+    public static function destruirSessaoFiltros(string $sChave)
+    {
+        self::iniciarSessao();
+        $_SESSION[$sChave] = array();
     }
 
     //Responsavel por verificar se uma determinada sessao existe

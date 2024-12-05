@@ -10,30 +10,6 @@ class FiliadoDAO
         $this->moobiDataBase = new MoobiDataBase();
     }
 
-    public function findAllFiliados(array $aDados,array $aDadosFiltro = null) : array
-    {
-        $sSql = "SELECT * FROM fls_filiados WHERE 1=1";
-        $parametros = [];
-
-        if (!empty($aDados['limit'])) {
-            $sSql .= " LIMIT ?";
-            $parametros[] = intval($aDados['limit']);
-        }
-
-        if (!empty($aDados['offset'])) {
-            $sSql .= " OFFSET ?";
-            $parametros[] = intval(isset($aDados['offset']) ? $aDados['offset'] : 0);
-        }
-
-        $aListaFiliados = $this->moobiDataBase->query($sSql, $parametros);
-
-        $oTodosOsDados = array_map(function ($filiado){
-            return Filiado::formarObjetoFiliado($filiado);
-        },$aListaFiliados);
-
-        return $oTodosOsDados;
-    }
-
     public function TotalFiliados() : int
     {
         $sql = "SELECT COUNT(*) AS total FROM fls_filiados";
@@ -106,7 +82,7 @@ class FiliadoDAO
             $this->moobiDataBase->execute($sql,$parametro);
     }
 
-    public function findByFiltros(?array $aFiltro): array
+    public function findByFiltros(?array $aFiltro,array $aDados = null): array
     {
         $sSql = "SELECT * FROM fls_filiados WHERE 1=1";
         $parametros = [];
@@ -120,6 +96,17 @@ class FiliadoDAO
             $sSql .= " AND MONTH(flo_Data_De_Nascimento) = ?";
             $parametros[] = intval($aFiltro['mes']);
         }
+
+        if (!empty($aDados['limit'])) {
+            $sSql .= " LIMIT ?";
+            $parametros[] = intval($aDados['limit']);
+        }
+
+        if (!empty($aDados['offset'])) {
+            $sSql .= " OFFSET ?";
+            $parametros[] = intval(isset($aDados['offset']) ? $aDados['offset'] : 0);
+        }
+
 
         $aFiliados = $this->moobiDataBase->query($sSql, $parametros);
 
