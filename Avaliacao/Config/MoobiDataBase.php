@@ -31,7 +31,6 @@ class MoobiDataBase extends DataBaseConfig
 
             if(!empty($aParams))
             {
-                var_dump($sSql);
                 foreach($aParams as $sKey => $sValue)
                 {
                     $PDOStatement->bindValue($sKey + 1, $sValue, is_int($sValue) ? PDO::PARAM_INT : PDO::PARAM_STR);

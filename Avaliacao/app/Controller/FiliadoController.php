@@ -13,9 +13,8 @@ class FiliadoController extends ControllerAbstract
     //Responsavel por chamar o dao especifico no modelo para buscar os dados no banco
     public function listar(array $aDados = null)
     {
-
         $iPagina = (isset($aDados['pagina'])) ? $aDados['pagina'] : 1;
-        $iLimite = 1;
+        $iLimite = 5;
         $iOffSet = ($iPagina - 1) * $iLimite;
 
         $aDadosPaginacao = [];

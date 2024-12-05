@@ -1,6 +1,6 @@
 <?php
 require_once __DIR__ . "/../../Config/Session_Handler.php";
-require_once __DIR__ . "/../../Config/Ambiente.php"
+require_once __DIR__ . "/../../Config/Ambiente.php";
 ?>
 <html lang="en">
 <head>
@@ -10,7 +10,7 @@ require_once __DIR__ . "/../../Config/Ambiente.php"
     <h3>Lista De Filiados</h3>
 </head>
 <body>
-<!--Formulario responsavel por mandar como array para o dependentes controller os filtros-->
+
 <form action="<?php Ambiente::getUrl('Filiado/filtros',true)?>" method="post">
 
     <label>Nome: </label>
@@ -90,12 +90,18 @@ require_once __DIR__ . "/../../Config/Ambiente.php"
 
 <div>
 <a href=<?php Ambiente::getUrl('Filiado/listar',true)?>?pagina=1>Primeira</a>
-    <a href="?pagina=<?php echo $iPagina-1 ?>"><<</a>
+
+    <?php if($iPagina>1) : ?>
+        <a href="?pagina=<?php echo $iPagina-1 ?>"><<</a>
+    <?php endif; ?>
 
     <?php echo $iPagina?>
 
-    <a href="">>></a>
-<a href="">Ultima</a>
+    <?php if($iPagina<=$iTotalPaginas) : ?>
+    <a href="?pagina=<?php echo $iPagina+1?>">>></a>
+    <?php endif; ?>
+
+<a href=<?php Ambiente::getUrl('Filiado/listar',true)?>?pagina=<?php echo $iTotalPaginas ?>>Ultima</a>
 
 </div>
 

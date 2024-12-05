@@ -10,7 +10,7 @@ class FiliadoDAO
         $this->moobiDataBase = new MoobiDataBase();
     }
 
-    public function findAllFiliados(array $aDados) : array
+    public function findAllFiliados(array $aDados,array $aDadosFiltro = null) : array
     {
         $sSql = "SELECT * FROM fls_filiados WHERE 1=1";
         $parametros = [];
