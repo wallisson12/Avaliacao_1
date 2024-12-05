@@ -42,7 +42,7 @@ class Session_Handler
     public static function destruirSessaoFiltros(string $sChave)
     {
         self::iniciarSessao();
-        $_SESSION[$sChave] = array();
+        unset($_SESSION[$sChave]);
     }
 
     //Responsavel por verificar se uma determinada sessao existe

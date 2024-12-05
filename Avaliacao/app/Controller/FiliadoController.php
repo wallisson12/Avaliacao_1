@@ -28,7 +28,6 @@ class FiliadoController extends ControllerAbstract
                 Session_Handler::definirSessao('filtros', json_encode($aFiltros));
             }
 
-
             $iPagina = (isset($aDados['pagina'])) ? $aDados['pagina'] : 1;
             $iLimite = 5;
             $iOffSet = ($iPagina - 1) * $iLimite;
@@ -56,8 +55,9 @@ class FiliadoController extends ControllerAbstract
     }
     public function limparFiltros()
     {
-        Session_Handler::destruirSessionFiltros('filtros');
-        $path = Ambiente::getUrl('Filiado;listar');
+        Session_Handler::destruirSessaoFiltros('filtros');
+        $path = Ambiente::getUrl('Filiado/listar');
+        header("Location: $path");
     }
 
     //Responsavel por pegar os dados que vem de get ou posta

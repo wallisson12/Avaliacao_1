@@ -18,23 +18,24 @@ require_once __DIR__ . "/../../Config/Session_Handler.php";
 
     <select name="filtros[mes]">
         <option value=""></option>
-        <option value="1">Janeiro</option>
-        <option value="2">Fevereiro</option>
-        <option value="3">Marco</option>
-        <option value="4">Abril</option>
-        <option value="5">Maio</option>
-        <option value="6">Junho</option>
-        <option value="7">Julho</option>
-        <option value="8">Agosto</option>
-        <option value="9">Setembro</option>
-        <option value="10">Outubro</option>
-        <option value="11">Novembro</option>
-        <option value="12">Dezembro</option>
+        <option value="1" <?php echo (json_decode(Session_Handler::obterSessao('filtros'),true)['mes']) == 1 ? 'selected' : '' ?>>Janeiro</option>
+        <option value="2" <?php echo (json_decode(Session_Handler::obterSessao('filtros'),true)['mes']) == 2 ? 'selected' : '' ?>>Fevereiro</option>
+        <option value="3" <?php echo (json_decode(Session_Handler::obterSessao('filtros'),true)['mes']) == 3 ? 'selected' : '' ?>>Marco</option>
+        <option value="4" <?php echo (json_decode(Session_Handler::obterSessao('filtros'),true)['mes']) == 4 ? 'selected' : '' ?>>Abril</option>
+        <option value="5" <?php echo (json_decode(Session_Handler::obterSessao('filtros'),true)['mes']) == 5 ? 'selected' : '' ?>>Maio</option>
+        <option value="6" <?php echo (json_decode(Session_Handler::obterSessao('filtros'),true)['mes']) == 6 ? 'selected' : '' ?>>Junho</option>
+        <option value="7" <?php echo (json_decode(Session_Handler::obterSessao('filtros'),true)['mes']) == 7 ? 'selected' : '' ?>>Julho</option>
+        <option value="8" <?php echo (json_decode(Session_Handler::obterSessao('filtros'),true)['mes']) == 8 ? 'selected' : '' ?>>Agosto</option>
+        <option value="9" <?php echo (json_decode(Session_Handler::obterSessao('filtros'),true)['mes']) == 9 ? 'selected' : '' ?>>Setembro</option>
+        <option value="10" <?php echo (json_decode(Session_Handler::obterSessao('filtros'),true)['mes']) == 10 ? 'selected' : '' ?>>Outubro</option>
+        <option value="11" <?php echo (json_decode(Session_Handler::obterSessao('filtros'),true)['mes']) == 11 ? 'selected' : '' ?>>Novembro</option>
+        <option value="12" <?php echo (json_decode(Session_Handler::obterSessao('filtros'),true)['mes']) == 12 ? 'selected' : '' ?>>Dezembro</option>
     </select>
 
     <input type="submit" value="Filtrar">
 </form>
 
+<a href=<?php Ambiente::getUrl('Filiado/limparFiltros',true)?>>Limpar</a>
 
 <section>
     <table>
