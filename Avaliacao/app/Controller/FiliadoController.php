@@ -3,19 +3,33 @@ require_once __DIR__  . "/../Model/FiliadoDAO.php";
 require_once __DIR__  . "/../../Utils/Validacoes.php";
 require_once __DIR__ . "/../../Config/Ambiente.php";
 require_once __DIR__  . "/../../Config/Session_Handler.php";
-class FiliadoController extends ControllerAbstract
-{
-    public function __construct()
-    {
-        parent::__construct();
+
+/**
+ * Class ${FiliadoController}
+ * @version 1.0.0 Versionamento inicial da classe
+ */
+class FiliadoController extends ControllerAbstract {
+    public function __construct() {
+		parent::__construct();
     }
 
-    //Responsavel por pegar os dados que vem de get ou post
-    //Responsavel por chamar o dao especifico no modelo para buscar os dados no banco
-    public function listar(array $aDados = null)
-    {
-        try
-        {
+	/**
+	 * Responsável por listar os filiados no banco com ou sem filtros
+	 *
+	 * Obtem os dados do filtro e salva na sessao, realiza o calculo da
+	 * paginacao e faz a busca dos filiados e faz o redirecionamento para
+	 * lista de filiados
+	 *
+	 * @author Wallisson De Jesus Campos wallissondejesus@moobi.com.br
+	 *
+	 * @param array|null $aDados Array merge do post e get
+	 * @return void
+	 * @throws Exception
+	 *
+	 * @since 1.0.0 - Definição do versionamento da função
+	 */
+    public function listar(array $aDados = null) : void {
+        try {
             $aFiltros = Session_Handler::obterSessao('filtros') ?? '';
 
             if (!is_array($aFiltros)) {
@@ -36,124 +50,158 @@ class FiliadoController extends ControllerAbstract
             $aDadosPaginacao['limit'] = $iLimite;
             $aDadosPaginacao['offset'] = $iOffSet;
 
-            //Validacao do filtro nome
             Validacoes::validarFiltros($aDados['filtros']['nome']);
 
-            $filiadoDAO = new FiliadoDAO();
-            $aFiliados = $filiadoDAO->findByFiltros($aDados['filtros'],$aDadosPaginacao);
+            $oFiliadoDAO = new FiliadoDAO();
+            $aFiliados = $oFiliadoDAO->findByFiltros($aDados['filtros'],$aDadosPaginacao);
 
-            $iTotalFiliados = $filiadoDAO->TotalFiliados();
+            $iTotalFiliados = $oFiliadoDAO->TotalFiliados();
 
             $iTotalPaginas = ceil($iTotalFiliados/ $iLimite);
 
             require_once __DIR__ . "/../View/ListaFiliados.php";
 
-        }catch (Exception $e)
-        {
+        }catch (Exception $e) {
             echo"<script>alert('{$e->getMessage()}')</script>";
         }
     }
-    public function limparFiltros()
-    {
+
+	/**
+	 * Responsável por limpar os filtros e destruindo a sessao
+	 *
+	 * Faz o redirecionamento para a lista de filiados
+	 *
+	 * @author Wallisson De Jesus Campos wallissondejesus@moobi.com.br
+	 *
+	 * @return void
+	 *
+	 * @since 1.0.0 - Definição do versionamento da função
+	 */
+    public function limparFiltros() : void {
         Session_Handler::destruirSessaoFiltros('filtros');
-        $path = Ambiente::getUrl('Filiado/listar');
-        header("Location: $path");
+        $sPath = Ambiente::getUrl('Filiado/listar');
+        header("Location: $sPath");
     }
 
-    //Responsavel por pegar os dados que vem de get ou posta
-    //Responsavel por chamar o dao especifico no modelo para buscar os dados no banco
-    public function editar(array $aDados = null)
-    {
-        if(isset($aDados['id']))
-        {
-            $filiadoDAO = new FiliadoDAO();
-            $oFiliado = $filiadoDAO->find($aDados['id']);
+	/**
+	 * Responsável por editar um filiado no banco passando o id
+	 *
+	 * E realiza o redirecionamento para a pagina de editar filiado
+	 *
+	 * @author Wallisson De Jesus Campos wallissondejesus@moobi.com.br
+	 *
+	 * @param array|null $aDados Array merge do post e get
+	 * @return void
+	 *
+	 * @since 1.0.0 - Definição do versionamento da função
+	 */
+    public function editar(array $aDados = null) : void {
+        if(isset($aDados['id'])) {
+            $oFiliadoDAO = new FiliadoDAO();
+            $oFiliado = $oFiliadoDAO->find($aDados['id']);
 
             require_once __DIR__ . "/../View/Editar_Filiado.php";
         }
     }
 
-    //Responsavel por pegar os dados que vem de get ou post
-    //Responsavel por chamar o dao especifico no modelo para buscar os dados no banco
-    public function excluir(array $aDados = null)
-    {
-        if(isset($aDados['id']))
-        {
-            $filiadoDAO = new FiliadoDAO();
-            $filiadoDAO->delete($aDados['id']);
+	/**
+	 * Responsável por excluir um filiado no banco passando o id
+	 *
+	 * E faz o redirecionamento para lista de filiados
+	 *
+	 * @author Wallisson De Jesus Campos wallissondejesus@moobi.com.br
+	 *
+	 * @param array|null $aDados Array merge do post e get
+	 * @return void
+	 *
+	 * @since 1.0.0 - Definição do versionamento da função
+	 */
+    public function excluir(array $aDados = null) : void {
+        if(isset($aDados['id'])) {
+            $oFiliadoDAO = new FiliadoDAO();
+            $oFiliadoDAO->delete($aDados['id']);
 
-            $path = Ambiente::getUrl('Filiado/listar');
+            $sPath = Ambiente::getUrl('Filiado/listar');
 
             echo "<script>
                     alert('Filiado Deletado Com Sucesso!')
-                    window.location.href='{$path}';
+                    window.location.href='{$sPath}';
                   </script>";
         }
     }
 
-    //Responsavel por pegar os dados que vem de get ou post
-    //Responsavel por chamar o dao especifico no modelo para buscar os dados no banco
-
-    //Fazer a validacao do campos antes de salvar no banco e permitir o cadastro remover e atualizar
-    //Os dados, empresa, situacao, cargo
-    public function atualizar(array $aDados = null)
-    {
-        if(isset($aDados['editar']))
-        {
-            //Faz a validacao dos dados de empresa
+	/**
+	 * Responsável por atualizar dados de um filiado no banco passando o id
+	 *
+	 * E faz o redirecionamento para lista de filiados
+	 *
+	 * @author Wallisson De Jesus Campos wallissondejesus@moobi.com.br
+	 *
+	 * @param array|null $aDados Array merge do post e get
+	 * @return void
+	 * @throws Exception
+	 *
+	 * @since 1.0.0 - Definição do versionamento da função
+	 */
+    public function atualizar(array $aDados = null) : void {
+        if(isset($aDados['editar'])) {
             $sEmpresa = Validacoes::validarDadosEmpresa($aDados['empresa']);
             $sCargo = Validacoes::validarDadosEmpresa($aDados['cargo']);
             $sSituacao = Validacoes::validarDadosEmpresa($aDados['situacao']);
 
-            $filiadoDAO = new FiliadoDAO();
-            $filiadoDAO->update($aDados['id'],$sEmpresa, $sCargo, $sSituacao,$aDados['data']);
+            $oFiliadoDAO = new FiliadoDAO();
+            $oFiliadoDAO->update($aDados['id'],$sEmpresa, $sCargo, $sSituacao,$aDados['data']);
 
-            $path = Ambiente::getUrl('Filiado/listar');
+            $sPath = Ambiente::getUrl('Filiado/listar');
 
             echo "<script>
                         alert('Filiado Editado Com Sucesso!')
-                        window.location.href='{$path}';
+                        window.location.href='{$sPath}';
                   </script>";
         }
     }
 
-
-    //Responsavel por fazer a validacao dos dados antes de inserir no banco
-    public function cadastrar(array $aDados = null)
-    {
-        try
-        {
-            if(isset($aDados["cadastrar"]))
-            {
-                //Faz a validacao dos dados de empresa
+	/**
+	 * Responsável por cadastrar dados de um filiado no banco
+	 *
+	 * Verifica se o filiado ja existe, caso sim, lanca uma excecao, caso contrario
+	 * Faz o redirecionamento para lista de filiados
+	 *
+	 * @author Wallisson De Jesus Campos wallissondejesus@moobi.com.br
+	 *
+	 * @param array|null $aDados Array merge do post e get
+	 * @return void
+	 * @throws Exception
+	 *
+	 * @since 1.0.0 - Definição do versionamento da função
+	 */
+    public function cadastrar(array $aDados = null) : void {
+        try {
+            if(isset($aDados["cadastrar"])) {
                 $sEmpresa = Validacoes::validarDadosEmpresa($aDados['empresa']);
                 $sCargo = Validacoes::validarDadosEmpresa($aDados['cargo']);
                 $sSituacao = Validacoes::validarDadosEmpresa($aDados['situacao']);
 
-                //Validacao do Cpf
-                Validacoes::validarCpf($aDados["cpf"]);
 
-                //Validacao Idade
-                $iIdade = Validacoes::validarIdadeDataNascimento($aDados['data_nascimento']);
+                $aDados['cpf'] = Validacoes::validarCpf($aDados["cpf"]);
 
-                //Validacao Telefone Residencial
+                Validacoes::validarDataNascimento($aDados['data_nascimento']);
+				$iIdade = $this->CalcularIdade($aDados['data_nascimento']);
+
                 Validacoes::validarTelefoneResidencial($aDados['telefone']);
 
-                //Validacao Celular
                 Validacoes::validarCelular($aDados['celular']);
 
-                //Validacao RG
                 Validacoes::validarRg($aDados['rg']);
 
-                $filiadoDAO = new FiliadoDAO();
 
-                if($filiadoDAO->isFiliadoExiste($aDados['cpf']))
-                {
+                $oFiliadoDAO = new FiliadoDAO();
+
+                if($oFiliadoDAO->isFiliadoExiste($aDados['cpf'])) {
                     throw new Exception('Filiado ja existe!');
                 }
 
-
-                $filiadoDAO->insert($_POST['nome'],
+                $oFiliadoDAO->insert($aDados['nome'],
                     $aDados['cpf'],
                     $aDados['rg'],
                     $aDados['data_nascimento'],
@@ -164,33 +212,61 @@ class FiliadoController extends ControllerAbstract
                     $aDados['telefone'],
                     $aDados['celular']);
 
-                $path = Ambiente::getUrl('Filiado/listar');
+                $sPath = Ambiente::getUrl('Filiado/listar');
 
                 echo"<script>
                         alert('Filiado Cadastrado Com Sucesso!');
-                        window.location = '{$path}';
+                        window.location = '{$sPath}';
                      </script>";
             }
 
-        }catch (Exception $e)
-        {
+        }catch (Exception $e) {
             echo"<script>alert('{$e->getMessage()}')</script>";
             $this->indexCadastrar();
         }
     }
 
-    //**Indexs**
-    public function indexListar(array $aDados = null)
-    {
-        header("Location: http://localhost:5000/Avaliacao/Filiado/listar");
-    }
-    public function indexDashborad(array $aDados = null)
-    {
-        require_once __DIR__ . "/../View/Dashboard.php";
-    }
+	/**
+	 * Responsável por calcular a idade de um filiado
+	 *
+	 * E faz o redirecionamento para lista de filiados, caso for menor de idade
+	 * lanca uma excecao
+	 *
+	 * @author Wallisson De Jesus Campos wallissondejesus@moobi.com.br
+	 *
+	 * @param string $sDataNascimento Data de nascimento para calcular a idade
+	 * @return int
+	 * @throws Exception
+	 *
+	 * @since 1.0.0 - Definição do versionamento da função
+	 */
+	private function CalcularIdade(string $sDataNascimento) : int {
+		$oDataHoje = new DateTime('now',new DateTimeZone('America/Sao_Paulo'));
+		$oDataHojeFormatada = $oDataHoje->format('Y-m-d');
 
-    public function indexCadastrar(array $aDados = null)
-    {
+		$sDataNascimento = Filiado::setDataNascimento($sDataNascimento);
+
+		$iIntervalo = $oDataHoje->diff($sDataNascimento);
+
+		if($iIntervalo->format('%y') >= 18) {
+			return $iIntervalo->format('%y');
+		}
+		else {
+			throw new Exception("Idade minima para cadastro, é 18 anos");
+		}
+	}
+
+	/**
+	 * Responsável por redirecionar para pagina de cadastro filiado
+	 *
+	 * @author Wallisson De Jesus Campos wallissondejesus@moobi.com.br
+	 *
+	 * @param array|null $aDados Array merge do post e get
+	 * @return void
+	 *
+	 * @since 1.0.0 - Definição do versionamento da função
+	 */
+    public function indexCadastrar(array $aDados = null) : void {
         require_once __DIR__ . "/../View/CadatroFiliado.php";
     }
 }

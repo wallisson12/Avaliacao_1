@@ -1,119 +1,245 @@
 <?php
 require_once "Situacao.php";
-class Filiado
-{
+
+/**
+ * Class ${Filiado}
+ * @version 1.0.0 Versionamento inicial da classe
+ */
+class Filiado {
     private int $iId;
     private string $sNome;
     private string $sCpf;
     private string $sRg;
-    private DateTime $dDataNascimento;
+    private DateTime $oDataNascimento;
     private int $iIdade;
     private ?string $sEmpresa;
     private ?string $sCargo;
-    private ?Situacao $sSituacao;
+    private ?Situacao $oSituacao;
     private string $sTelefoneResidencial;
     private string $sCelular;
-    private DateTime $dDataUltimaAtualizacao;
+    private DateTime $oDataUltimaAtualizacao;
 
-    public function __construct(?int $iId,string $sNome,string $sCpf,string $sRg,string $dDataNascimento,int $iIdade,
-                                ?string $sEmpresa,?string $sCargo,?string $sSituacao,string $sTelefoneResidencial,string $sCelular,string $dDataUltimaAtualizacao)
+    public function __construct(?int $iId,string $sNome,string $sCpf,string $sRg,string $sDataNascimento,int $iIdade,
+                                ?string $sEmpresa,?string $sCargo,?string $sSituacao,string $sTelefoneResidencial,string $sCelular,string $sDataUltimaAtualizacao)
     {
 
         $this->iId = $iId;
         $this->sNome = $sNome;
         $this->sCpf = $sCpf;
         $this->sRg = $sRg;
-        $this->dDataNascimento = $this->setDataNascimento($dDataNascimento);
+        $this->oDataNascimento = $this->setDataNascimento($sDataNascimento);
         $this->iIdade = $iIdade;
         $this->sEmpresa = $sEmpresa;
         $this->sCargo = $sCargo;
-        $this->sSituacao = $this->setTipo_Situacao($sSituacao);
+        $this->oSituacao = $this->setTipo_Situacao($sSituacao);
         $this->sTelefoneResidencial = $sTelefoneResidencial;
         $this->sCelular = $sCelular;
-        $this->dDataUltimaAtualizacao = $this->setDataAtualizacao($dDataUltimaAtualizacao);
+        $this->oDataUltimaAtualizacao = $this->setDataAtualizacao($sDataUltimaAtualizacao);
 
     }
 
-    public static function formarObjetoFiliado(array $aDados) : Filiado
-    {
+	/**
+	 * Responsável por criar o objeto filiado
+	 *
+	 * Pega os dados para criar o objeto atraves do array merge
+	 * do post e get
+	 *
+	 * @param array $aDados Array merge do post e get
+	 * @return Filiado
+	 *
+	 * @author Wallisson De Jesus Campos wallissondejesus@moobi.com.br
+	 *
+	 * @since 1.0.0 - Definição do versionamento da função
+	 */
+    public static function formarObjetoFiliado(array $aDados) : Filiado {
         return new Filiado(
-            $aDados["flo_Id"],
-            $aDados['flo_Nome'],
-            $aDados['flo_CPF'],
-            $aDados['flo_RG'],
-            $aDados['flo_Data_De_Nascimento'],
-            $aDados['flo_Idade'],
-            $aDados['flo_Empresa'],
-            $aDados['flo_Cargo'],
-            $aDados['flo_Situacao'],
-            $aDados['flo_Telefone_Residencial'],
-            $aDados['flo_Celular'],
-            $aDados['flo_Data_Ultima_Atualizacao'],
+            $aDados["flo_id"],
+            $aDados['flo_nome'],
+            $aDados['flo_cpf'],
+            $aDados['flo_rg'],
+            $aDados['flo_data_de_nascimento'],
+            $aDados['flo_idade'],
+            $aDados['flo_empresa'],
+            $aDados['flo_cargo'],
+            $aDados['flo_situacao'],
+            $aDados['flo_telefone_residencial'],
+            $aDados['flo_celular'],
+            $aDados['flo_data_ultima_atualizacao'],
         );
     }
 
-    public function getId(): int
-    {
+	/**
+	 * Responsável por retornar o id do filiado
+	 *
+	 * @author Wallisson De Jesus Campos wallissondejesus@moobi.com.br
+	 *
+	 * @return int
+	 *
+	 * @since 1.0.0 - Definição do versionamento da função
+	 */
+    public function getId(): int {
         return $this->iId;
     }
-    public function getNome(): string
-    {
+
+	/**
+	 * Responsável por retornar o nome do filiado
+	 *
+	 * @author Wallisson De Jesus Campos wallissondejesus@moobi.com.br
+	 *
+	 * @return string
+	 *
+	 * @since 1.0.0 - Definição do versionamento da função
+	 */
+    public function getNome(): string {
         return $this->sNome;
     }
 
-    public function getCpf(): string
-    {
+	/**
+	 * Responsável por retornar o cpf do filiado
+	 *
+	 * @author Wallisson De Jesus Campos wallissondejesus@moobi.com.br
+	 *
+	 * @return string
+	 *
+	 * @since 1.0.0 - Definição do versionamento da função
+	 */
+    public function getCpf(): string {
         return $this->sCpf;
     }
 
-    public function getRg(): string
-    {
+	/**
+	 * Responsável por retornar o rg do filiado
+	 *
+	 * @author Wallisson De Jesus Campos wallissondejesus@moobi.com.br
+	 *
+	 * @return string
+	 *
+	 * @since 1.0.0 - Definição do versionamento da função
+	 */
+    public function getRg(): string {
         return $this->sRg;
     }
 
-    public function getDataNascimento(): string
-    {
-        return $this->dDataNascimento->format('d/m/Y');
+	/**
+	 * Responsável por retornar a data de nascimento do filiado
+	 * ja formatada
+	 *
+	 * @author Wallisson De Jesus Campos wallissondejesus@moobi.com.br
+	 *
+	 * @return string
+	 *
+	 * @since 1.0.0 - Definição do versionamento da função
+	 */
+    public function getDataNascimento(): string {
+        return $this->oDataNascimento->format('d/m/Y');
     }
 
-    public function getIdade(): int
-    {
+	/**
+	 * Responsável por retornar a idade do filiado
+	 *
+	 * @author Wallisson De Jesus Campos wallissondejesus@moobi.com.br
+	 *
+	 * @return int
+	 *
+	 * @since 1.0.0 - Definição do versionamento da função
+	 */
+    public function getIdade(): int {
         return $this->iIdade;
     }
 
-    public function getEmpresa(): ?string
-    {
+	/**
+	 * Responsável por retornar a empresa do filiado
+	 *
+	 * @author Wallisson De Jesus Campos wallissondejesus@moobi.com.br
+	 *
+	 * @return string|null
+	 *
+	 * @since 1.0.0 - Definição do versionamento da função
+	 */
+    public function getEmpresa(): ?string {
         return $this->sEmpresa;
     }
 
-    public function getCargo(): ?string
-    {
+	/**
+	 * Responsável por retornar o cargo do filiado
+	 *
+	 * @author Wallisson De Jesus Campos wallissondejesus@moobi.com.br
+	 *
+	 * @return string|null
+	 *
+	 * @since 1.0.0 - Definição do versionamento da função
+	 */
+    public function getCargo(): ?string {
         return $this->sCargo;
     }
 
-    public function getSituacao(): ?string
-    {
-        return $this->sSituacao->value;
+	/**
+	 * Responsável por retornar a situacao do filiado
+	 *
+	 * @author Wallisson De Jesus Campos wallissondejesus@moobi.com.br
+	 *
+	 * @return string|null
+	 *
+	 * @since 1.0.0 - Definição do versionamento da função
+	 */
+    public function getSituacao(): ?string {
+        return $this->oSituacao->value;
     }
-    public function getTelefoneResidencial(): string
-    {
+
+	/**
+	 * Responsável por retornar o telefone do filiado
+	 *
+	 * @author Wallisson De Jesus Campos wallissondejesus@moobi.com.br
+	 *
+	 * @return string
+	 *
+	 * @since 1.0.0 - Definição do versionamento da função
+	 */
+    public function getTelefoneResidencial(): string {
         return $this->sTelefoneResidencial;
     }
 
-    public function getCelular(): string
-    {
+	/**
+	 * Responsável por retornar o celular do filiado
+	 *
+	 * @author Wallisson De Jesus Campos wallissondejesus@moobi.com.br
+	 *
+	 * @return string
+	 *
+	 * @since 1.0.0 - Definição do versionamento da função
+	 */
+    public function getCelular(): string {
         return $this->sCelular;
     }
 
-    public function getDataUltimaAtualizacao(): string
-    {
-        return $this->dDataUltimaAtualizacao->format('d/m/Y');
+	/**
+	 * Responsável por retornar a data da ultima atualizacao do filiado
+	 *
+	 * @author Wallisson De Jesus Campos wallissondejesus@moobi.com.br
+	 *
+	 * @return string
+	 *
+	 * @since 1.0.0 - Definição do versionamento da função
+	 */
+    public function getDataUltimaAtualizacao(): string {
+        return $this->oDataUltimaAtualizacao->format('d/m/Y');
     }
 
-    private function setTipo_Situacao(?string $sSituacao): ?Situacao
-    {
-        switch ($sSituacao)
-        {
+	/**
+	 * Responsável por verificar o tipo de situacao do filiado
+	 *
+	 * Faz a verificacao de qual situacao é o filiado, caso contrario
+	 * retorna null
+	 *
+	 * @param string|null $sSituacao Tipo situacao a ser verificada
+	 * @return Situacao|null
+	 *
+	 * @author Wallisson De Jesus Campos wallissondejesus@moobi.com.br
+	 *
+	 * @since 1.0.0 - Definição do versionamento da função
+	 */
+    private function setTipo_Situacao(?string $sSituacao): ?Situacao {
+        switch ($sSituacao) {
             case "Ativo":
                 return Situacao::Ativo;
                 break;
@@ -131,18 +257,44 @@ class Filiado
         }
     }
 
-    private  function setDataAtualizacao(string $sDataUltimaAtualizacao) : DateTime
-    {
+	/**
+	 * Responsável por realizar o formatacao da data da ultima atualizacao
+	 *
+	 * @author Wallisson De Jesus Campos wallissondejesus@moobi.com.br
+	 *
+	 * @param string $sDataUltimaAtualizacao Data para ser formatada
+	 * @return DateTime
+	 *
+	 * @since 1.0.0 - Definição do versionamento da função
+	 */
+    private  function setDataAtualizacao(string $sDataUltimaAtualizacao) : DateTime {
         return DateTime::createFromFormat('Y-m-d H:i:s',$sDataUltimaAtualizacao);
     }
 
-    public static function setDataNascimento(string $sDataNascimento) : DateTime
-    {
+	/**
+	 * Responsável por realizar a formatacao da data de nascimento
+	 *
+	 * @author Wallisson De Jesus Campos wallissondejesus@moobi.com.br
+	 *
+	 * @param string $sDataNascimento Data para ser formatada
+	 * @return DateTime
+	 *
+	 * @since 1.0.0 - Definição do versionamento da função
+	 */
+    public static function setDataNascimento(string $sDataNascimento) : DateTime {
         return DateTime::createFromFormat('Y-m-d',$sDataNascimento);
     }
 
-    public static function atualizaDataAtualizacao():string
-    {
+	/**
+	 * Responsável por realizar a atualizacao da data da ultima atualizacao
+	 *
+	 * @author Wallisson De Jesus Campos wallissondejesus@moobi.com.br
+	 *
+	 * @return string
+	 *
+	 * @since 1.0.0 - Definição do versionamento da função
+	 */
+    public static function atualizaDataAtualizacao() : string {
         $dataAgora = new DateTime('now', new DateTimeZone('America/Sao_Paulo'));
         return $dataAgora->format('Y-m-d H:i:s');
     }

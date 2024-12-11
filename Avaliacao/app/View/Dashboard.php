@@ -7,10 +7,11 @@ require_once __DIR__ . "/../../Config/Ambiente.php";
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>DashBorad</title>
-    <h3>Usuario: <?php echo Session_Handler::obterSessao('usuario')?></h3>
-    <h3>Tipo: <?php echo Session_Handler::obterSessao('tipo')?></h3>
 </head>
 <body>
+
+<h3>Usuario: <?php echo Session_Handler::obterSessao('usuario')?></h3>
+<h3>Tipo: <?php echo Session_Handler::obterSessao('tipo')?></h3>
 
 
 <?php if(Session_Handler::obterSessao('tipo') === 'Administrador'): ?>

@@ -1,26 +1,42 @@
 <?php
 require_once __DIR__ . "/../Model/UsuarioDAO.php";
 require_once __DIR__ . "/../../Utils/Validacoes.php";
+
+/**
+ * Class ${LoginController}
+ * @version 1.0.0 Versionamento inicial da classe
+ */
 class LoginController
 {
-    public function logar(array $aDados = null)
+
+	/**
+	 * Responsável por realizar o login no sistema
+	 *
+	 * Faz a comparacao se existe o usuario no banco, caso nao
+	 * Ele irá lançar uma exceção, se sim carrega a pagina de dashborad
+	 *
+	 * @author Wallisson De Jesus Campos wallissondejesus@moobi.com.br
+	 *
+	 * @param array|null $aDados Array merge do post e get
+	 * @return void
+	 * @throws Exception
+	 *
+	 * @since 1.0.0 - Definição do versionamento da função
+	 *
+	 */
+    public function logar(array $aDados = null) : void
     {
-        //Responsavel por fazer a validacao
-        //Responsavel por pegar os dados que vem de get ou post
-        //Responsavel por chamar o dao especifico no modelo para buscar os dados no banco
         try
         {
             if(isset($aDados['login']))
             {
 
-                //Validacao login usuario
                 $aDados['nome'] = Validacoes::validarNome($aDados['nome']);
+
                 $oUsuarioDAO = new UsuarioDAO();
 
                 if($oUsuarioDAO->findUsuarioAdm($aDados['nome'],$aDados['senha']))
                 {
-                    //Faco o redirecionamento
-                    //Carrega a view Dashboard
                     $this->indexDashborad();
                     exit();
                 }
@@ -45,11 +61,32 @@ class LoginController
     }
 
 
-    public function indexLogin(array $aDados = null)
+	/**
+	 * Responsável por realizar o redirecionamento para a pagina de login
+	 *
+	 * @author Wallisson De Jesus Campos wallissondejesus@moobi.com.br
+	 *
+	 * @param array|null $aDados Array merge do post e get
+	 * @return void
+	 *
+	 * @since 1.0.0 - Definição do versionamento da função
+	 */
+    public function indexLogin(array $aDados = null) : void
     {
         require_once __DIR__ . "/../View/LoginUsuario.php";
     }
-    public function indexDashborad(array $aDados = null)
+
+	/**
+	 * Responsável por realizar o redirecionamento para a pagina de dashborad
+	 *
+	 * @author Wallisson De Jesus Campos wallissondejesus@moobi.com.br
+	 *
+	 * @param array|null $aDados Array merge do post e get
+	 * @return void
+	 *
+	 * @since 1.0.0 - Definição do versionamento da função
+	 */
+    public function indexDashborad(array $aDados = null) : void
     {
         require_once __DIR__ . "/../View/Dashboard.php";
     }

@@ -6,9 +6,10 @@ require_once __DIR__ . "/../../Config/Ambiente.php";
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Responsavel por fazer o login</title>
-    <h3>Tela para realizar o login</h3>
 </head>
 <body>
+
+<h3>Tela para realizar o login</h3>
 
 <form action="<?php Ambiente::getUrl('Login/logar',true)?>" method="post">
 
@@ -16,7 +17,7 @@ require_once __DIR__ . "/../../Config/Ambiente.php";
     <input type="text" name="nome" id="nome" required>
 
     <label>Senha: </label>
-    <input type="password" name="senha" id="senha" required>
+    <input type="password" name="senha" id="senha" minlength="6" required>
 
     <input type="submit" name="login" value="Login">
 

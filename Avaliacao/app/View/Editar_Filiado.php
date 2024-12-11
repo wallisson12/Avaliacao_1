@@ -6,9 +6,10 @@ require_once __DIR__ . "/../../Config/Ambiente.php";
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Document</title>
-    <h3>Editar Filiado</h3>
 </head>
 <body>
+
+<h3>Editar Filiado</h3>
 
 <form action="<?php Ambiente::getUrl('Filiado/atualizar',true)?>?id=<?php echo $oFiliado[0]->getId()?>" method="post">
 

@@ -1,7 +1,6 @@
 <?php
 
-enum Grau_Parentesco : string
-{
+enum Grau_Parentesco : string {
     case Conjuge = 'Conjuge';
     case Filho = 'Filho';
     case Pai = 'Pai';

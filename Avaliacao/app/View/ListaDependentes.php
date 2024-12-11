@@ -7,9 +7,11 @@ require_once __DIR__ . "/../../Config/Ambiente.php";
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Lista Dependentes</title>
-    <h3>Lista De Dependentes</h3>
 </head>
 <body>
+
+<h3>Lista De Dependentes</h3>
+
 <table>
     <thead>
 

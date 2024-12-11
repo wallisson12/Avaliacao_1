@@ -6,9 +6,10 @@ require_once __DIR__ . "/../../Config/Ambiente.php";
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Cadastro De Filiado</title>
-    <h3>Cadastro De Filiado</h3>
 </head>
 <body>
+
+<h3>Cadastro De Filiado</h3>
 
 <form action="<?php Ambiente::getUrl('Filiado/cadastrar',true)?>" method="post">
 
@@ -20,6 +21,7 @@ require_once __DIR__ . "/../../Config/Ambiente.php";
     <div>
         <label>CPF</label>
         <input type="text" name="cpf" required>
+        <span id=""></span>
     </div>
 
     <div>
@@ -66,6 +68,8 @@ require_once __DIR__ . "/../../Config/Ambiente.php";
 </form>
 
 <a href=<?php Ambiente::getUrl('Filiado/indexDashborad',true)?>>Voltar</a>
+
+<script src="/../Avaliacao/app/View/Js/Filiados.js"></script>
 
 </body>
 </html>

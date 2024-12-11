@@ -1,56 +1,96 @@
 <?php
 
+/**
+ * Class ${Validacoes}
+ * @version 1.0.0 Versionamento inicial da classe
+ */
 class Validacoes
 {
-    //**Usuario**
+
+	/**
+	* Responsável por fazer a validacão do nome aceitando apenas letras, com regex
+	*
+	* Caso possua algum número, ele irá lançar uma exceção
+	*
+	* @author Wallisson De Jesus Campos wallissondejesus@moobi.com.br
+	*
+	* @param string $sNome Nome para ser validado
+	* @return string
+	* @throws Exception
+	*
+	* @since 1.0.0 - Definição do versionamento da função
+	*
+	*/
     public static function validarNome(string $sNome) : string
     {
-        //Verifica se possui numero
         if(preg_match('/\d/', $sNome) == 1)
         {
             throw new Exception('Nome Do Usuario Invalido!');
         }
         else
         {
-            //Retira caracteres especiais
             $sNome = preg_replace('/[^[:alpha:]_]/','',$sNome);
             return $sNome;
         }
     }
 
-    //**Filiado**
+	/**
+	* Responsável por fazer a validacão do nome, cargo e situação da empresa
+	*
+	* Caso nao for passado nenhuma string ele adciona null
+	*
+	* @author Wallisson De Jesus Campos wallissondejesus@moobi.com.br
+	*
+	* @param string $sDado dado a ser validado
+	* @return string | null
+	*
+	* @since 1.0.0 - Definição do versionamento da função
+	*
+	*/
     public static function validarDadosEmpresa(string $sDado) : ?string
     {
         return !empty($sDado) ? $sDado : null;
     }
 
-    public static function validarIdadeDataNascimento(string $sDataNascimento) : ?int
+	/**
+	* Responsável por fazer a validacao da data de nascimento
+	*
+	* Verifica o formato da data de nascimento, com regex
+	* Caso contrário retorna uma exceção
+	*
+	* @author Wallisson De Jesus Campos wallissondejesus@moobi.com.br
+	*
+	* @param string $sDataNascimento Data para ser validada
+	* @return void
+	* @throws Exception
+	*
+	* @since 1.0.0 - Definição do versionamento da função
+	*
+	*/
+    public static function validarDataNascimento(string $sDataNascimento) : void
     {
-        if(preg_match('/^\d{4}-\d{2}-\d{2}$/',$sDataNascimento))
+        if(!preg_match('/^\d{4}-\d{2}-\d{2}$/',$sDataNascimento))
         {
-            $oDataHoje = new DateTime('now',new DateTimeZone('America/Sao_Paulo'));
-            $oDataHojeFormatada = $oDataHoje->format('Y-m-d');
-
-            $sDataNascimento = Filiado::setDataNascimento($sDataNascimento);
-
-            $intervalo = $oDataHoje->diff($sDataNascimento);
-
-            if($intervalo->format('%y') >= 18)
-            {
-                return $intervalo->format('%y');
-            }
-            else
-            {
-                throw new Exception("Idade minima para cadastro, é 18 anos");
-            }
-        }
-        else
-        {
-            throw new Exception("Formato da data incorreto! EX (YYYY-MM-DD)");
+	        throw new Exception("Formato da data incorreto! EX (YYYY-MM-DD)");
         }
     }
 
-    public static function validarCpf(string $sCpf) : void
+	/**
+	* Responsável por fazer a validacao do cpf
+	*
+	* Verifica o formato do cpf e se é uma sequência de números repetidos, com regex
+	* Caso não for um cpf válido, vai ser lançada uma exceção
+	*
+	* @author Wallisson De Jesus Campos wallissondejesus@moobi.com.br
+	*
+	* @param string $sCpf cpf para ser validado
+	* @return string
+	* @throws Exception
+	*
+	* @since 1.0.0 - Definição do versionamento da função
+	*
+	*/
+    public static function validarCpf(string $sCpf) : string
     {
         $sCpf = preg_replace('/[^0-9]/is', '', $sCpf);
 
@@ -59,18 +99,37 @@ class Validacoes
             throw new Exception("Formato De CPF Incorreto! EX (xxx.xxx.xxx-xx)");
         }
 
-        for ($t = 9; $t < 11; $t++) {
-            for ($d = 0, $c = 0; $c < $t; $c++) {
-                $d += $sCpf[$c] * (($t + 1) - $c);
-            }
-            $d = ((10 * $d) % 11) % 10;
-            if ($sCpf[$c] != $d) {
-                throw new Exception("CPF Incorreto! EX (xxx.xxx.xxx-xx)");
-            }
-        }
+	    for ($t = 9; $t < 11; $t++) {
+		    $d = 0;
+		    for ($c = 0; $c < $t; $c++) {
+			    $d += $sCpf[$c] * (($t + 1) - $c);
+		    }
+		    $d = ((10 * $d) % 11) % 10;
+
+		    if ($sCpf[$t] != $d) {
+			    throw new Exception("CPFt Incorreto! EX (xxx.xxx.xxx-xx)");
+		    }
+	    }
+
+		return $sCpf;
     }
 
-    public static function validarTelefoneResidencial(string $sTelefoneResidencial):void
+	/**
+	* Responsável por fazer a validacao do Telefone Residencial
+	*
+	* Verifica o formato do telefone, com regex
+	* Caso não for um telefone válido, vai ser lançada uma exceção
+	*
+	* @author Wallisson De Jesus Campos wallissondejesus@moobi.com.br
+	*
+	* @param string $sTelefoneResidencial Telefone para ser validado
+	* @return void
+	* @throws Exception
+	*
+	* @since 1.0.0 - Definição do versionamento da função
+	*
+	*/
+    public static function validarTelefoneResidencial(string $sTelefoneResidencial) : void
     {
         if (!preg_match('/^\(?\d{2}\)? ?\d{4}-?\d{4}$/',$sTelefoneResidencial))
         {
@@ -79,7 +138,22 @@ class Validacoes
 
     }
 
-    public static function validarCelular(string $sCelular):void
+	/**
+	* Responsável por fazer a validacao do celular
+	*
+	* Verifica o formato do celular, com regex
+	* Caso não for um celular válido, vai ser lançada uma exceção
+	*
+	* @author Wallisson De Jesus Campos wallissondejesus@moobi.com.br
+	*
+	* @param string $sCelular Celular para ser validado
+	* @return void
+	* @throws Exception
+	*
+	* @since 1.0.0 - Definição do versionamento da função
+	*
+	*/
+    public static function validarCelular(string $sCelular) : void
     {
         if(!preg_match('/^\(?\d{2}\)? ?9\d{4}-?\d{4}$/',$sCelular))
         {
@@ -88,7 +162,22 @@ class Validacoes
 
     }
 
-    public static function validarRg($sRg):void
+	/**
+	* Responsável por fazer a validacao do rg
+	*
+	* Verifica o formato do rg, com regex
+	* Caso não for um rg válido, vai ser lançada uma exceção
+	*
+	* @author Wallisson De Jesus Campos wallissondejesus@moobi.com.br
+	*
+	* @param string $sRg RG para ser validado
+	* @return void
+	* @throws Exception
+	*
+	* @since 1.0.0 - Definição do versionamento da função
+	*
+	*/
+    public static function validarRg(string $sRg) : void
     {
         if(!preg_match('/^\d{2}\.?\d{3}\.?\d{3}-?\d{1}$/',$sRg))
         {
@@ -96,7 +185,22 @@ class Validacoes
         }
     }
 
-    public static function validarFiltros(?string $sNome)
+	/**
+	* Responsável por fazer a validacao do nome no filtro
+	*
+	* Verifica o formato do nome, com regex
+	* Caso o nome não for válido, vai ser lançada uma exceção
+	*
+	* @author Wallisson De Jesus Campos wallissondejesus@moobi.com.br
+	*
+	* @param string | null $sNome Nome para ser validado
+	* @return void
+	* @throws Exception
+	*
+	* @since 1.0.0 - Definição do versionamento da função
+	*
+	*/
+    public static function validarFiltros(?string $sNome) : void
     {
         if (empty($sNome))
         {
@@ -110,23 +214,27 @@ class Validacoes
     }
 
 
-    //**Dependentes**
-
-    public static function validarNomeDependente(string $sNome)
+	/**
+	 * Responsável por fazer a validacao do nome de um dependente
+	 *
+	 * Verifica o formato do nome, com regex
+	 * Caso o nome não for válido, vai ser lançada uma exceção
+	 *
+	 * @author Wallisson De Jesus Campos wallissondejesus@moobi.com.br
+	 *
+	 * @param string $sNome Nome para ser validado
+	 * @return void
+	 * @throws Exception
+	 *
+	 * @since 1.0.0 - Definição do versionamento da função
+	 *
+	 */
+    public static function validarNomeDependente(string $sNome) : void
     {
         if(!preg_match('/^[a-zA-ZÀ-ÿ\s]+$/u', $sNome))
         {
             throw new Exception("Formato Do Nome Incorreto!");
         }
     }
-
-    public static function validarDataNascimentoDependente(string $sDataNascimento)
-    {
-        if(!preg_match('/^\d{4}-\d{2}-\d{2}$/',$sDataNascimento))
-        {
-            throw new Exception("Formato Da Data Incorreto! EX (YYYY-MM-DD)");
-        }
-    }
-
 
 }

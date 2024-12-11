@@ -1,15 +1,18 @@
 <?php
 require_once __DIR__ . "/../../Config/Ambiente.php";
 require_once __DIR__ . "/../../Config/Session_Handler.php";
+
 ?>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Lista De Filiados</title>
-    <h3>Lista De Filiados</h3>
 </head>
+
 <body>
+
+<h3>Lista De Filiados</h3>
 
 <form action="<?php Ambiente::getUrl('Filiado/listar',true)?>" method="post">
 

@@ -1,6 +1,5 @@
 <?php
-enum Situacao: string
-{
+enum Situacao: string {
     case Ativo = 'Ativo';
     case Aposentado = 'Aposentado';
     case Licenciado = 'Licenciado';

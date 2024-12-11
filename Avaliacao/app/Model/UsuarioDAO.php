@@ -2,58 +2,78 @@
 require_once __DIR__  . "/../../Config/MoobiDataBase.php";
 require_once __DIR__ . "/../Model/Usuario.php";
 require_once __DIR__ . "/../../Config/Session_Handler.php";
-class UsuarioDAO
-{
-    private MoobiDataBase $moobiDataBase;
 
-    public function __construct()
-    {
-        $this->moobiDataBase = new MoobiDataBase();
+/**
+ * Class ${UsuarioDAO}
+ * @version 1.0.0 Versionamento inicial da classe
+ */
+class UsuarioDAO {
+    private MoobiDataBase $oMoobiDataBase;
+
+    public function __construct() {
+        $this->oMoobiDataBase = new MoobiDataBase();
     }
 
 
-    public function findUsuarioAdm(string $sNome,string $sSenha) : bool
-    {
-        $slq = "SELECT * FROM uss_usuarios WHERE uso_Nome = ? AND uso_Tipo_Usuario = 'Administrador'";
-        $parametro = [$sNome];
+	/**
+	 * Responsável por buscar o usuario no banco e verificar se ele é adm
+	 *
+	 * Busca no banco de dados se existe um usuario com o nome e senha passados no parametro
+	 * Caso sim, ele salva o usuario na sessao e retorna true. Caso não for adm ele busca por usuario comum
+	 *
+	 * @author Wallisson De Jesus Campos wallissondejesus@moobi.com.br
+	 *
+	 * @param string $sNome Nome para ser comparado
+	 * @param string $sSenha Senha para ser comparada
+	 * @return bool
+	 *
+	 * @since 1.0.0 - Definição do versionamento da função
+	 */
+    public function findUsuarioAdm(string $sNome,string $sSenha) : bool {
+        $sSlq = "SELECT * FROM uss_usuarios WHERE uso_Nome = ? AND uso_Tipo_Usuario = 'Administrador'";
+        $aParametro = [$sNome];
 
-        $aUsuario = $this->moobiDataBase->query($slq, $parametro);
+        $aUsuario = $this->oMoobiDataBase->query($sSlq, $aParametro);
 
-        if ($aUsuario[0])
-        {
-            if($aUsuario[0]["uso_Nome"] == $sNome && password_verify($sSenha,$aUsuario[0]["uso_Senha"]))
-            {
-                if(Usuario::formarObjetoUsuario($aUsuario[0]) != null)
-                {
-                    //Salva o usuario que esta logado
+        if ($aUsuario[0]) {
+            if($aUsuario[0]["uso_Nome"] == $sNome && password_verify($sSenha,$aUsuario[0]["uso_Senha"])) {
+                if(Usuario::formarObjetoUsuario($aUsuario[0]) != null) {
                     Session_Handler::definirSessao('usuario',$sNome);
                     Session_Handler::definirSessao('tipo','Administrador');
 
                     return true;
-
                 }
             }
         }
 
-        return $this->findUsuarioComun($sNome,$sSenha);
+        return $this->findUsuarioComum($sNome,$sSenha);
 
     }
 
 
-    private function findUsuarioComun(string $sNome,string $sSenha) : bool
-    {
-        $slq = "SELECT * FROM uss_usuarios WHERE uso_Nome = ? AND uso_Tipo_Usuario = 'Comum'";
-        $parametro = [$sNome];
+	/**
+	 * Responsável por buscar o usuario no banco e verificar se ele é comum
+	 *
+	 * Busca no banco de dados se existe um usuario com o nome e senha passados no parametro
+	 * Caso sim, ele salva o usuario na sessao. Caso não retorna false
+	 *
+	 * @author Wallisson De Jesus Campos wallissondejesus@moobi.com.br
+	 *
+	 * @param string $sNome Nome para ser comparado
+	 * @param string $sSenha Senha para ser comparada
+	 * @return bool
+	 *
+	 * @since 1.0.0 - Definição do versionamento da função
+	 */
+    private function findUsuarioComum(string $sNome,string $sSenha) : bool {
+        $sSlq = "SELECT * FROM uss_usuarios WHERE uso_Nome = ? AND uso_Tipo_Usuario = 'Comum'";
+        $aParametro = [$sNome];
 
-        $aUsuarioComun = $this->moobiDataBase->query($slq,$parametro);
+        $aUsuarioComun = $this->oMoobiDataBase->query($sSlq,$aParametro);
 
-        if($aUsuarioComun[0])
-        {
-            if($aUsuarioComun[0]['uso_Nome'] == $sNome && password_verify($sSenha,$aUsuarioComun[0]["uso_Senha"]))
-            {
-                if(Usuario::formarObjetoUsuario($aUsuarioComun[0]) != null)
-                {
-                    //Salva o usuario que esta logado
+        if($aUsuarioComun[0]) {
+            if($aUsuarioComun[0]['uso_Nome'] == $sNome && password_verify($sSenha,$aUsuarioComun[0]["uso_Senha"])) {
+                if(Usuario::formarObjetoUsuario($aUsuarioComun[0]) != null) {
                     Session_Handler::definirSessao('usuario',$sNome);
                     Session_Handler::definirSessao('tipo','Comum');
 
@@ -66,70 +86,127 @@ class UsuarioDAO
         return false;
     }
 
-    public function insert(string $sNome,string $sSenha,string $sTipo) : void
-    {
-        $sql = "INSERT INTO uss_usuarios (uso_Nome,uso_Senha,uso_Tipo_Usuario) VALUES (?,?,?)";
-        $parametro = [$sNome,password_hash($sSenha,PASSWORD_DEFAULT),$sTipo];
+	/**
+	 * Responsável por realizar o cadastro do usuario no banco
+	 *
+	 * Faz a comparacao se existe o usuario no banco, caso sim
+	 * Ele irá lançar uma exceção, caso contrario ele ira realizar o cadastro
+	 * Depois realiza o redirecionamento
+	 *
+	 * @author Wallisson De Jesus Campos wallissondejesus@moobi.com.br
+	 *
+	 * @param string $sNome Nome para ser inserido
+	 * @param string $sSenha Senha para ser inserida
+	 * @param string $sTipo Tipo do usuario para ser inserido
+	 * @return void
+	 *
+	 * @since 1.0.0 - Definição do versionamento da função
+	 */
+    public function insert(string $sNome,string $sSenha,string $sTipo) : void {
+        $sSql = "INSERT INTO uss_usuarios (uso_Nome,uso_Senha,uso_Tipo_Usuario) VALUES (?,?,?)";
+        $aParametro = [$sNome,password_hash($sSenha,PASSWORD_DEFAULT),$sTipo];
 
-        $this->moobiDataBase->execute($sql,$parametro);
+        $this->oMoobiDataBase->execute($sSql,$aParametro);
     }
 
-    public function findAllUsuarios() : array
-    {
-        $slq = "SELECT * FROM uss_usuarios";
-        $aUsuarios = $this->moobiDataBase->query($slq);
+	/**
+	 * Responsável por listar todos os usuarios do banco
+	 *
+	 * @author Wallisson De Jesus Campos wallissondejesus@moobi.com.br
+	 *
+	 * @return array
+	 *
+	 * @since 1.0.0 - Definição do versionamento da função
+	 */
+    public function findAllUsuarios() : array {
+        $sSlq = "SELECT * FROM uss_usuarios";
+        $aUsuarios = $this->oMoobiDataBase->query($sSlq);
 
-        $aUsuariosComuns = array_map(function ($aUsuario)
-        {
+        $aUsuariosComuns = array_map(function ($aUsuario) {
             return Usuario::formarObjetoUsuario($aUsuario);
         }, $aUsuarios);
 
         return $aUsuariosComuns;
     }
-    public function find(int $iIdUsuario): array
-    {
-        $sql = "SELECT * FROM uss_usuarios WHERE uso_Id = ?";
-        $parametro = [$iIdUsuario];
 
-        $aUsuario = $this->moobiDataBase->query($sql,$parametro);
+	/**
+	 * Responsável por buscar um usuario por seu id no banco
+	 *
+	 * @author Wallisson De Jesus Campos wallissondejesus@moobi.com.br
+	 *
+	 * @param int $iIdUsuario Id para ser procurado
+	 * @return array
+	 *
+	 * @since 1.0.0 - Definição do versionamento da função
+	 */
+    public function find(int $iIdUsuario): array {
+        $sSql = "SELECT * FROM uss_usuarios WHERE uso_Id = ?";
+        $aParametro = [$iIdUsuario];
 
-        return array_map(function ($ausuario){
-            return Usuario::formarObjetoUsuario($ausuario);
-        },$aUsuario);
+        $aUsuarios = $this->oMoobiDataBase->query($sSql,$aParametro);
+
+        return array_map(function ($aUsuario) {
+            return Usuario::formarObjetoUsuario($aUsuario);
+        },$aUsuarios);
     }
 
-    public function update(int $iIdUsuario,string $sNome,string $sTipo)
-    {
-        $sql = "UPDATE uss_usuarios SET uso_Nome = ?, uso_Tipo_Usuario = ? WHERE uso_Id = ?";
-        $parametro = [$sNome,$sTipo,$iIdUsuario];
+	/**
+	 * Responsável por atualizar o nome e o tipo de usuario do banco, passando o id
+	 *
+	 * @author Wallisson De Jesus Campos wallissondejesus@moobi.com.br
+	 *
+	 * @param int $iIdUsuario Id para ser buscado
+	 * @param string $sNome Nome para ser inserido
+	 * @param string $sTipo Tipo do usuario para ser inserido
+	 * @return void
+	 *
+	 * @since 1.0.0 - Definição do versionamento da função
+	 */
+    public function update(int $iIdUsuario,string $sNome,string $sTipo) : void {
+        $sSql = "UPDATE uss_usuarios SET uso_Nome = ?, uso_Tipo_Usuario = ? WHERE uso_Id = ?";
+        $aParametro = [$sNome,$sTipo,$iIdUsuario];
 
-        $this->moobiDataBase->execute($sql,$parametro);
+        $this->oMoobiDataBase->execute($sSql,$aParametro);
     }
 
-    public function delete(int $idUsuario) : void
-    {
-        $sql = "DELETE FROM uss_usuarios WHERE uso_Id = ? ";
-        $parametro =[$idUsuario];
+	/**
+	 * Responsável por deletar o usuario do banco, passando o id
+	 *
+	 * @author Wallisson De Jesus Campos wallissondejesus@moobi.com.br
+	 *
+	 * @param int $iIdUsuario Id para ser buscado
+	 * @return void
+	 *
+	 * @since 1.0.0 - Definição do versionamento da função
+	 */
+    public function delete(int $iIdUsuario) : void {
+        $sSql = "DELETE FROM uss_usuarios WHERE uso_Id = ? ";
+        $aParametro =[$iIdUsuario];
 
-        $this->moobiDataBase->execute($sql,$parametro);
+        $this->oMoobiDataBase->execute($sSql,$aParametro);
     }
 
 
+	/**
+	 * Responsável por verificar se o usuario existe no banco, passando o nome
+	 *
+	 * @author Wallisson De Jesus Campos wallissondejesus@moobi.com.br
+	 *
+	 * @param string $sNome Nome para ser buscado
+	 * @return bool
+	 *
+	 * @since 1.0.0 - Definição do versionamento da função
+	 */
+    public function isUsuarioExiste(string $sNome) : bool {
+        $sSql = "SELECT * FROM uss_usuarios WHERE uso_Nome = ?";
+        $aParametro =[$sNome];
 
-    //Usar na hora do cadastro
-    public function isUsuarioExiste(string $sNome) : bool
-    {
-        $sql = "SELECT * FROM uss_usuarios WHERE uso_Nome = ?";
-        $parametro =[$sNome];
+        $aUsuarios = $this->oMoobiDataBase->query($sSql,$aParametro);
 
-        $aUsuarios = $this->moobiDataBase->query($sql,$parametro);
-
-        if(count($aUsuarios) != 0)
-        {
+        if(count($aUsuarios) != 0) {
             return true;
         }
-        else
-        {
+        else {
             return false;
         }
     }

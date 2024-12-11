@@ -6,9 +6,10 @@ require_once __DIR__ . "/../../Config/Ambiente.php";
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Cadastro De Usuario</title>
-    <h3>Pagina para cadastrar usuario</h3>
 </head>
 <body>
+
+<h3>Pagina para cadastrar usuario</h3>
 
 
 <form action="<?php Ambiente::getUrl('Usuario/cadastrar',true)?>" method="post">

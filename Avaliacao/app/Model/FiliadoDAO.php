@@ -1,117 +1,199 @@
 <?php
 require_once __DIR__  . "/../../Config/MoobiDataBase.php";
 require_once __DIR__  . "/../Model/Filiado.php";
-class FiliadoDAO
-{
-    private MoobiDataBase $moobiDataBase;
 
-    public function __construct()
-    {
-        $this->moobiDataBase = new MoobiDataBase();
+/**
+ * Class ${FiliadoDAO}
+ * @version 1.0.0 Versionamento inicial da classe
+ */
+class FiliadoDAO {
+    private MoobiDataBase $oMoobiDataBase;
+
+    public function __construct() {
+        $this->oMoobiDataBase = new MoobiDataBase();
     }
 
-    public function TotalFiliados() : int
-    {
-        $sql = "SELECT COUNT(*) AS total FROM fls_filiados";
-        $aListaFiliados = $this->moobiDataBase->query($sql);
+	/**
+	 * Responsável por buscar a quantidade de filiados no banco
+	 *
+	 * Faz o retorno da quantidade de filiados no banco
+	 *
+	 * @author Wallisson De Jesus Campos wallissondejesus@moobi.com.br
+	 *
+	 * @return int
+	 *
+	 * @since 1.0.0 - Definição do versionamento da função
+	 */
+    public function TotalFiliados() : int {
+        $sSql = "SELECT COUNT(*) AS total FROM flo_filiado";
+        $aListaFiliados = $this->oMoobiDataBase->query($sSql);
         return $aListaFiliados[0]["total"];
     }
 
-    public function find(int $iIdFiliado): array
-    {
-        $sql = "SELECT * FROM fls_filiados WHERE flo_Id = ?";
-        $parametro = [$iIdFiliado];
+	/**
+	 * Responsável por buscar um filiado por id
+	 *
+	 * @author Wallisson De Jesus Campos wallissondejesus@moobi.com.br
+	 *
+	 * @param int $iIdFiliado Id do filiado para ser buscado
+	 * @return array
+	 *
+	 * @since 1.0.0 - Definição do versionamento da função
+	 */
+    public function find(int $iIdFiliado): array {
+        $sSql = "SELECT * FROM flo_filiado WHERE flo_id = ?";
+        $aParametro = [$iIdFiliado];
 
-        $aFiliado = $this->moobiDataBase->query($sql,$parametro);
+        $aFiliados = $this->oMoobiDataBase->query($sSql,$aParametro);
 
-        return array_map(function ($filiado){
-            return Filiado::formarObjetoFiliado($filiado);
-        },$aFiliado);
+        return array_map(function ($aFiliado){
+            return Filiado::formarObjetoFiliado($aFiliado);
+        },$aFiliados);
     }
 
-    public function isFiliadoExiste(string $cpf) : bool
-    {
-        $sql = "SELECT * FROM fls_filiados WHERE flo_CPF = ?";
-        $parametro = [$cpf];
+	/**
+	 * Responsável por verificar se um filiado existe por cpf
+	 *
+	 * @author Wallisson De Jesus Campos wallissondejesus@moobi.com.br
+	 *
+	 * @param string $sCpf Cpf para ser buscado
+	 * @return bool
+	 *
+	 * @since 1.0.0 - Definição do versionamento da função
+	 */
+    public function isFiliadoExiste(string $sCpf) : bool {
+	    $sCpf = preg_replace('/[^0-9]/', '', $sCpf);
 
-        $aFiliado = $this->moobiDataBase->query($sql,$parametro);
+        $sSql = "SELECT * FROM flo_filiado WHERE flo_cpf = ?";
+        $aParametro = [$sCpf];
 
-        if($aFiliado[0])
-        {
+        $aFiliado = $this->oMoobiDataBase->query($sSql,$aParametro);
+
+        if($aFiliado[0]) {
             return true;
         }
-        else
-        {
+        else {
             return false;
         }
     }
 
-    public function delete(int $iIdFiliado) : void
-    {
-        $sql = "DELETE FROM fls_filiados WHERE flo_Id = ?";
-        $parametro = [$iIdFiliado];
+	/**
+	 * Responsável por apagar um filiado por id
+	 *
+	 * @author Wallisson De Jesus Campos wallissondejesus@moobi.com.br
+	 *
+	 * @param int $iIdFiliado Id do filiado para ser apagado
+	 * @return void
+	 *
+	 * @since 1.0.0 - Definição do versionamento da função
+	 */
+    public function delete(int $iIdFiliado) : void {
+        $sSql = "DELETE FROM flo_filiado WHERE flo_id = ?";
+        $aParametro = [$iIdFiliado];
 
-        $this->moobiDataBase->execute($sql,$parametro);
+        $this->oMoobiDataBase->execute($sSql,$aParametro);
     }
 
-    public function update(int $iId,?string $sEmpresa,?string $sCargo,?string $sSituacao,string $sData):void
-    {
-        $slq = "UPDATE fls_filiados SET flo_Empresa = ?,flo_Cargo = ?,flo_Situacao = ?, flo_Data_Ultima_Atualizacao = ?
-                WHERE flo_Id = ?";
+	/**
+	 * Responsável por atualizar dados de um filiado por id
+	 *
+	 * Empresa, Cargo e Situacao
+	 *
+	 * @author Wallisson De Jesus Campos wallissondejesus@moobi.com.br
+	 *
+	 * @param int $iId Id do filiado para ser atualizado
+	 * @param string|null $sEmpresa Empresa para ser atualizada
+	 * @param string|null $sCargo Cargo para ser atualizado
+	 * @param string|null $sSituacao Situacao para ser atualizada
+	 * @param string $sData Data para ser atualizada
+	 * @return void
+	 *
+	 * @since 1.0.0 - Definição do versionamento da função
+	 */
+    public function update(int $iId,?string $sEmpresa,?string $sCargo,?string $sSituacao,string $sData) : void {
+        $sSlq = "UPDATE flo_filiado SET flo_empresa = ?,flo_cargo = ?,flo_situacao = ?, flo_data_ultima_atualizacao = ?
+                WHERE flo_id = ?";
 
+        $aParametro = [$sEmpresa,$sCargo,$sSituacao,Filiado::atualizaDataAtualizacao(),$iId];
 
-        $parametro = [$sEmpresa,$sCargo,$sSituacao,Filiado::atualizaDataAtualizacao(),$iId];
-
-        $this->moobiDataBase->execute($slq,$parametro);
+        $this->oMoobiDataBase->execute($sSlq,$aParametro);
     }
 
-
+	/**
+	 * Responsável por cadastrar os dados de um filiado
+	 *
+	 *
+	 * @author Wallisson De Jesus Campos wallissondejesus@moobi.com.br
+	 *
+	 * @param string $sNome Nome do filiado para ser cadastrado
+	 * @param string $sCpf Cpf para ser cadastrado
+	 * @param string $sRg Rg para ser cadastrado
+	 * @param string $dDataNascimento Data de nascimento para ser cadastrada
+	 * @param int $iIdade Idade para ser cadastrada
+	 * @param string|null $sEmpresa Empresa para ser cadastrada
+	 * @param string|null $sCargo Cargo para ser cadastrado
+	 * @param string|null $sSituacao Situacao para ser cadastrada
+	 * @param string $sTelefoneResidencial Telefone para ser cadastrado
+	 * @param string $sCelular Celular para ser cadastrado
+	 * @return void
+	 *
+	 * @since 1.0.0 - Definição do versionamento da função
+	 */
     public function insert(string $sNome,string $sCpf,string $sRg,string $dDataNascimento,int $iIdade,
                               ?string $sEmpresa,?string $sCargo,?string $sSituacao,
                               string $sTelefoneResidencial,
                               string $sCelular) : void
     {
 
-            $sql = "INSERT INTO fls_filiados (flo_Nome,flo_CPF,flo_RG,flo_Data_De_Nascimento,flo_Idade,flo_Empresa,flo_Cargo,
-                          flo_Situacao,flo_Telefone_Residencial,flo_Celular,flo_Data_Ultima_Atualizacao)  
+            $sSql = "INSERT INTO flo_filiado (flo_nome,flo_cpf,flo_rg,flo_data_de_nascimento,flo_idade,flo_empresa,flo_cargo,
+                          flo_situacao,flo_telefone_residencial,flo_celular,flo_data_ultima_atualizacao)  
                     VALUES (?,?,?,?,?,?,?,?,?,?,?)";
 
-            $parametro = [$sNome,$sCpf,$sRg,$dDataNascimento,$iIdade,$sEmpresa,$sCargo,$sSituacao,$sTelefoneResidencial,
+            $aParametro = [$sNome,$sCpf,$sRg,$dDataNascimento,$iIdade,$sEmpresa,$sCargo,$sSituacao,$sTelefoneResidencial,
                           $sCelular,Filiado::atualizaDataAtualizacao()];
 
-            $this->moobiDataBase->execute($sql,$parametro);
+            $this->oMoobiDataBase->execute($sSql,$aParametro);
     }
 
-    public function findByFiltros(?array $aFiltro,array $aDados = null): array
-    {
-        $sSql = "SELECT * FROM fls_filiados WHERE 1=1";
-        $parametros = [];
+	/**
+	 * Responsável por fazer a busca dos filiados no banco
+	 *
+	 * @author Wallisson De Jesus Campos wallissondejesus@moobi.com.br
+	 *
+	 * @param array|null $aFiltro Arrray com as infromacoes do filtro
+	 * @param array|null $aDados Arrray merge do post e get
+	 * @return array
+	 *
+	 * @since 1.0.0 - Definição do versionamento da função
+	 */
+    public function findByFiltros(?array $aFiltro,array $aDados = null): array {
+        $sSql = "SELECT * FROM flo_filiado WHERE 1=1";
+        $aParametros = [];
 
         if (!empty($aFiltro['nome'])) {
             $sSql .= " AND flo_Nome LIKE ?";
-            $parametros[] = "%" . $aFiltro['nome'] . "%";
+            $aParametros[] = "%" . $aFiltro['nome'] . "%";
         }
 
         if (!empty($aFiltro['mes'])) {
             $sSql .= " AND MONTH(flo_Data_De_Nascimento) = ?";
-            $parametros[] = intval($aFiltro['mes']);
+            $aParametros[] = intval($aFiltro['mes']);
         }
 
         if (!empty($aDados['limit'])) {
             $sSql .= " LIMIT ?";
-            $parametros[] = intval($aDados['limit']);
+            $aParametros[] = intval($aDados['limit']);
         }
 
         if (!empty($aDados['offset'])) {
             $sSql .= " OFFSET ?";
-            $parametros[] = intval(isset($aDados['offset']) ? $aDados['offset'] : 0);
+            $aParametros[] = intval(isset($aDados['offset']) ? $aDados['offset'] : 0);
         }
 
+        $aFiliados = $this->oMoobiDataBase->query($sSql, $aParametros);
 
-        $aFiliados = $this->moobiDataBase->query($sSql, $parametros);
-
-        return array_map(function($filiado){
-            return Filiado::formarObjetoFiliado($filiado);
+        return array_map(function($aFiliado){
+            return Filiado::formarObjetoFiliado($aFiliado);
         },$aFiliados);
 
     }
