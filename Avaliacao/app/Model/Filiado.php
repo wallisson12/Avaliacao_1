@@ -27,14 +27,14 @@ class Filiado {
         $this->sNome = $sNome;
         $this->sCpf = $sCpf;
         $this->sRg = $sRg;
-        $this->oDataNascimento = $this->setDataNascimento($sDataNascimento);
+        $this->oDataNascimento = $this->DataNascimentoFormatada($sDataNascimento);
         $this->iIdade = $iIdade;
         $this->sEmpresa = $sEmpresa;
         $this->sCargo = $sCargo;
-        $this->oSituacao = $this->setTipo_Situacao($sSituacao);
+        $this->oSituacao = $this->ValidarTipoSituacao($sSituacao);
         $this->sTelefoneResidencial = $sTelefoneResidencial;
         $this->sCelular = $sCelular;
-        $this->oDataUltimaAtualizacao = $this->setDataAtualizacao($sDataUltimaAtualizacao);
+        $this->oDataUltimaAtualizacao = $this->DataAtualizacaoFormatada($sDataUltimaAtualizacao);
 
     }
 
@@ -51,7 +51,7 @@ class Filiado {
 	 *
 	 * @since 1.0.0 - Definição do versionamento da função
 	 */
-    public static function formarObjetoFiliado(array $aDados) : Filiado {
+    public static function FormarObjetoFiliado(array $aDados) : Filiado {
         return new Filiado(
             $aDados["flo_id"],
             $aDados['flo_nome'],
@@ -238,7 +238,7 @@ class Filiado {
 	 *
 	 * @since 1.0.0 - Definição do versionamento da função
 	 */
-    private function setTipo_Situacao(?string $sSituacao): ?Situacao {
+    private function ValidarTipoSituacao(?string $sSituacao): ?Situacao {
         switch ($sSituacao) {
             case "Ativo":
                 return Situacao::Ativo;
@@ -267,7 +267,7 @@ class Filiado {
 	 *
 	 * @since 1.0.0 - Definição do versionamento da função
 	 */
-    private  function setDataAtualizacao(string $sDataUltimaAtualizacao) : DateTime {
+    private  function DataAtualizacaoFormatada(string $sDataUltimaAtualizacao) : DateTime {
         return DateTime::createFromFormat('Y-m-d H:i:s',$sDataUltimaAtualizacao);
     }
 
@@ -281,7 +281,7 @@ class Filiado {
 	 *
 	 * @since 1.0.0 - Definição do versionamento da função
 	 */
-    public static function setDataNascimento(string $sDataNascimento) : DateTime {
+    public static function DataNascimentoFormatada(string $sDataNascimento) : DateTime {
         return DateTime::createFromFormat('Y-m-d',$sDataNascimento);
     }
 
@@ -291,12 +291,12 @@ class Filiado {
 	 * @author Wallisson De Jesus Campos wallissondejesus@moobi.com.br
 	 *
 	 * @return string
-	 *
+	 * @throws
 	 * @since 1.0.0 - Definição do versionamento da função
 	 */
-    public static function atualizaDataAtualizacao() : string {
-        $dataAgora = new DateTime('now', new DateTimeZone('America/Sao_Paulo'));
-        return $dataAgora->format('Y-m-d H:i:s');
+    public static function AtualizarDataAtualizacao() : string {
+        $oDataAgora = new DateTime('now', new DateTimeZone('America/Sao_Paulo'));
+        return $oDataAgora->format('Y-m-d H:i:s');
     }
 
 }

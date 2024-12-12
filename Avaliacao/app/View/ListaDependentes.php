@@ -1,6 +1,8 @@
 <?php
 require_once __DIR__ . "/../../Config/Session_Handler.php";
 require_once __DIR__ . "/../../Config/Ambiente.php";
+
+/** @var array $loDependentes */
 ?>
 <html lang="en">
 <head>
@@ -24,12 +26,12 @@ require_once __DIR__ . "/../../Config/Ambiente.php";
     </thead>
 
     <tbody>
-    <?php foreach ($aDependentes as $oDependente ) : ?>
+    <?php foreach ($loDependentes as $oDependente ) { ?>
         <tr>
             <td><?php echo $oDependente->getNome()?></td>
             <td><?php echo $oDependente->getDataNascimento() ?></td>
             <td><?php echo $oDependente->getGrauParentesco() ?></td>
-            <?php if(Session_Handler::obterSessao('tipo') === 'Administrador') : ?>
+            <?php if(Session_Handler::obterSessao('tipo') === 'Administrador') { ?>
                 <td><a href=<?php Ambiente::getUrl('Dependente/editar',true)?>?id=<?php echo $oDependente->getIdDependente()?>>Editar</td>
                 <td>
                     <form action="<?php Ambiente::getUrl('Dependente/excluir',true)?>?idF=<?php echo $oDependente->getIdFiliado()?>" method="post">
@@ -37,9 +39,9 @@ require_once __DIR__ . "/../../Config/Ambiente.php";
                         <input type="submit" value="Excluir">
                     </form>
                 </td>
-            <?php endif; ?>
+            <?php } ?>
         </tr>
-    <?php endforeach; ?>
+    <?php } ?>
     </tbody>
 </table>
 
@@ -47,10 +49,10 @@ require_once __DIR__ . "/../../Config/Ambiente.php";
 
     <div id="dependente"></div>
 
-    <?php if(Session_Handler::obterSessao('tipo') === 'Administrador') : ?>
+    <?php if(Session_Handler::obterSessao('tipo') === 'Administrador') { ?>
         <a href="#" id="add">Cadastrar dependente</a>
         <input type="submit" name="cadastrar" value="Cadastrar">
-    <?php endif; ?>
+    <?php } ?>
 </form>
 
 <a href=<?php Ambiente::getUrl('Filiado/listar',true)?>>Voltar</a>

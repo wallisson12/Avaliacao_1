@@ -72,9 +72,9 @@ class UsuarioController extends ControllerAbstract {
     public function listar(array $aDados = null) : void {
         try {
             $oUsuarioDAO = new UsuarioDAO();
-            $oUsuarios = $oUsuarioDAO->findAllUsuarios();
+            $aUsuarios = $oUsuarioDAO->findAllUsuarios();
 
-            require_once __DIR__  . "/../View/ListaUsuarios.php";
+            require_once __DIR__ . "/../View/ListaUsuarios.php";
 
         }catch (Exception $e) {
             echo " <script>
@@ -104,7 +104,7 @@ class UsuarioController extends ControllerAbstract {
                $oUsuarioDAO = new UsuarioDAO();
                $aUsuarios = $oUsuarioDAO->find($aDados['id']);
 
-               require_once __DIR__  . "/../View/Editar_Usuario.php";
+               require_once __DIR__ . "/../View/Editar_Usuario.php";
             }
             else {
                 $this->indexLogin();
@@ -138,7 +138,7 @@ class UsuarioController extends ControllerAbstract {
             $sPath = Ambiente::getUrl('Usuario/listar');
 
             echo "<script>
-                        alert('Dependente Editado Com Sucesso')
+                        alert('Usuario Editado Com Sucesso')
                         window.location.href = '{$sPath}';
                   </script>";
 

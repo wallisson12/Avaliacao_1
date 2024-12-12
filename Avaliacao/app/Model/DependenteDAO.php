@@ -21,22 +21,22 @@ class DependenteDAO {
 	 *
 	 * @author Wallisson De Jesus Campos wallissondejesus@moobi.com.br
 	 *
-	 * @param int $iFiliado_id Id do filiado para buscar os dependentes
+	 * @param int $iFiliadoid Id do filiado para buscar os dependentes
 	 * @return array
 	 *
 	 * @since 1.0.0 - Definição do versionamento da função
 	 */
-    public function findByIdFiliado(int $iFiliado_id) : array {
+    public function findByIdFiliado(int $iFiliadoid) : array {
         $sSql = "SELECT * FROM dpe_dependente WHERE flo_id = ?";
-        $aParametro = [$iFiliado_id];
+        $aParametro = [$iFiliadoid];
 
         $aDependentes = $this->oMoobiDataBase->query($sSql, $aParametro);
 
-        $oTodosOsDados = array_map(function ($aDependente){
-            return Dependente::formarObjetoDependente($aDependente);
+        $loTodosOsDados = array_map(function ($aDependente){
+            return Dependente::FormarObjetoDependente($aDependente);
         },$aDependentes);
 
-        return $oTodosOsDados;
+        return $loTodosOsDados;
     }
 
 	/**
@@ -44,19 +44,19 @@ class DependenteDAO {
 	 *
 	 * @author Wallisson De Jesus Campos wallissondejesus@moobi.com.br
 	 *
-	 * @param int $iFiliado_Id Id do filiado para o dependente se associar
+	 * @param int $iFiliadoId Id do filiado para o dependente se associar
 	 * @param string $sNome Nome do dependente
-	 * @param string $sData_Nascimento Data de nascimento do dependente
-	 * @param string $sGrau_Parentesco Grau de parentesco do dependente
+	 * @param string $sDataNascimento Data de nascimento do dependente
+	 * @param string $sGrauParentesco Grau de parentesco do dependente
 	 * @return void
 	 *
 	 * @since 1.0.0 - Definição do versionamento da função
 	 */
-    public function insert(int $iFiliado_Id,string $sNome,string $sData_Nascimento,string $sGrau_Parentesco) : void {
+    public function insert(int $iFiliadoId,string $sNome,string $sDataNascimento,string $sGrauParentesco) : void {
         $sSlq = "INSERT INTO dpe_dependente (flo_id,dpe_nome,dpe_data_de_nascimento,dpe_grau_de_parentesco)
                 VALUES (?,?,?,?)";
 
-        $aParametro = [$iFiliado_Id,$sNome,$sData_Nascimento,$sGrau_Parentesco];
+        $aParametro = [$iFiliadoId,$sNome,$sDataNascimento,$sGrauParentesco];
 
         $this->oMoobiDataBase->execute($sSlq,$aParametro);
     }
@@ -66,19 +66,19 @@ class DependenteDAO {
 	 *
 	 * @author Wallisson De Jesus Campos wallissondejesus@moobi.com.br
 	 *
-	 * @param int $iDependente_Id Id do dependente para ser buscado
+	 * @param int $iDependenteId Id do dependente para ser buscado
 	 * @return array
 	 *
 	 * @since 1.0.0 - Definição do versionamento da função
 	 */
-    public function find(int $iDependente_Id) : array {
+    public function find(int $iDependenteId) : array {
         $sSql = "SELECT * FROM dpe_dependente WHERE dpe_id = ?";
-        $aParametro = [$iDependente_Id];
+        $aParametro = [$iDependenteId];
 
         $aDependentes = $this->oMoobiDataBase->query($sSql, $aParametro);
 
         return array_map(function ($aDependente){
-            return Dependente::formarObjetoDependente($aDependente);
+            return Dependente::FormarObjetoDependente($aDependente);
         },$aDependentes);
     }
 
@@ -87,18 +87,18 @@ class DependenteDAO {
 	 *
 	 * @author Wallisson De Jesus Campos wallissondejesus@moobi.com.br
 	 *
-	 * @param int $iId_Dependente Id do dependente para ser atualizado
+	 * @param int $iIdDependente Id do dependente para ser atualizado
 	 * @param string $sNome Nome do dependente para ser atualizado
-	 * @param string $sData_Nascimento Data de nascimento do dependente para ser atualizado
-	 * @param string $sGrau_Parentesco Grau de parentesco do dependente para ser atualizado
+	 * @param string $sDataNascimento Data de nascimento do dependente para ser atualizado
+	 * @param string $sGrauParentesco Grau de parentesco do dependente para ser atualizado
 	 * @return void
 	 *
 	 * @since 1.0.0 - Definição do versionamento da função
 	 */
-    public function update(int $iId_Dependente,string $sNome,string $sData_Nascimento,string $sGrau_Parentesco) : void {
+    public function update(int $iIdDependente,string $sNome,string $sDataNascimento,string $sGrauParentesco) : void {
         $sSql = "UPDATE dpe_dependente SET dpe_nome = ?, dpe_data_de_nascimento = ?, dpe_grau_de_parentesco = ? WHERE dpe_id = ?";
 
-        $aParametro = [$sNome,$sData_Nascimento,$sGrau_Parentesco,$iId_Dependente];
+        $aParametro = [$sNome,$sDataNascimento,$sGrauParentesco,$iIdDependente];
 
         $this->oMoobiDataBase->execute($sSql,$aParametro);
     }
@@ -108,14 +108,14 @@ class DependenteDAO {
 	 *
 	 * @author Wallisson De Jesus Campos wallissondejesus@moobi.com.br
 	 *
-	 * @param int $iDependente_Id Id do dependente para ser apagado
+	 * @param int $iDependenteId Id do dependente para ser apagado
 	 * @return void
 	 *
 	 * @since 1.0.0 - Definição do versionamento da função
 	 */
-    public function delete(int $iDependente_Id) : void {
+    public function delete(int $iDependenteId) : void {
         $sSlq = "DELETE FROM dpe_dependente WHERE dpe_id = ?";
-        $aParametro = [$iDependente_Id];
+        $aParametro = [$iDependenteId];
 
         $this->oMoobiDataBase->execute($sSlq, $aParametro);
     }

@@ -2,6 +2,11 @@
 require_once __DIR__ . "/../../Config/Ambiente.php";
 require_once __DIR__ . "/../../Config/Session_Handler.php";
 
+/**
+ * @var array $aFiliados
+ * @var int $iPagina
+ * @var int $iTotalPaginas
+ */
 ?>
 <html lang="en">
 <head>
@@ -59,7 +64,7 @@ require_once __DIR__ . "/../../Config/Session_Handler.php";
         </thead>
 
         <tbody>
-         <?php foreach ($aFiliados as $oFiliado) : ?>
+         <?php foreach ($aFiliados as $oFiliado) { ?>
 
             <tr>
                 <td><?php echo $oFiliado->getNome()?></td>
@@ -73,7 +78,7 @@ require_once __DIR__ . "/../../Config/Session_Handler.php";
                 <td><?php echo $oFiliado->getTelefoneResidencial()?></td>
                 <td><?php echo $oFiliado->getCelular()?></td>
                 <td><?php echo $oFiliado->getDataUltimaAtualizacao()?></td>
-                <?php if(Session_Handler::obterSessao('tipo') === 'Administrador') : ?>
+                <?php if(Session_Handler::obterSessao('tipo') === 'Administrador') { ?>
                     <td><a href=<?php Ambiente::getUrl('Filiado/editar',true)?>?id=<?php echo $oFiliado->getId()?>>Editar</td>
                     <td>
                         <form action="<?php Ambiente::getUrl('Filiado/excluir',true)?>" method="post">
@@ -81,11 +86,11 @@ require_once __DIR__ . "/../../Config/Session_Handler.php";
                             <input type="submit" value="Excluir">
                         </form>
                     </td>
-                <?php endif; ?>
+                <?php } ?>
                 <td><a href=<?php Ambiente::getUrl('Dependente/listar',true)?>?id=<?php echo $oFiliado->getId()?>>Dependentes</a></td>
             </tr>
 
-        <?php endforeach; ?>
+        <?php } ?>
         </tbody>
 
     </table>
@@ -96,15 +101,15 @@ require_once __DIR__ . "/../../Config/Session_Handler.php";
 <div>
 <a href=<?php Ambiente::getUrl('Filiado/listar',true)?>?pagina=1>Primeira</a>
 
-    <?php if($iPagina>1) : ?>
+    <?php if($iPagina>1) { ?>
         <a href="?pagina=<?php echo $iPagina-1 ?>"><<</a>
-    <?php endif; ?>
+    <?php } ?>
 
     <?php echo $iPagina?>
 
-    <?php if($iPagina<=$iTotalPaginas) : ?>
-    <a href="?pagina=<?php echo $iPagina+1?>">>></a>
-    <?php endif; ?>
+    <?php if($iPagina<=$iTotalPaginas) { ?>
+        <a href="?pagina=<?php echo $iPagina+1?>">>></a>
+    <?php } ?>
 
 <a href=<?php Ambiente::getUrl('Filiado/listar',true)?>?pagina=<?php echo $iTotalPaginas ?>>Ultima</a>
 

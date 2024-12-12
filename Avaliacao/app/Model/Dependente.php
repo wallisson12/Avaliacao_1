@@ -10,14 +10,14 @@ class Dependente {
     private int $iIdFiliado;
     private string $sNome;
     private DateTime $oDataNascimento;
-    private Grau_Parentesco $oGrauParentesco;
+    private ?Grau_Parentesco $oGrauParentesco;
 
     public function __construct(int $iIdDependente,int $iIdFiliado,string $sNome,string $sDataNascimento, string $sGrauParentesco) {
         $this->iIdDependente = $iIdDependente;
         $this->iIdFiliado = $iIdFiliado;
         $this->sNome = $sNome;
-        $this->oDataNascimento = $this->setDataNascimento($sDataNascimento);
-        $this->oGrauParentesco = $this->setGrauParentesco($sGrauParentesco);
+        $this->oDataNascimento = $this->DataNascimentoFormatada($sDataNascimento);
+        $this->oGrauParentesco = $this->ValidarGrauParentesco($sGrauParentesco);
     }
 
 	/**
@@ -33,7 +33,7 @@ class Dependente {
 	 *
 	 * @since 1.0.0 - Definição do versionamento da função
 	 */
-    public static function formarObjetoDependente(array $aDados): Dependente {
+    public static function FormarObjetoDependente(array $aDados): Dependente {
         return new Dependente
         (
             $aDados['dpe_id'],
@@ -117,12 +117,11 @@ class Dependente {
 	 * @author Wallisson De Jesus Campos wallissondejesus@moobi.com.br
 	 *
 	 * @param string  $sGrauParentesco Grau de parentenco para ser validado
-	 * @return Grau_Parentesco
-	 * @throws Exception
+	 * @return Grau_Parentesco|null
 	 *
 	 * @since 1.0.0 - Definição do versionamento da função
 	 */
-    private function setGrauParentesco(string $sGrauParentesco) : Grau_Parentesco {
+    private function ValidarGrauParentesco(string $sGrauParentesco) : ?Grau_Parentesco {
         switch ($sGrauParentesco) {
             case 'Conjuge':
                 return Grau_Parentesco::Conjuge;
@@ -141,7 +140,7 @@ class Dependente {
                 break;
 
             default:
-                throw new InvalidArgumentException("Grau De Parentesco Nao Definido");
+                return null;
         }
     }
 
@@ -155,7 +154,7 @@ class Dependente {
 	 *
 	 * @since 1.0.0 - Definição do versionamento da função
 	 */
-    private function setDataNascimento(string $sDataNascimento) : DateTime {
+    private function DataNascimentoFormatada(string $sDataNascimento) : DateTime {
        return DateTime::createFromFormat('Y-m-d', $sDataNascimento);
     }
 }

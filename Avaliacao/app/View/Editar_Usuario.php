@@ -1,5 +1,7 @@
 <?php
 require_once __DIR__ . "/../../Config/Ambiente.php";
+
+/** @var array $aUsuarios */
 ?>
 <html lang="en">
 <head>
@@ -21,8 +23,8 @@ require_once __DIR__ . "/../../Config/Ambiente.php";
     <div>
         <label>Tipo</label>
         <select name="tipo">
-            <option value="Administrador" <?php echo $aUsuarios[0]->getTipo_Usuario() == 'Administrador' ? 'selected' : ''; ?>>Administrador</option>
-            <option value="Comum" <?php echo $aUsuarios[0]->getTipo_Usuario() == 'Comum' ? 'selected' : ''; ?>>Comum</option>
+            <option value="Administrador" <?php echo $aUsuarios[0]->getTipoUsuario() == 'Administrador' ? 'selected' : ''; ?>>Administrador</option>
+            <option value="Comum" <?php echo $aUsuarios[0]->getTipoUsuario() == 'Comum' ? 'selected' : ''; ?>>Comum</option>
         </select>
     </div>
 

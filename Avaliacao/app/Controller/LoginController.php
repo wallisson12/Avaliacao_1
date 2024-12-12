@@ -1,6 +1,7 @@
 <?php
 require_once __DIR__ . "/../Model/UsuarioDAO.php";
 require_once __DIR__ . "/../../Utils/Validacoes.php";
+require_once __DIR__  . "/../../Config/Menssagem.php";
 
 /**
  * Class ${LoginController}
@@ -8,7 +9,6 @@ require_once __DIR__ . "/../../Utils/Validacoes.php";
  */
 class LoginController
 {
-
 	/**
 	 * Responsável por realizar o login no sistema
 	 *
@@ -24,38 +24,32 @@ class LoginController
 	 * @since 1.0.0 - Definição do versionamento da função
 	 *
 	 */
-    public function logar(array $aDados = null) : void
-    {
-        try
-        {
-            if(isset($aDados['login']))
-            {
+    public function logar(array $aDados = null) : void {
+        try {
+            if(isset($aDados['login'])) {
 
                 $aDados['nome'] = Validacoes::validarNome($aDados['nome']);
 
                 $oUsuarioDAO = new UsuarioDAO();
 
-                if($oUsuarioDAO->findUsuarioAdm($aDados['nome'],$aDados['senha']))
-                {
+                if($oUsuarioDAO->findUsuarioAdm($aDados['nome'],$aDados['senha'])) {
                     $this->indexDashborad();
                     exit();
                 }
-                else
-                {
+                else {
                     throw new Exception('Usuario ou Senha Incorreto!');
                 }
 
             }
-            else
-            {
+            else {
                 throw new Exception('Usuario ou Senha Incorreto!');
             }
 
 
-        }catch (Exception $e)
-        {
+        }catch (Exception $e) {
 
-            echo"<script>alert('{$e->getMessage()}')</script>";
+            //echo"<script>alert('{$e->getMessage()}')</script>";
+	        Menssagem::addMensagem($e->getMessage());
             $this->indexLogin();
         }
     }
@@ -71,8 +65,7 @@ class LoginController
 	 *
 	 * @since 1.0.0 - Definição do versionamento da função
 	 */
-    public function indexLogin(array $aDados = null) : void
-    {
+    public function indexLogin(array $aDados = null) : void {
         require_once __DIR__ . "/../View/LoginUsuario.php";
     }
 
@@ -86,8 +79,7 @@ class LoginController
 	 *
 	 * @since 1.0.0 - Definição do versionamento da função
 	 */
-    public function indexDashborad(array $aDados = null) : void
-    {
+    public function indexDashborad(array $aDados = null) : void {
         require_once __DIR__ . "/../View/Dashboard.php";
     }
 }

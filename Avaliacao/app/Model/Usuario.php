@@ -8,12 +8,12 @@ require_once __DIR__ . "/../Model/Tipo_Usuario.php";
 class Usuario {
     private int $iId;
     private string $Nome;
-    private Tipo_Usuario $oTipo_Usuario;
+    private ?Tipo_Usuario $oTipoUsuario;
 
-    public function __construct(?int $iId,string $Nome,string $sTipo_Usuario) {
+    public function __construct(?int $iId,string $Nome,string $sTipoUsuario) {
         $this->iId = $iId;
         $this->Nome = $Nome;
-        $this->oTipo_Usuario = $this->setTipo_Usuario($sTipo_Usuario);
+        $this->oTipoUsuario = $this->ValidarTipoUsuario($sTipoUsuario);
     }
 
 	/**
@@ -57,8 +57,8 @@ class Usuario {
 	 *
 	 * @since 1.0.0 - Definição do versionamento da função
 	 */
-    public function getTipo_Usuario(): string {
-        return $this->oTipo_Usuario->value;
+    public function getTipoUsuario(): string {
+        return $this->oTipoUsuario->value;
     }
 
 	/**
@@ -82,14 +82,13 @@ class Usuario {
 	 *
 	 * @author Wallisson De Jesus Campos wallissondejesus@moobi.com.br
 	 *
-	 * @return Tipo_Usuario
-	 * @param string $Tipo_Usuario
-	 * @throws Exception
+	 * @return Tipo_Usuario|null
+	 * @param string $TipoUsuario
 	 *
 	 * @since 1.0.0 - Definição do versionamento da função
 	 */
-    public function setTipo_Usuario(string $Tipo_Usuario) : Tipo_Usuario {
-        switch ($Tipo_Usuario) {
+    public function ValidarTipoUsuario(string $TipoUsuario) : ?Tipo_Usuario {
+        switch ($TipoUsuario) {
             case "Administrador":
                 return Tipo_Usuario::Administrador;
                 break;
@@ -99,7 +98,7 @@ class Usuario {
                     break;
 
                     default:
-                        throw new InvalidArgumentException("Tipo Usuario nao definido");
+                        return null;
         }
     }
 

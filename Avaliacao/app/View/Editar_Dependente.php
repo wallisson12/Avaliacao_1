@@ -1,5 +1,7 @@
 <?php
 require_once __DIR__ . "/../../Config/Ambiente.php";
+
+/** @var array $aDependente */
 ?>
 <html lang="en">
 <head>

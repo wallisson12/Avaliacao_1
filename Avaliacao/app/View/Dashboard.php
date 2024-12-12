@@ -14,14 +14,14 @@ require_once __DIR__ . "/../../Config/Ambiente.php";
 <h3>Tipo: <?php echo Session_Handler::obterSessao('tipo')?></h3>
 
 
-<?php if(Session_Handler::obterSessao('tipo') === 'Administrador'): ?>
+<?php if(Session_Handler::obterSessao('tipo') === 'Administrador') { ?>
 
     <label>Cadastrar Usuario</label>
     <input name="cadastrarUsuario" type="hidden">
     <a  href=<?php Ambiente::getUrl('Usuario/indexCadastrar',true)?>>Cadastrar</a>
-<?php else: ?>
+<?php }else { ?>
     <span class="hidden">Cadastrar Usuario</span>
-<?php endif;?>
+<?php } ?>
 
 <br>
 <br>
@@ -32,13 +32,12 @@ require_once __DIR__ . "/../../Config/Ambiente.php";
 <br>
 <br>
 
-<?php if(Session_Handler::obterSessao('tipo') === 'Administrador'): ?>
+<?php if(Session_Handler::obterSessao('tipo') === 'Administrador') { ?>
     <label>Cadastrar Filiado</label>
     <a href=<?php Ambiente::getUrl('Filiado/indexCadastrar',true) ?>>Cadastrar</a>
-<?php else: ?>
+<?php }else { ?>
     <span class="hidden">Cadastrar Filiado</span>
-<?php endif;?>
-
+<?php } ?>
 
 <br>
 <br>
@@ -49,9 +48,7 @@ require_once __DIR__ . "/../../Config/Ambiente.php";
 <br>
 <br>
 
-
 <a href=<?php Ambiente::getUrl('Usuario/logout',true)?>>Logout</a>
-
 
 </body>
 </html>

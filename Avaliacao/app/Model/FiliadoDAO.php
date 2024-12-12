@@ -47,7 +47,7 @@ class FiliadoDAO {
         $aFiliados = $this->oMoobiDataBase->query($sSql,$aParametro);
 
         return array_map(function ($aFiliado){
-            return Filiado::formarObjetoFiliado($aFiliado);
+            return Filiado::FormarObjetoFiliado($aFiliado);
         },$aFiliados);
     }
 
@@ -114,7 +114,7 @@ class FiliadoDAO {
         $sSlq = "UPDATE flo_filiado SET flo_empresa = ?,flo_cargo = ?,flo_situacao = ?, flo_data_ultima_atualizacao = ?
                 WHERE flo_id = ?";
 
-        $aParametro = [$sEmpresa,$sCargo,$sSituacao,Filiado::atualizaDataAtualizacao(),$iId];
+        $aParametro = [$sEmpresa,$sCargo,$sSituacao,Filiado::AtualizarDataAtualizacao(),$iId];
 
         $this->oMoobiDataBase->execute($sSlq,$aParametro);
     }
@@ -150,7 +150,7 @@ class FiliadoDAO {
                     VALUES (?,?,?,?,?,?,?,?,?,?,?)";
 
             $aParametro = [$sNome,$sCpf,$sRg,$dDataNascimento,$iIdade,$sEmpresa,$sCargo,$sSituacao,$sTelefoneResidencial,
-                          $sCelular,Filiado::atualizaDataAtualizacao()];
+                          $sCelular,Filiado::AtualizarDataAtualizacao()];
 
             $this->oMoobiDataBase->execute($sSql,$aParametro);
     }
@@ -193,7 +193,7 @@ class FiliadoDAO {
         $aFiliados = $this->oMoobiDataBase->query($sSql, $aParametros);
 
         return array_map(function($aFiliado){
-            return Filiado::formarObjetoFiliado($aFiliado);
+            return Filiado::FormarObjetoFiliado($aFiliado);
         },$aFiliados);
 
     }

@@ -41,6 +41,12 @@ class Session_Handler
         $_SESSION[$sChave] = $sValor;
     }
 
+	public static function setAtributoSessao (string $sC,string $sValor) : void
+	{
+		self::iniciarSessao();
+		$_SESSION[] = $sValor;
+	}
+
 	/**
 	 * Responsavel por obter o valor da sessão guardada em uma determinada chave
 	 *

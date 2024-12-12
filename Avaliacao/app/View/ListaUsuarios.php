@@ -1,6 +1,8 @@
 <?php
 require_once __DIR__ . "/../../Config/Session_Handler.php";
 require_once __DIR__ . "/../../Config/Ambiente.php";
+
+/** @var array $aUsuarios */
 ?>
 <html lang="en">
 <head>
@@ -24,11 +26,11 @@ require_once __DIR__ . "/../../Config/Ambiente.php";
         </thead>
 
         <tbody>
-        <?php foreach ($usuarios as $oUsuario) : ?>
+        <?php foreach ($aUsuarios as $oUsuario) { ?>
             <tr>
                 <td><?php echo $oUsuario->getNome() ?></td>
-                <td><?php echo $oUsuario->getTipo_Usuario() ?></td>
-                <?php if(Session_Handler::obterSessao('tipo') === 'Administrador') : ?>
+                <td><?php echo $oUsuario->getTipoUsuario() ?></td>
+                <?php if(Session_Handler::obterSessao('tipo') === 'Administrador') { ?>
                     <td><a href=<?php Ambiente::getUrl('Usuario/editar',true)?>?id=<?php echo $oUsuario->getId()?>>Editar</td>
                     <td>
                         <form action="<?php Ambiente::getUrl('Usuario/excluir',true)?>" method="post">
@@ -36,10 +38,10 @@ require_once __DIR__ . "/../../Config/Ambiente.php";
                             <input type="submit" value="Excluir">
                         </form>
                     </td>
-                <?php endif; ?>
+                <?php } ?>
             </tr>
 
-        <?php endforeach; ?>
+        <?php } ?>
         </tbody>
 
     </table>

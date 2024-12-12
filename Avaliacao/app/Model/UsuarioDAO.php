@@ -14,7 +14,6 @@ class UsuarioDAO {
         $this->oMoobiDataBase = new MoobiDataBase();
     }
 
-
 	/**
 	 * Responsável por buscar o usuario no banco e verificar se ele é adm
 	 *
@@ -49,7 +48,6 @@ class UsuarioDAO {
         return $this->findUsuarioComum($sNome,$sSenha);
 
     }
-
 
 	/**
 	 * Responsável por buscar o usuario no banco e verificar se ele é comum
@@ -185,7 +183,6 @@ class UsuarioDAO {
 
         $this->oMoobiDataBase->execute($sSql,$aParametro);
     }
-
 
 	/**
 	 * Responsável por verificar se o usuario existe no banco, passando o nome

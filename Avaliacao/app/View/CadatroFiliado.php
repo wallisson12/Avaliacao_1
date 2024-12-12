@@ -69,7 +69,7 @@ require_once __DIR__ . "/../../Config/Ambiente.php";
 
 <a href=<?php Ambiente::getUrl('Filiado/indexDashborad',true)?>>Voltar</a>
 
-<script src="/../Avaliacao/app/View/Js/Filiados.js"></script>
+<script src="/app/View/Js/Filiados.js"></script>
 
 </body>
 </html>

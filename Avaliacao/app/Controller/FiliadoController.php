@@ -1,8 +1,9 @@
 <?php
 require_once __DIR__  . "/../Model/FiliadoDAO.php";
-require_once __DIR__  . "/../../Utils/Validacoes.php";
+require_once __DIR__ . "/../../Utils/Validacoes.php";
 require_once __DIR__ . "/../../Config/Ambiente.php";
 require_once __DIR__  . "/../../Config/Session_Handler.php";
+require_once __DIR__  . "/../../Config/Menssagem.php";
 
 /**
  * Class ${FiliadoController}
@@ -98,7 +99,7 @@ class FiliadoController extends ControllerAbstract {
     public function editar(array $aDados = null) : void {
         if(isset($aDados['id'])) {
             $oFiliadoDAO = new FiliadoDAO();
-            $oFiliado = $oFiliadoDAO->find($aDados['id']);
+            $aFiliado = $oFiliadoDAO->find($aDados['id']);
 
             require_once __DIR__ . "/../View/Editar_Filiado.php";
         }
@@ -186,7 +187,7 @@ class FiliadoController extends ControllerAbstract {
                 $aDados['cpf'] = Validacoes::validarCpf($aDados["cpf"]);
 
                 Validacoes::validarDataNascimento($aDados['data_nascimento']);
-				$iIdade = $this->CalcularIdade($aDados['data_nascimento']);
+				$iIdade = $this->calcularIdade($aDados['data_nascimento']);
 
                 Validacoes::validarTelefoneResidencial($aDados['telefone']);
 
@@ -240,7 +241,7 @@ class FiliadoController extends ControllerAbstract {
 	 *
 	 * @since 1.0.0 - Definição do versionamento da função
 	 */
-	private function CalcularIdade(string $sDataNascimento) : int {
+	private function calcularIdade(string $sDataNascimento) : int {
 		$oDataHoje = new DateTime('now',new DateTimeZone('America/Sao_Paulo'));
 		$oDataHojeFormatada = $oDataHoje->format('Y-m-d');
 
@@ -269,4 +270,18 @@ class FiliadoController extends ControllerAbstract {
     public function indexCadastrar(array $aDados = null) : void {
         require_once __DIR__ . "/../View/CadatroFiliado.php";
     }
+
+	/**
+	 * Responsável por redirecionar para pagina de dashborad
+	 *
+	 * @author Wallisson De Jesus Campos wallissondejesus@moobi.com.br
+	 *
+	 * @param array|null $aDados Array merge do post e get
+	 * @return void
+	 *
+	 * @since 1.0.0 - Definição do versionamento da função
+	 */
+	public function indexDashborad(array $aDados = null) : void {
+		require_once __DIR__ . "/../View/Dashboard.php";
+	}
 }

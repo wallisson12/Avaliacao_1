@@ -1,5 +1,5 @@
 const btn_add_Dependente = document.getElementById('add');
-const depentente_container = document.getElementById('dependente');
+const dependente_container = document.getElementById('dependente');
 
 var contador = 0;
 
@@ -16,7 +16,7 @@ function createLable(nome)
     var elemeto = document.createElement('label');
     elemeto.textContent = nome;
 
-    depentente_container.appendChild(elemeto);
+    dependente_container.appendChild(elemeto);
 }
 
 function createInputNome()
@@ -30,8 +30,8 @@ function createInputNome()
 
     var elemento2 =document.createElement('br');
 
-    depentente_container.appendChild(elemento);
-    depentente_container.appendChild(elemento2);
+    dependente_container.appendChild(elemento);
+    dependente_container.appendChild(elemento2);
 }
 
 function createInputDataNascimento()
@@ -46,8 +46,8 @@ function createInputDataNascimento()
 
     var elemento2 =document.createElement('br');
 
-    depentente_container.appendChild(elemento);
-    depentente_container.appendChild(elemento2);
+    dependente_container.appendChild(elemento);
+    dependente_container.appendChild(elemento2);
 }
 
 function createSelectGrauParentesco()
@@ -69,7 +69,7 @@ function createSelectGrauParentesco()
 
     var elemento2 =document.createElement('br');
 
-    depentente_container.appendChild(elemento);
-    depentente_container.appendChild(elemento2);
+    dependente_container.appendChild(elemento);
+    dependente_container.appendChild(elemento2);
 
 }

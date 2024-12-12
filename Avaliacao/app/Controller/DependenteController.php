@@ -29,7 +29,7 @@ class DependenteController extends ControllerAbstract {
         try {
             $oDependenteDAO = new DependenteDAO();
 
-            $aDependentes = $oDependenteDAO->findByIdFiliado($aDados["id"]);
+            $loDependentes = $oDependenteDAO->findByIdFiliado($aDados["id"]);
             $iIdFiliado = $aDados["id"];
 
             require_once __DIR__ . "/../View/ListaDependentes.php";
