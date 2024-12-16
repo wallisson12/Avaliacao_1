@@ -2,6 +2,7 @@
 require_once __DIR__ . "/../Model/DependenteDAO.php";
 require_once __DIR__ . "/../../Utils/Validacoes.php";
 require_once __DIR__ . "/../../Config/Ambiente.php";
+require_once __DIR__ . "/../../Config/Mensagem.php";
 
 /**
  * Class ${DependenteController}
@@ -36,11 +37,8 @@ class DependenteController extends ControllerAbstract {
 
         }catch (Exception $e) {
             $sPath = Ambiente::getUrl('Filiado/listar');
-
-            echo"<script>
-                    alert('{$e->getMessage()}')
-                    window.location.href='{$sPath}';
-                 </script>";
+			Mensagem::addMensagem($e->getMessage());
+			header("Location: {$sPath}");
         }
     }
 
@@ -71,21 +69,13 @@ class DependenteController extends ControllerAbstract {
                 }
 
                 $sPath = Ambiente::getUrl('Dependente/listar');
-
-                echo "<script>
-                        alert('Dependente Cadastrado Com Sucesso')
-                        window.location.href='{$sPath}?id={$aDados['id']}';
-                      </script>";
+				Mensagem::addMensagem("Dependente Cadastrado Com Sucesso");
+				header("Location: {$sPath}?id={$aDados['id']}");
             }
-
-
         }catch (Exception $e) {
             $sPath = Ambiente::getUrl('Filiado/listar');
-
-            echo"<script>
-                    alert('{$e->getMessage()}')
-                    window.location.href='{$sPath}';
-                 </script>";
+			Mensagem::addMensagem($e->getMessage());
+			header("Location: {$sPath}");
         }
 
     }
@@ -133,18 +123,13 @@ class DependenteController extends ControllerAbstract {
                 $oDependenteDAO->update($aDados['id'],$aDados['nome'],$aDados['data_nascimento'],$aDados['parentesco']);
 
                 $sPath = Ambiente::getUrl('Dependente/listar');
-                echo "<script>
-                            alert('Dependente Editado Com Sucesso')
-                            window.location.href='{$sPath}?id={$aDados['idF']}';
-                          </script>";
+				Mensagem::addMensagem("Dependente Editado Com Sucesso");
+				header("Location: {$sPath}?id={$aDados['idF']}");
             }
         }catch (Exception $e) {
             $sPath = Ambiente::getUrl('Filiado/listar');
-
-            echo"<script>
-                    alert('{$e->getMessage()}')
-                    window.location.href='{$sPath}';
-                 </script>";
+			Mensagem::addMensagem($e->getMessage());
+			header("Location: {$sPath}");
         }
 
     }
@@ -167,11 +152,8 @@ class DependenteController extends ControllerAbstract {
             $oDependenteDAO->delete($aDados['idD']);
 
             $sPath = Ambiente::getUrl('Dependente/listar');
-
-            echo "<script>
-                    alert('Dependente Deletado Com Sucesso!')
-                    window.location.href='{$sPath}?id={$aDados['idF']}';
-                  </script>";
+			Mensagem::addMensagem("Dependente Deletado Com Sucesso");
+			header("Location: {$sPath}?id={$aDados['idF']}");
         }
     }
 }

@@ -1,6 +1,7 @@
 <?php
 require_once __DIR__ . "/../../Config/Ambiente.php";
 require_once __DIR__ . "/../../Config/Session_Handler.php";
+require_once __DIR__ . "/../../Config/Mensagem.php";
 
 /**
  * @var array $aFiliados
@@ -20,6 +21,8 @@ require_once __DIR__ . "/../../Config/Session_Handler.php";
 <h3>Lista De Filiados</h3>
 
 <form action="<?php Ambiente::getUrl('Filiado/listar',true)?>" method="post">
+
+    <div><?php echo Mensagem::getMensagem()?></div>
 
     <label>Nome: </label>
     <input type="text" name="filtros[nome]" value="<?php echo json_decode(Session_Handler::obterSessao('filtros'),true)['nome'] ?>">
@@ -46,6 +49,7 @@ require_once __DIR__ . "/../../Config/Session_Handler.php";
 <a href=<?php Ambiente::getUrl('Filiado/limparFiltros',true)?>>Limpar</a>
 
 <section>
+
     <table>
         <thead>
             <tr>

@@ -1,9 +1,10 @@
 <?php
 require_once __DIR__  . "/../Model/FiliadoDAO.php";
+require_once __DIR__  . "/../Model/Filiado.php";
 require_once __DIR__ . "/../../Utils/Validacoes.php";
 require_once __DIR__ . "/../../Config/Ambiente.php";
 require_once __DIR__  . "/../../Config/Session_Handler.php";
-require_once __DIR__  . "/../../Config/Menssagem.php";
+require_once __DIR__ . "/../../Config/Mensagem.php";
 
 /**
  * Class ${FiliadoController}
@@ -63,7 +64,7 @@ class FiliadoController extends ControllerAbstract {
             require_once __DIR__ . "/../View/ListaFiliados.php";
 
         }catch (Exception $e) {
-            echo"<script>alert('{$e->getMessage()}')</script>";
+			Mensagem::addMensagem($e->getMessage());
         }
     }
 
@@ -123,11 +124,8 @@ class FiliadoController extends ControllerAbstract {
             $oFiliadoDAO->delete($aDados['id']);
 
             $sPath = Ambiente::getUrl('Filiado/listar');
-
-            echo "<script>
-                    alert('Filiado Deletado Com Sucesso!')
-                    window.location.href='{$sPath}';
-                  </script>";
+			Mensagem::addMensagem("Filiado Deletado Com Sucesso!");
+            header("Location: $sPath");
         }
     }
 
@@ -154,11 +152,8 @@ class FiliadoController extends ControllerAbstract {
             $oFiliadoDAO->update($aDados['id'],$sEmpresa, $sCargo, $sSituacao,$aDados['data']);
 
             $sPath = Ambiente::getUrl('Filiado/listar');
-
-            echo "<script>
-                        alert('Filiado Editado Com Sucesso!')
-                        window.location.href='{$sPath}';
-                  </script>";
+			Mensagem::addMensagem("Filiado Editado Com Sucesso!");
+            header("Location: $sPath");
         }
     }
 
@@ -214,15 +209,12 @@ class FiliadoController extends ControllerAbstract {
                     $aDados['celular']);
 
                 $sPath = Ambiente::getUrl('Filiado/listar');
-
-                echo"<script>
-                        alert('Filiado Cadastrado Com Sucesso!');
-                        window.location = '{$sPath}';
-                     </script>";
+				Mensagem::addMensagem("Filiado Cadastrado Com Sucesso!");
+				header("Location: $sPath");
             }
 
         }catch (Exception $e) {
-            echo"<script>alert('{$e->getMessage()}')</script>";
+            Mensagem::addMensagem($e->getMessage());
             $this->indexCadastrar();
         }
     }
@@ -243,9 +235,8 @@ class FiliadoController extends ControllerAbstract {
 	 */
 	private function calcularIdade(string $sDataNascimento) : int {
 		$oDataHoje = new DateTime('now',new DateTimeZone('America/Sao_Paulo'));
-		$oDataHojeFormatada = $oDataHoje->format('Y-m-d');
 
-		$sDataNascimento = Filiado::setDataNascimento($sDataNascimento);
+		$sDataNascimento = Filiado::DataNascimentoFormatada($sDataNascimento);
 
 		$iIntervalo = $oDataHoje->diff($sDataNascimento);
 
@@ -255,6 +246,21 @@ class FiliadoController extends ControllerAbstract {
 		else {
 			throw new Exception("Idade minima para cadastro, é 18 anos");
 		}
+	}
+
+	/**
+	 * Responsável por redirecionar para pagina de listar filiado
+	 *
+	 * @author Wallisson De Jesus Campos wallissondejesus@moobi.com.br
+	 *
+	 * @param array|null $aDados Array merge do post e get
+	 * @return void
+	 *
+	 * @since 1.0.0 - Definição do versionamento da função
+	 */
+	public function indexListar(array $aDados = null) : void {
+		$sPath = Ambiente::getUrl('Filiado/listar');
+		header("Location: $sPath");
 	}
 
 	/**

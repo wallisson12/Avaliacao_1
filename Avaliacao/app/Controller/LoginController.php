@@ -1,7 +1,7 @@
 <?php
 require_once __DIR__ . "/../Model/UsuarioDAO.php";
 require_once __DIR__ . "/../../Utils/Validacoes.php";
-require_once __DIR__  . "/../../Config/Menssagem.php";
+require_once __DIR__ . "/../../Config/Mensagem.php";
 
 /**
  * Class ${LoginController}
@@ -48,8 +48,7 @@ class LoginController
 
         }catch (Exception $e) {
 
-            //echo"<script>alert('{$e->getMessage()}')</script>";
-	        Menssagem::addMensagem($e->getMessage());
+	        Mensagem::addMensagem($e->getMessage());
             $this->indexLogin();
         }
     }

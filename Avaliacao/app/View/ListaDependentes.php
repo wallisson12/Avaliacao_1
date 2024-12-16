@@ -1,8 +1,12 @@
 <?php
 require_once __DIR__ . "/../../Config/Session_Handler.php";
 require_once __DIR__ . "/../../Config/Ambiente.php";
+require_once __DIR__ . "/../../Config/Mensagem.php";
 
-/** @var array $loDependentes */
+/**
+ *  @var array $loDependentes
+ *  @var int $iIdFiliado
+ */
 ?>
 <html lang="en">
 <head>
@@ -13,6 +17,8 @@ require_once __DIR__ . "/../../Config/Ambiente.php";
 <body>
 
 <h3>Lista De Dependentes</h3>
+
+<div><?php echo Mensagem::getMensagem()?></div>
 
 <table>
     <thead>

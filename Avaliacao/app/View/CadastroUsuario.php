@@ -1,5 +1,6 @@
 <?php
 require_once __DIR__ . "/../../Config/Ambiente.php";
+require_once __DIR__ . "/../../Config/Mensagem.php";
 ?>
 <html lang="en">
 <head>
@@ -13,6 +14,8 @@ require_once __DIR__ . "/../../Config/Ambiente.php";
 
 
 <form action="<?php Ambiente::getUrl('Usuario/cadastrar',true)?>" method="post">
+
+    <div><?php echo Mensagem::getMensagem()?></div>
 
     <div>
         <label>Nome</label>

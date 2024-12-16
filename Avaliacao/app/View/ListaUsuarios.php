@@ -1,6 +1,7 @@
 <?php
 require_once __DIR__ . "/../../Config/Session_Handler.php";
 require_once __DIR__ . "/../../Config/Ambiente.php";
+require_once __DIR__ . "/../../Config/Mensagem.php";
 
 /** @var array $aUsuarios */
 ?>
@@ -16,6 +17,9 @@ require_once __DIR__ . "/../../Config/Ambiente.php";
 <h3>Lista De Usuarios</h3>
 
 <section>
+
+    <div><?php echo Mensagem::getMensagem()?></div>
+
     <table>
 
         <thead>

@@ -1,6 +1,6 @@
 <?php
 require_once __DIR__ . "/../../Config/Ambiente.php";
-require_once __DIR__ . "/../../Config/Menssagem.php";
+require_once __DIR__ . "/../../Config/Mensagem.php";
 ?>
 <html lang="en">
 <head>
@@ -14,7 +14,7 @@ require_once __DIR__ . "/../../Config/Menssagem.php";
 
 <form action="<?php Ambiente::getUrl('Login/logar',true)?>" method="post">
 
-    <div><?php echo Menssagem::getMensagem()?></div>
+    <div><?php echo Mensagem::getMensagem()?></div>
 
     <label>Nome: </label>
     <input type="text" name="nome" id="nome" required>

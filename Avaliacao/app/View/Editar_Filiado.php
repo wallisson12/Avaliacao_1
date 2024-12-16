@@ -1,5 +1,6 @@
 <?php
 require_once __DIR__ . "/../../Config/Ambiente.php";
+require_once __DIR__ . "/../../Config/Mensagem.php";
 
 /** @var array $aFiliado */
 
@@ -15,6 +16,8 @@ require_once __DIR__ . "/../../Config/Ambiente.php";
 <h3>Editar Filiado</h3>
 
 <form action="<?php Ambiente::getUrl('Filiado/atualizar',true)?>?id=<?php echo $aFiliado[0]->getId()?>" method="post">
+
+    <div><?php echo Mensagem::getMensagem()?></div>
 
     <div>
         <label>Nome</label>

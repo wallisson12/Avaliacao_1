@@ -2,6 +2,7 @@
 require_once __DIR__ . "/../Model/UsuarioDAO.php";
 require_once __DIR__ . "/../../Utils/Validacoes.php";
 require_once __DIR__ . "/../../Config/Ambiente.php";
+require_once __DIR__ . "/../../Config/Mensagem.php";
 
 /**
  * Class ${UsuarioController}
@@ -40,21 +41,16 @@ class UsuarioController extends ControllerAbstract {
 
                 $oUsuarioDAO->insert($aDados['nome'],$aDados['senha'],$aDados['tipo']);
 
-                echo"<script>alert('Cadastro Realizado Com Sucesso!')</script>";
+				Mensagem::addMensagem("Cadastro Realizado Com Sucesso!");
                 $this->indexCadastrar();
-
             }
 
 
         }catch (Exception $e) {
-            echo " <script>
-                    alert('{$e->getMessage()}')
-                 </script> ";
-
+			Mensagem::addMensagem($e->getMessage());
             $this->indexCadastrar();
         }
     }
-
 
 	/**
 	 * Responsável por realizar a listagem dos usuarios
@@ -77,10 +73,7 @@ class UsuarioController extends ControllerAbstract {
             require_once __DIR__ . "/../View/ListaUsuarios.php";
 
         }catch (Exception $e) {
-            echo " <script>
-                    alert('{$e->getMessage()}')
-                 </script> ";
-
+            Mensagem::addMensagem($e->getMessage());
             $this->indexLogin();
         }
     }
@@ -111,9 +104,7 @@ class UsuarioController extends ControllerAbstract {
             }
 
         }catch (Exception $e) {
-            echo " <script>
-                    alert('{$e->getMessage()}')
-                 </script> ";
+           Mensagem::addMensagem($e->getMessage());
         }
     }
 
@@ -136,12 +127,8 @@ class UsuarioController extends ControllerAbstract {
             $oUsuarioDAO->update($aDados['id'],$aDados['nome'],$aDados['tipo']);
 
             $sPath = Ambiente::getUrl('Usuario/listar');
-
-            echo "<script>
-                        alert('Usuario Editado Com Sucesso')
-                        window.location.href = '{$sPath}';
-                  </script>";
-
+			Mensagem::addMensagem("Usuario Editado Com Sucesso!");
+			header("Location: {$sPath}");
         }
     }
 
@@ -164,11 +151,8 @@ class UsuarioController extends ControllerAbstract {
             $oUsuarioDAO->delete($aDados['id']);
 
             $sPath = Ambiente::getUrl('Usuario/listar');
-
-            echo "<script>
-                    alert('Usuario Deletado Com Sucesso!')
-                    window.location.href='{$sPath}';
-                  </script>";
+			Mensagem::addMensagem("Usuario Deletado Com Sucesso!");
+			header("Location: {$sPath}");
         }
     }
 
