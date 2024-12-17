@@ -34,14 +34,10 @@ class Rota {
 
 		$metodo = $aUrl[1];
 
-		var_dump($controllerClass,$metodo);
-
 		if (class_exists($controllerClass) && method_exists($controllerClass, $metodo)) {
-			var_dump('aq');
 			$controller = new $controllerClass();
 			$controller->$metodo($aDados);
 		} else {
-			var_dump('la');
 			$controller = new HomeController();
 			$controller->index($aDados);
 		}

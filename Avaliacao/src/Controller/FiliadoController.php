@@ -60,10 +60,9 @@ class FiliadoController extends ControllerAbstract {
 
 			$oFiliadoDAO = new FiliadoDAO();
 
-			$aFiliados = $oFiliadoDAO->findByFiltros($aDados['filtros'], $aDadosPaginacao);
+			$aFiliados = $oFiliadoDAO->findByFiltros($aFiltros, $aDadosPaginacao);
 
-			$iTotalFiliados = $oFiliadoDAO->totalFiliados();
-
+			$iTotalFiliados = $oFiliadoDAO->totalFiliados($aFiltros);
 			$iTotalPaginas = ceil($iTotalFiliados / $iLimite);
 
 			require_once __DIR__ . "/../View/Filiado/ListaFiliados.php";
@@ -210,7 +209,9 @@ class FiliadoController extends ControllerAbstract {
 					$sCargo,
 					$sSituacao,
 					$aDados['telefone'],
-					$aDados['celular']);
+					$aDados['celular'],
+					2
+				);
 
 				$sPath = Ambiente::getUrl('Filiado/listar');
 				Mensagem::addMensagem("Filiado Cadastrado Com Sucesso!");

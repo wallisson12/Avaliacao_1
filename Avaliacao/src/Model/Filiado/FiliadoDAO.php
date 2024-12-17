@@ -21,19 +21,32 @@ class FiliadoDAO
 	 *
 	 * Faz o retorno da quantidade de filiados no banco
 	 *
+	 * @param array|null $aFiltro Filtro passado
 	 * @return int
 	 *
 	 * @author Wallisson De Jesus Campos wallissondejesus@moobi.com.br
 	 *
 	 * @since 1.0.0 - Definição do versionamento da função
 	 */
-	public function totalFiliados(): int {
+	public function totalFiliados(?array $aFiltro): int {
 		$sSql = "SELECT COUNT(*) 
     			 AS total 
-				 FROM flo_filiado";
+				 FROM flo_filiado WHERE 1=1";
 
-		$aListaFiliados = $this->oMoobiDataBase->query($sSql);
-		return $aListaFiliados[0]["total"];
+		$aParametros =[];
+
+		if (!empty($aFiltro['nome'])) {
+			$sSql .= " AND flo_Nome LIKE ?";
+			$aParametros[] = "%" . $aFiltro['nome'] . "%";
+		}
+
+		if (!empty($aFiltro['mes'])) {
+			$sSql .= " AND MONTH(flo_Data_De_Nascimento) = ?";
+			$aParametros[] = intval($aFiltro['mes']);
+		}
+
+		$aListaFiliados = $this->oMoobiDataBase->query($sSql,$aParametros);
+		return $aListaFiliados[0]['total'];
 	}
 
 	/**
@@ -97,9 +110,8 @@ class FiliadoDAO
 	 * @since 1.0.0 - Definição do versionamento da função
 	 */
 	public function delete(int $iIdFiliado): void {
-		$sSql = "DELETE FROM flo_filiado WHERE flo_id = ?";
+		$sSql = "UPDATE flo_filiado SET flo_deletado=1 WHERE flo_id = ?";
 		$aParametro = [$iIdFiliado];
-
 		$this->oMoobiDataBase->execute($sSql, $aParametro);
 	}
 
@@ -142,6 +154,7 @@ class FiliadoDAO
 	 * @param string|null $sSituacao Situacao para ser cadastrada
 	 * @param string $sTelefoneResidencial Telefone para ser cadastrado
 	 * @param string $sCelular Celular para ser cadastrado
+	 * @param int $iDeletado Verifica se foi deletado
 	 * @return void
 	 *
 	 * @author Wallisson De Jesus Campos wallissondejesus@moobi.com.br
@@ -151,15 +164,15 @@ class FiliadoDAO
 	public function insert(string  $sNome, string $sCpf, string $sRg, string $dDataNascimento, int $iIdade,
 	                       ?string $sEmpresa, ?string $sCargo, ?string $sSituacao,
 	                       string  $sTelefoneResidencial,
-	                       string  $sCelular): void {
+	                       string  $sCelular,int $iDeletado): void {
 
 		$sSql = "INSERT INTO flo_filiado 
     			 (flo_nome,flo_cpf,flo_rg,flo_data_de_nascimento,flo_idade,flo_empresa,flo_cargo,
-    			 flo_situacao,flo_telefone_residencial,flo_celular,flo_data_ultima_atualizacao)  
-                 VALUES (?,?,?,?,?,?,?,?,?,?,?)";
+    			 flo_situacao,flo_telefone_residencial,flo_celular,flo_data_ultima_atualizacao,flo_deletado)  
+                 VALUES (?,?,?,?,?,?,?,?,?,?,?,?)";
 
 		$aParametro = [$sNome, $sCpf, $sRg, $dDataNascimento, $iIdade, $sEmpresa, $sCargo, $sSituacao,
-						$sTelefoneResidencial,$sCelular, Filiado::atualizarDataAtualizacao()];
+						$sTelefoneResidencial,$sCelular, Filiado::atualizarDataAtualizacao(),$iDeletado];
 		$this->oMoobiDataBase->execute($sSql, $aParametro);
 	}
 
@@ -177,7 +190,7 @@ class FiliadoDAO
 	public function findByFiltros(?array $aFiltro, array $aDados = null): array {
 		$sSql = "SELECT * 
 				FROM flo_filiado 
-				WHERE 1=1";
+				WHERE flo_deletado=2";
 
 		$aParametros = [];
 

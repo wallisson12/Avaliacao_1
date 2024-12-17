@@ -111,7 +111,7 @@ use Moobi\Avaliacao\Config\Session_Handler;
 
     <?php echo $iPagina?>
 
-    <?php if($iPagina<=$iTotalPaginas) { ?>
+    <?php if($iPagina<$iTotalPaginas) { ?>
         <a href="?pagina=<?php echo $iPagina+1?>">>></a>
     <?php } ?>
 

@@ -3,6 +3,13 @@ const dependente_container = document.getElementById('dependente');
 
 var contador = 0;
 
+/**
+ * Responsável por criar os inputs necessarios para o cadastro de um dependente
+ *
+ * @author Wallisson De Jesus Campos wallissondejesus@moobi.com.br
+ *
+ * @since 1.0.0 - Definição do versionamento da função
+ */
 btn_add_Dependente.addEventListener('click',function ()
 {
     createInputNome();
@@ -11,6 +18,13 @@ btn_add_Dependente.addEventListener('click',function ()
     contador++;
 });
 
+/**
+ * Responsável por criar o input lable e adcionar na div
+ *
+ * @author Wallisson De Jesus Campos wallissondejesus@moobi.com.br
+ *
+ * @since 1.0.0 - Definição do versionamento da função
+ */
 function createLable(nome)
 {
     var elemeto = document.createElement('label');
@@ -19,6 +33,13 @@ function createLable(nome)
     dependente_container.appendChild(elemeto);
 }
 
+/**
+ * Responsável por criar o input nome e adcionar na div
+ *
+ * @author Wallisson De Jesus Campos wallissondejesus@moobi.com.br
+ *
+ * @since 1.0.0 - Definição do versionamento da função
+ */
 function createInputNome()
 {
     createLable("Nome: ");
@@ -34,6 +55,13 @@ function createInputNome()
     dependente_container.appendChild(elemento2);
 }
 
+/**
+ * Responsável por criar o input date e adcionar na div
+ *
+ * @author Wallisson De Jesus Campos wallissondejesus@moobi.com.br
+ *
+ * @since 1.0.0 - Definição do versionamento da função
+ */
 function createInputDataNascimento()
 {
     createLable("Data De Nascimento: ");
@@ -50,6 +78,13 @@ function createInputDataNascimento()
     dependente_container.appendChild(elemento2);
 }
 
+/**
+ * Responsável por criar o input select e adcionar na div
+ *
+ * @author Wallisson De Jesus Campos wallissondejesus@moobi.com.br
+ *
+ * @since 1.0.0 - Definição do versionamento da função
+ */
 function createSelectGrauParentesco()
 {
     createLable("Grau De Parentesco");

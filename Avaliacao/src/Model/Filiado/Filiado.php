@@ -22,10 +22,11 @@ class Filiado {
 	private string $sTelefoneResidencial;
 	private string $sCelular;
 	private DateTime $oDataUltimaAtualizacao;
+	private int $iDeletado;
 
 	public function __construct(?int    $iId, string $sNome, string $sCpf, string $sRg, string $sDataNascimento,
 	                            int $iIdade,?string $sEmpresa, ?string $sCargo, ?string $sSituacao,
-	                            string $sTelefoneResidencial, string $sCelular, string $sDataUltimaAtualizacao) {
+	                            string $sTelefoneResidencial, string $sCelular, string $sDataUltimaAtualizacao, int $iDeletado) {
 		$this->iId = $iId;
 		$this->sNome = $sNome;
 		$this->sCpf = $sCpf;
@@ -38,6 +39,7 @@ class Filiado {
 		$this->sTelefoneResidencial = $sTelefoneResidencial;
 		$this->sCelular = $sCelular;
 		$this->oDataUltimaAtualizacao = $this->dataAtualizacaoFormatada($sDataUltimaAtualizacao);
+		$this->iDeletado = $iDeletado;
 	}
 
 	/**
@@ -67,6 +69,7 @@ class Filiado {
 			$aDados['flo_telefone_residencial'],
 			$aDados['flo_celular'],
 			$aDados['flo_data_ultima_atualizacao'],
+			$aDados['flo_deletado']
 		);
 	}
 
@@ -225,6 +228,19 @@ class Filiado {
 	 */
 	public function getDataUltimaAtualizacao(): string {
 		return $this->oDataUltimaAtualizacao->format('d/m/Y');
+	}
+
+	/**
+	 * Responsável por retornar se o filiado esta deletado ou nao
+	 *
+	 * @return int
+	 *
+	 * @author Wallisson De Jesus Campos wallissondejesus@moobi.com.br
+	 *
+	 * @since 1.0.0 - Definição do versionamento da função
+	 */
+	public function getDeletado(): int {
+		return $this->iDeletado;
 	}
 
 	/**
