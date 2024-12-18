@@ -5,7 +5,7 @@ use Moobi\Avaliacao\Config\Rota;
 /**
  * Responsável por realizar o merge das super globais post e get
  *
- * Inicia o roteamento passando o merge das super globais
+ * Inicia o roteamento passando o merge das supers globais
  *
  * @author Wallisson De Jesus Campos wallissondejesus@moobi.com.br
  *

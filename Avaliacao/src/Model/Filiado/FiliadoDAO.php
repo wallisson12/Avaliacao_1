@@ -141,6 +141,25 @@ class FiliadoDAO
 	}
 
 	/**
+	 * Responsável por atualizar a data da ultima atualizacao
+	 *
+	 * @param int $iIdFiliado Id do filiado para ser atualizado
+	 * @return void
+	 *
+	 * @author Wallisson De Jesus Campos wallissondejesus@moobi.com.br
+	 *
+	 * @since 1.0.0 - Definição do versionamento da função
+	 */
+	public function updateDataAtualizacao(int $iIdFiliado): void {
+		$sSlq = "UPDATE flo_filiado
+				 SET flo_data_ultima_atualizacao = ? 
+				 WHERE flo_id = ?";
+
+		$aParametro = [Filiado::atualizarDataAtualizacao(), $iIdFiliado];
+		$this->oMoobiDataBase->execute($sSlq, $aParametro);
+	}
+
+	/**
 	 * Responsável por cadastrar os dados de um filiado
 	 *
 	 *

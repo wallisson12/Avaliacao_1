@@ -18,7 +18,6 @@ abstract class ControllerAbstract {
 	/**
 	 * Responsável por realizar o redirecionamento para a pagina de login
 	 *
-	 * @param array|null $aDados Array merge do post e get
 	 * @return void
 	 *
 	 * @author Wallisson De Jesus Campos wallissondejesus@moobi.com.br
@@ -26,7 +25,7 @@ abstract class ControllerAbstract {
 	 * @since 1.0.0 - Definição do versionamento da função
 	 *
 	 */
-	private function indexLogin(array $aDados = null): void {
+	private function indexLogin(): void {
 		require_once __DIR__ . "/../View/Usuario/LoginUsuario.php";
 	}
 }
