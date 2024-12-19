@@ -1,0 +1,11 @@
+{
+    "name": "moobi/avaliacao",
+    "autoload": {
+        "psr-4": {
+            "Moobi\\Avaliacao\\": "src/"
+        }
+    },
+    "require": {
+      "ext-pdo": "*"
+    }
+}
