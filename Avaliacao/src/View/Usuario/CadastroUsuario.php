@@ -24,7 +24,7 @@ use Moobi\Avaliacao\Config\Mensagem;
 
     <div>
         <label>Senha</label>
-        <input type="password" name="senha" required>
+        <input type="password" name="senha" minlength="6" required>
     </div>
 
     <div>

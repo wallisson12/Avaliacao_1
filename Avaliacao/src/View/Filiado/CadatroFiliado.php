@@ -34,7 +34,12 @@ use Moobi\Avaliacao\Config\Mensagem;
 
     <div>
         <label>Data Nascimento</label>
-        <input type="date" name="data_nascimento" required>
+        <input id="dataNascimento" type="date" name="data_nascimento" required>
+    </div>
+
+    <div>
+        <label>Idade</label>
+        <input id="idade" type="number" name="idade" readonly>
     </div>
 
     <div>
@@ -72,7 +77,7 @@ use Moobi\Avaliacao\Config\Mensagem;
 
 <a href=<?php Ambiente::getUrl('Filiado/indexDashborad',true)?>>Voltar</a>
 
-<script src="/app/View/Js/Filiados.js"></script>
+<script src="/../Avaliacao/public/Js/Filiados.js"></script>
 
 </body>
 </html>

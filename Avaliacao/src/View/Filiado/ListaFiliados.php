@@ -49,9 +49,9 @@ use Moobi\Avaliacao\Config\Session_Handler;
 <a href=<?php Ambiente::getUrl('Filiado/limparFiltros',true)?>>Limpar</a>
 
 <section>
-
     <table>
         <thead>
+            <input id="todosFiliados" type="checkbox">
             <tr>
                 <th>Nome</th>
                 <th>CPF</th>
@@ -69,9 +69,8 @@ use Moobi\Avaliacao\Config\Session_Handler;
 
         <tbody>
          <?php foreach ($aFiliados as $oFiliado) { ?>
-
             <tr>
-                <td><?php echo $oFiliado->getNome()?></td>
+                <td><input class="checkboxFiliado" type="checkbox" value="<?php echo $oFiliado->getId()?>"> <?php echo $oFiliado->getNome()?> </td>
                 <td><?php echo $oFiliado->getCPF()?></td>
                 <td><?php echo $oFiliado->getIdade()?></td>
                 <td><?php echo $oFiliado->getRG()?></td>
@@ -123,5 +122,6 @@ use Moobi\Avaliacao\Config\Session_Handler;
 
 <a href=<?php Ambiente::getUrl('Filiado/indexDashborad',true)?>>Voltar</a>
 
+<script src="/../Avaliacao/public/Js/ListaFiliados.js"></script>
 </body>
 </html>
