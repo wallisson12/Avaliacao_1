@@ -1,12 +1,10 @@
 <IfModule mod_rewrite.c>
-    RewriteEngine On
-    RewriteBase /Avaliacao/
+   RewriteEngine On  # Ativa o mecanismo de reescrita
 
-    # Redireciona a raiz para a pasta /public
-    RewriteRule ^$ public/ [L]
+   # Verifica se o arquivo ou diretório requisitado existe
+   RewriteCond %{REQUEST_FILENAME} !-f
+   RewriteCond %{REQUEST_FILENAME} !-d
 
-    # Redireciona todas as requisições para o arquivo index.php dentro de /public
-    RewriteCond %{REQUEST_FILENAME} !-f
-    RewriteCond %{REQUEST_FILENAME} !-d
-    RewriteRule . public/index.php [L]
+   # Redireciona todas as requisições para o index.php com a URL como parâmetro "url"
+   RewriteRule ^(.*)$ index.php?url=$1 [QSA,L]
 </IfModule>
