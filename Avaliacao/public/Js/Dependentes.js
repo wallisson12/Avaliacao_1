@@ -10,8 +10,7 @@ var contador = 0;
  *
  * @since 1.0.0 - Definição do versionamento da função
  */
-btn_add_Dependente.addEventListener('click',function ()
-{
+btn_add_Dependente.addEventListener('click',function (){
     createInputNome();
     createInputDataNascimento();
     createSelectGrauParentesco();
@@ -25,9 +24,8 @@ btn_add_Dependente.addEventListener('click',function ()
  *
  * @since 1.0.0 - Definição do versionamento da função
  */
-function createLable(nome)
-{
-    var elemeto = document.createElement('label');
+function createLable(nome){
+    var elemeto = document.createElement('lable');
     elemeto.textContent = nome;
 
     dependente_container.appendChild(elemeto);
@@ -40,8 +38,7 @@ function createLable(nome)
  *
  * @since 1.0.0 - Definição do versionamento da função
  */
-function createInputNome()
-{
+function createInputNome(){
     createLable("Nome: ");
 
     var elemento = document.createElement('input');
@@ -62,15 +59,13 @@ function createInputNome()
  *
  * @since 1.0.0 - Definição do versionamento da função
  */
-function createInputDataNascimento()
-{
+function createInputDataNascimento(){
     createLable("Data De Nascimento: ");
 
     var elemento = document.createElement('input');
     elemento.setAttribute('type','date');
     elemento.setAttribute('name',`dependentes[${contador}][data_nascimento]`);
     elemento.setAttribute('required','true');
-
 
     var elemento2 =document.createElement('br');
 
@@ -85,8 +80,7 @@ function createInputDataNascimento()
  *
  * @since 1.0.0 - Definição do versionamento da função
  */
-function createSelectGrauParentesco()
-{
+function createSelectGrauParentesco(){
     createLable("Grau De Parentesco");
 
     var elemento = document.createElement('select');
@@ -106,5 +100,4 @@ function createSelectGrauParentesco()
 
     dependente_container.appendChild(elemento);
     dependente_container.appendChild(elemento2);
-
 }

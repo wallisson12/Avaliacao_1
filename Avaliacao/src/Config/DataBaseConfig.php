@@ -2,11 +2,12 @@
 namespace Moobi\Avaliacao\Config;
 
 /*
- * Class ${DataBaseConfig}
- * @package ${Moobi\Avaliacao\Config}
+ * Class DataBaseConfig
+ * @package Moobi\Avaliacao\Config
  * @version 1.0.0 Versionamento inicial da classe
  */
 abstract class DataBaseConfig {
+	
 	private array $aConfiguracao;
 
 	public function __construct() {

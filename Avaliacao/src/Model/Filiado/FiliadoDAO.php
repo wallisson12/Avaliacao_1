@@ -4,12 +4,12 @@ use Moobi\Avaliacao\Config\MoobiDataBase;
 use Moobi\Avaliacao\Model\Filiado\Filiado;
 
 /**
- * Class ${FiliadoDAO}
- * @package ${Moobi\Avaliacao\Model\Filiado}
+ * Class FiliadoDAO
+ * @package Moobi\Avaliacao\Model\Filiado
  * @version 1.0.0 Versionamento inicial da classe
  */
-class FiliadoDAO
-{
+class FiliadoDAO {
+
 	private MoobiDataBase $oMoobiDataBase;
 
 	public function __construct() {
@@ -132,31 +132,32 @@ class FiliadoDAO
 	 * @since 1.0.0 - Definição do versionamento da função
 	 */
 	public function update(int $iId, ?string $sEmpresa, ?string $sCargo, ?string $sSituacao, string $sData): void {
-		$sSlq = "UPDATE flo_filiado 
+		$sSql = "UPDATE flo_filiado 
 				 SET flo_empresa = ?,flo_cargo = ?,flo_situacao = ?, flo_data_ultima_atualizacao = ?
                  WHERE flo_id = ?";
 
 		$aParametro = [$sEmpresa, $sCargo, $sSituacao, Filiado::atualizarDataAtualizacao(), $iId];
-		$this->oMoobiDataBase->execute($sSlq, $aParametro);
+		$this->oMoobiDataBase->execute($sSql, $aParametro);
 	}
 
 	/**
 	 * Responsável por atualizar a data da ultima atualizacao
 	 *
 	 * @param int $iIdFiliado Id do filiado para ser atualizado
+	 * @param MoobiDataBase $oMoobiDataBase Referencia do banco
 	 * @return void
 	 *
 	 * @author Wallisson De Jesus Campos wallissondejesus@moobi.com.br
 	 *
 	 * @since 1.0.0 - Definição do versionamento da função
 	 */
-	public function updateDataAtualizacao(int $iIdFiliado): void {
-		$sSlq = "UPDATE flo_filiado
+	public static function updateDataAtualizacao(int $iIdFiliado,MoobiDataBase $oMoobiDataBase): void {
+		$sSql = "UPDATE flo_filiado
 				 SET flo_data_ultima_atualizacao = ? 
 				 WHERE flo_id = ?";
 
 		$aParametro = [Filiado::atualizarDataAtualizacao(), $iIdFiliado];
-		$this->oMoobiDataBase->execute($sSlq, $aParametro);
+		$oMoobiDataBase->execute($sSql, $aParametro);
 	}
 
 	/**

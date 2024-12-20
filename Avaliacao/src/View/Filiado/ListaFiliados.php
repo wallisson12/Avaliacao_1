@@ -44,15 +44,19 @@ use Moobi\Avaliacao\Config\Session_Handler;
     </select>
 
     <input type="submit" value="Filtrar">
+    <a href=<?php Ambiente::getUrl('Filiado/limparFiltros',true)?>>Limpar</a>
 </form>
 
-<a href=<?php Ambiente::getUrl('Filiado/limparFiltros',true)?>>Limpar</a>
+<form action="<?php Ambiente::getUrl('Filiado/excluirFiliadosMarcados',true)?>" method="post">
+    <input type="submit" value="Deletar">
+    <input type="hidden" id="inputFiliadosId" name="filiadosId[]">
+</form>
 
 <section>
     <table>
         <thead>
-            <input id="todosFiliados" type="checkbox">
             <tr>
+                <th><input id="todosFiliados" type="checkbox"></th>
                 <th>Nome</th>
                 <th>CPF</th>
                 <th>Idade</th>
@@ -70,6 +74,7 @@ use Moobi\Avaliacao\Config\Session_Handler;
         <tbody>
          <?php foreach ($aFiliados as $oFiliado) { ?>
             <tr>
+                <td></td>
                 <td><input class="checkboxFiliado" type="checkbox" value="<?php echo $oFiliado->getId()?>"> <?php echo $oFiliado->getNome()?> </td>
                 <td><?php echo $oFiliado->getCPF()?></td>
                 <td><?php echo $oFiliado->getIdade()?></td>
@@ -102,20 +107,19 @@ use Moobi\Avaliacao\Config\Session_Handler;
 <br>
 
 <div>
-<a href=<?php Ambiente::getUrl('Filiado/listar',true)?>?pagina=1>Primeira</a>
+    <a href=<?php Ambiente::getUrl('Filiado/listar',true)?>?pagina=1>Primeira</a>
 
-    <?php if($iPagina>1) { ?>
-        <a href="?pagina=<?php echo $iPagina-1 ?>"><<</a>
-    <?php } ?>
+        <?php if($iPagina>1) { ?>
+            <a href="?pagina=<?php echo $iPagina-1 ?>"><<</a>
+        <?php } ?>
 
-    <?php echo $iPagina?>
+        <?php echo $iPagina?>
 
-    <?php if($iPagina<$iTotalPaginas) { ?>
-        <a href="?pagina=<?php echo $iPagina+1?>">>></a>
-    <?php } ?>
+        <?php if($iPagina<$iTotalPaginas) { ?>
+            <a href="?pagina=<?php echo $iPagina+1?>">>></a>
+        <?php } ?>
 
-<a href=<?php Ambiente::getUrl('Filiado/listar',true)?>?pagina=<?php echo $iTotalPaginas ?>>Ultima</a>
-
+    <a href=<?php Ambiente::getUrl('Filiado/listar',true)?>?pagina=<?php echo $iTotalPaginas ?>>Ultima</a>
 </div>
 
 <br>

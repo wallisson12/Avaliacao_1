@@ -2,8 +2,8 @@
 namespace Moobi\Avaliacao\Config;
 
 /**
- * Class ${Ambiente}
- * @package ${Moobi\Avaliacao\Config}
+ * Class Ambiente
+ * @package Moobi\Avaliacao\Config
  * @version 1.0.0 Versionamento inicial da classe
  */
 class Ambiente {

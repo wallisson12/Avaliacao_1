@@ -2,20 +2,21 @@
 namespace Moobi\Avaliacao\Controller;
 use Moobi\Avaliacao\Config\Ambiente;
 use Moobi\Avaliacao\Config\Mensagem;
+use Moobi\Avaliacao\Config\MoobiDataBase;
 use Moobi\Avaliacao\Controller\ControllerAbstract;
 use Exception;
 use Moobi\Avaliacao\Model\Dependente\DependenteDAO;
 use Moobi\Avaliacao\Model\Filiado\Filiado;
 use Moobi\Avaliacao\Model\Filiado\FiliadoDAO;
 use Moobi\Avaliacao\Utils\Validacoes;
-use Moobi\Avaliacao\Services\Dependente\DependenteService;
 
 /**
- * Class ${DependenteController}
- * @package ${Moobi\Avaliacao\Controller}
+ * Class DependenteController
+ * @package Moobi\Avaliacao\Controller
  * @version 1.0.0 Versionamento inicial da classe
  */
 class DependenteController extends ControllerAbstract {
+
 	public function __construct() {
 		parent::__construct();
 	}
@@ -73,7 +74,7 @@ class DependenteController extends ControllerAbstract {
 
 					$oDependenteDAO = new DependenteDAO();
 					$oDependenteDAO->insert($aDados['id'], $valor['nome'], $valor['data_nascimento'], $valor['grau_parentesco']);
-					DependenteService::atualizaDataAtualizacaoFiliado($aDados['id'],new FiliadoDAO());
+					FiliadoDao::updateDataAtualizacao($aDados['id'],new MoobiDataBase());
 				}
 
 				$sPath = Ambiente::getUrl('Dependente/listar');
@@ -129,7 +130,7 @@ class DependenteController extends ControllerAbstract {
 			if (isset($aDados["editar"])) {
 				$oDependenteDAO = new DependenteDAO();
 				$oDependenteDAO->update($aDados['id'], $aDados['nome'], $aDados['data_nascimento'], $aDados['parentesco']);
-				DependenteService::atualizaDataAtualizacaoFiliado($aDados['idF'],new FiliadoDAO());
+				FiliadoDao::updateDataAtualizacao($aDados['idF'],new MoobiDataBase());
 
 				$sPath = Ambiente::getUrl('Dependente/listar');
 				Mensagem::addMensagem("Dependente Editado Com Sucesso");
@@ -159,7 +160,7 @@ class DependenteController extends ControllerAbstract {
 		if (isset($aDados["idD"])) {
 			$oDependenteDAO = new DependenteDAO();
 			$oDependenteDAO->delete($aDados['idD']);
-			DependenteService::atualizaDataAtualizacaoFiliado($aDados['idF'],new FiliadoDAO());
+			FiliadoDao::updateDataAtualizacao($aDados['idF'],new MoobiDataBase());
 
 			$sPath = Ambiente::getUrl('Dependente/listar');
 			Mensagem::addMensagem("Dependente Deletado Com Sucesso");

@@ -1,26 +1,27 @@
 <?php
 namespace Moobi\Avaliacao\Model\Dependente;
-use Moobi\Avaliacao\Model\Dependente\Grau_Parentesco;
+use Moobi\Avaliacao\Model\Dependente\GrauParentesco;
 use DateTime;
 
 /**
- * Class ${Dependente}
- * @package ${Moobi\Avaliacao\Model\Dependente}
+ * Class Dependente
+ * @package Moobi\Avaliacao\Model\Dependente
  * @version 1.0.0 Versionamento inicial da classe
  */
 class Dependente {
+
 	private int $iIdDependente;
 	private int $iIdFiliado;
 	private string $sNome;
 	private DateTime $oDataNascimento;
-	private ?Grau_Parentesco $oGrauParentesco;
+	private ?GrauParentesco $oGrauParentesco;
 
 	public function __construct(int $iIdDependente, int $iIdFiliado, string $sNome, string $sDataNascimento,
 	                            string $sGrauParentesco) {
 		$this->iIdDependente = $iIdDependente;
 		$this->iIdFiliado = $iIdFiliado;
 		$this->sNome = $sNome;
-		$this->oDataNascimento = $this->dataNascimentoFormatada($sDataNascimento);
+		$this->oDataNascimento = DateTime::createFromFormat('Y-m-d', $sDataNascimento);
 		$this->oGrauParentesco = $this->verificarGrauParentesco($sGrauParentesco);
 	}
 
@@ -119,28 +120,28 @@ class Dependente {
 	 * Caso nao for nenhum dos casos, ele lanca uma excecao
 	 *
 	 * @param string $sGrauParentesco Grau de parentenco para ser validado
-	 * @return Grau_Parentesco|null
+	 * @return GrauParentesco|null
 	 *
 	 * @author Wallisson De Jesus Campos wallissondejesus@moobi.com.br
 	 *
 	 * @since 1.0.0 - Definição do versionamento da função
 	 */
-	private function verificarGrauParentesco(string $sGrauParentesco): ?Grau_Parentesco {
+	private function verificarGrauParentesco(string $sGrauParentesco): ?GrauParentesco {
 		switch ($sGrauParentesco) {
 			case 'Conjuge':
-				return Grau_Parentesco::Conjuge;
+				return GrauParentesco::Conjuge;
 				break;
 
 			case 'Filho':
-				return Grau_Parentesco::Filho;
+				return GrauParentesco::Filho;
 				break;
 
 			case 'Pai':
-				return Grau_Parentesco::Pai;
+				return GrauParentesco::Pai;
 				break;
 
 			case 'Mae':
-				return Grau_Parentesco::Mae;
+				return GrauParentesco::Mae;
 				break;
 
 			default:
@@ -148,17 +149,4 @@ class Dependente {
 		}
 	}
 
-	/**
-	 * Responsável criar o formato da data de nascimento do dependente
-	 *
-	 * @param string $sDataNascimento Data de nascimento para ser formatada
-	 * @return DateTime
-	 *
-	 * @author Wallisson De Jesus Campos wallissondejesus@moobi.com.br
-	 *
-	 * @since 1.0.0 - Definição do versionamento da função
-	 */
-	private function dataNascimentoFormatada(string $sDataNascimento): DateTime {
-		return DateTime::createFromFormat('Y-m-d', $sDataNascimento);
-	}
 }

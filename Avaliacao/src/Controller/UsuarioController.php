@@ -9,12 +9,12 @@ use Moobi\Avaliacao\Model\Usuario\UsuarioDAO;
 use Moobi\Avaliacao\Utils\Validacoes;
 
 /**
- * Class ${UsuarioController}
- * @package ${Moobi\Avaliacao\Controller}
+ * Class UsuarioController
+ * @package Moobi\Avaliacao\Controller
  * @version 1.0.0 Versionamento inicial da classe
  */
-class UsuarioController extends ControllerAbstract
-{
+class UsuarioController extends ControllerAbstract {
+
 	public function __construct() {
 		parent::__construct();
 	}

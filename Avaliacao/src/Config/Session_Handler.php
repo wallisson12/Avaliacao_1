@@ -3,10 +3,11 @@ namespace Moobi\Avaliacao\Config;
 
 /**
  * Class Session_Handler
- * @package ${Moobi\Avaliacao\Config}
+ * @package Moobi\Avaliacao\Config
  * @version 1.0.0 Versionamento inicial da classe
  */
 class Session_Handler {
+	
 	/**
 	 * Responsavel por iniciar uma sessao
 	 *
@@ -89,23 +90,6 @@ class Session_Handler {
 		self::iniciarSessao();
 		$_SESSION = array();
 		session_destroy();
-	}
-
-	/**
-	 * Responsavel por remover o valor guardado na sessão de filtros
-	 *
-	 * Passando a chave determinada, realiza a limpeza do valor
-	 *
-	 * @param string $sChave Indice para acessar o valor
-	 * @return void
-	 *
-	 * @author Wallisson De Jesus Campos wallissondejesus@moobi.com.br
-	 *
-	 * @since 1.0.0 - Definição do versionamento da função
-	 */
-	public static function destruirSessaoFiltros(string $sChave): void {
-		self::iniciarSessao();
-		unset($_SESSION[$sChave]);
 	}
 
 	/**

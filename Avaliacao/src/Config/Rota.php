@@ -5,11 +5,12 @@ use Moobi\Avaliacao\Controller\HomeController;
 
 /**
  * Class Rota
- * @package ${Moobi\Avaliacao\Config}
+ * @package Moobi\Avaliacao\Config
  * @version 1.0.0 Versionamento inicial da classe
  */
 class Rota {
-	/*
+
+	/**
 		* Separa o que vem da url em controller e metodo e faz o redirecionamento
 		*
 		* Faz a leitura do que esta na url do htaccess e separa em controller e metodo
@@ -30,16 +31,16 @@ class Rota {
 
 		$aUrl = array_filter(explode('/', $sVerificacao));
 
-		$controllerClass = "Moobi\\Avaliacao\\Controller\\" . ucfirst($aUrl[0]) . 'Controller';
+		$sControllerClass = "Moobi\\Avaliacao\\Controller\\" . ucfirst($aUrl[0]) . 'Controller';
 
-		$metodo = $aUrl[1];
+		$sMetodo = $aUrl[1];
 
-		if (class_exists($controllerClass) && method_exists($controllerClass, $metodo)) {
-			$controller = new $controllerClass();
-			$controller->$metodo($aDados);
+		if (class_exists($sControllerClass) && method_exists($sControllerClass, $sMetodo)) {
+			$oController = new $sControllerClass();
+			$oController->$sMetodo($aDados);
 		} else {
-			$controller = new HomeController();
-			$controller->index($aDados);
+			$oController = new HomeController();
+			$oController->index($aDados);
 		}
 
 	}

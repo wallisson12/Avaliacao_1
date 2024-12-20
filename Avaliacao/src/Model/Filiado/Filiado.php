@@ -5,11 +5,12 @@ use DateTime;
 use DateTimeZone;
 
 /**
- * Class ${Filiado}
- * @package ${Moobi\Avaliacao\Model\Filiado}
+ * Class Filiado
+ * @package Moobi\Avaliacao\Model\Filiado
  * @version 1.0.0 Versionamento inicial da classe
  */
 class Filiado {
+
 	private int $iId;
 	private string $sNome;
 	private string $sCpf;
@@ -38,7 +39,7 @@ class Filiado {
 		$this->oSituacao = $this->verificarTipoSituacao($sSituacao);
 		$this->sTelefoneResidencial = $sTelefoneResidencial;
 		$this->sCelular = $sCelular;
-		$this->oDataUltimaAtualizacao = $this->dataAtualizacaoFormatada($sDataUltimaAtualizacao);
+		$this->oDataUltimaAtualizacao = DateTime::createFromFormat('Y-m-d H:i:s', $sDataUltimaAtualizacao);
 		$this->iDeletado = $iDeletado;
 	}
 
@@ -273,20 +274,6 @@ class Filiado {
 			default:
 				return null;
 		}
-	}
-
-	/**
-	 * Responsável por realizar o formatacao da data da ultima atualizacao
-	 *
-	 * @param string $sDataUltimaAtualizacao Data para ser formatada
-	 * @return DateTime
-	 *
-	 * @author Wallisson De Jesus Campos wallissondejesus@moobi.com.br
-	 *
-	 * @since 1.0.0 - Definição do versionamento da função
-	 */
-	private function dataAtualizacaoFormatada(string $sDataUltimaAtualizacao): DateTime {
-		return DateTime::createFromFormat('Y-m-d H:i:s', $sDataUltimaAtualizacao);
 	}
 
 	/**

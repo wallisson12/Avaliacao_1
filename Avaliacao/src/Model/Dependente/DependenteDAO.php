@@ -4,11 +4,12 @@ use Moobi\Avaliacao\Model\Dependente\Dependente;
 use Moobi\Avaliacao\Config\MoobiDataBase;
 
 /**
- * Class ${DependenteDAO}
- * @package ${Moobi\Avaliacao\Model\Dependente}
+ * Class DependenteDAO
+ * @package Moobi\Avaliacao\Model\Dependente
  * @version 1.0.0 Versionamento inicial da classe
  */
 class DependenteDAO {
+
 	private MoobiDataBase $oMoobiDataBase;
 
 	public function __construct() {
@@ -55,12 +56,12 @@ class DependenteDAO {
 	 * @since 1.0.0 - Definição do versionamento da função
 	 */
 	public function insert(int $iFiliadoId, string $sNome, string $sDataNascimento, string $sGrauParentesco): void {
-		$sSlq = "INSERT INTO dpe_dependente 
+		$sSql = "INSERT INTO dpe_dependente 
     			 (flo_id,dpe_nome,dpe_data_de_nascimento,dpe_grau_de_parentesco)
                  VALUES (?,?,?,?)";
 
 		$aParametro = [$iFiliadoId, $sNome, $sDataNascimento, $sGrauParentesco];
-		$this->oMoobiDataBase->execute($sSlq, $aParametro);
+		$this->oMoobiDataBase->execute($sSql, $aParametro);
 	}
 
 	/**
@@ -119,11 +120,11 @@ class DependenteDAO {
 	 * @since 1.0.0 - Definição do versionamento da função
 	 */
 	public function delete(int $iDependenteId): void {
-		$sSlq = "DELETE FROM dpe_dependente 
+		$sSql = "DELETE FROM dpe_dependente 
        			 WHERE dpe_id = ?";
 
 		$aParametro = [$iDependenteId];
-		$this->oMoobiDataBase->execute($sSlq, $aParametro);
+		$this->oMoobiDataBase->execute($sSql, $aParametro);
 	}
 
 }

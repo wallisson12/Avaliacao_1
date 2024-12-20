@@ -6,11 +6,12 @@ use Moobi\Avaliacao\Utils\Validacoes;
 use Exception;
 
 /**
- * Class ${LoginController}
- * @package ${Moobi\Avaliacao\Controller}
+ * Class LoginController
+ * @package Moobi\Avaliacao\Controller
  * @version 1.0.0 Versionamento inicial da classe
  */
 class LoginController {
+
 	/**
 	 * Responsável por realizar o login no sistema
 	 *

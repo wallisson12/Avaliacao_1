@@ -2,11 +2,12 @@
 namespace Moobi\Avaliacao\Controller;
 
 /**
- * Class ${HomeController}
- * @package ${Moobi\Avaliacao\Controller}
+ * Class HomeController
+ * @package Moobi\Avaliacao\Controller
  * @version 1.0.0 Versionamento inicial da classe
  */
 class HomeController {
+	
 	/**
 	 * Responsável por realizar o redirecionamento para a pagina home
 	 *

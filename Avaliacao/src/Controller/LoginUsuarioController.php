@@ -2,8 +2,8 @@
 namespace Moobi\Avaliacao\Controller;
 
 /**
- * Class ${LoginUsuarioController}
- * @package ${Moobi\Avaliacao\Controller}
+ * Class LoginUsuarioController
+ * @package Moobi\Avaliacao\Controller
  * @version 1.0.0 Versionamento inicial da classe
  */
 class LoginUsuarioController {

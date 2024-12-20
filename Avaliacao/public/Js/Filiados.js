@@ -1,7 +1,6 @@
 const inputIdade = document.querySelector('#idade');
 const inputDate = document.querySelector('#dataNascimento');
 
-
 /**
  * Responsável por calcular a idade e exibir no input de idade
  *

@@ -5,11 +5,12 @@ use Moobi\Avaliacao\Model\Usuario\Usuario;
 use Moobi\Avaliacao\Config\Session_Handler;
 
 /**
- * Class ${UsuarioDAO}
- * @package ${Moobi\Avaliacao\Model\Usuario}
+ * Class UsuarioDAO
+ * @package Moobi\Avaliacao\Model\Usuario
  * @version 1.0.0 Versionamento inicial da classe
  */
 class UsuarioDAO {
+
 	private MoobiDataBase $oMoobiDataBase;
 
 	public function __construct() {

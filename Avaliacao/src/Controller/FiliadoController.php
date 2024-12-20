@@ -12,11 +12,12 @@ use Moobi\Avaliacao\Model\Filiado\FiliadoDAO;
 use Moobi\Avaliacao\Utils\Validacoes;
 
 /**
- * Class ${FiliadoController}
- * @package ${Moobi\Avaliacao\Controller}
+ * Class FiliadoController
+ * @package Moobi\Avaliacao\Controller
  * @version 1.0.0 Versionamento inicial da classe
  */
 class FiliadoController extends ControllerAbstract {
+	
 	public function __construct() {
 		parent::__construct();
 	}
@@ -84,7 +85,7 @@ class FiliadoController extends ControllerAbstract {
 	 * @since 1.0.0 - Definição do versionamento da função
 	 */
 	public function limparFiltros(): void {
-		Session_Handler::destruirSessaoFiltros('filtros');
+		Session_Handler::removerSessao('filtros');
 		$sPath = Ambiente::getUrl('Filiado/listar');
 		header("Location: $sPath");
 	}
@@ -131,6 +132,21 @@ class FiliadoController extends ControllerAbstract {
 			Mensagem::addMensagem("Filiado Deletado Com Sucesso!");
 			header("Location: $sPath");
 		}
+	}
+
+	public function excluirFiliadosMarcados(array $aDados = null): void {
+
+		$oFiliadoDAO = new FiliadoDAO();
+		$aIdFiliados = explode(',',$aDados['filiadosId'][0]);
+		$aIdFiliados = array_map('intval', $aIdFiliados);
+
+		foreach ($aIdFiliados as $aIdFiliado) {
+			$oFiliadoDAO->delete($aIdFiliado);
+		}
+
+		$sPath = Ambiente::getUrl('Filiado/listar');
+		Mensagem::addMensagem("Filiado Deletado Com Sucesso!");
+		header("Location: $sPath");
 	}
 
 	/**

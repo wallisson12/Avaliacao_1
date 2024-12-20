@@ -3,8 +3,8 @@ namespace Moobi\Avaliacao\Config;
 use Moobi\Avaliacao\Config\Session_Handler;
 
 /**
- * Class ${Mensagem}
- * @package ${Moobi\Avaliacao\Config}
+ * Class Mensagem
+ * @package Moobi\Avaliacao\Config
  * @version 1.0.0 Versionamento inicial da classe
  */
 class Mensagem {

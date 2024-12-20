@@ -3,11 +3,12 @@ namespace Moobi\Avaliacao\Controller;
 use Moobi\Avaliacao\Config\Session_Handler;
 
 /**
- * Class ${ControllerAbstract}
- * @package ${Moobi\Avaliacao\Controller}
+ * Class ControllerAbstract
+ * @package Moobi\Avaliacao\Controller
  * @version 1.0.0 Versionamento inicial da classe
  */
 abstract class ControllerAbstract {
+
 	public function __construct() {
 		if (!Session_Handler::existirSessao('usuario')) {
 			$this->indexLogin();

@@ -5,11 +5,12 @@ use PDO;
 use PDOException;
 
 /**
- * Class ${MoobiDataBase}
+ * Class MoobiDataBase
  * @package ${Moobi\Avaliacao\Config}
  * @version 1.0.0 Versionamento inicial da classe
  */
 class MoobiDataBase extends DataBaseConfig {
+
 	public PDO $oPdo;
 
 	public function __construct() {

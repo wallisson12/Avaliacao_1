@@ -1,16 +1,17 @@
 <?php
 namespace Moobi\Avaliacao\Model\Usuario;
-use Moobi\Avaliacao\Model\Usuario\Tipo_Usuario;
+use Moobi\Avaliacao\Model\Usuario\TipoUsuario;
 
 /**
- * Class ${Usuario}
- * @package ${Moobi\Avaliacao\Model\Usuario}
+ * Class Usuario
+ * @package Moobi\Avaliacao\Model\Usuario
  * @version 1.0.0 Versionamento inicial da classe
  */
-class Usuario{
+class Usuario {
+
 	private int $iId;
 	private string $Nome;
-	private ?Tipo_Usuario $oTipoUsuario;
+	private ?TipoUsuario $oTipoUsuario;
 
 	public function __construct(?int $iId, string $Nome, string $sTipoUsuario) {
 		$this->iId = $iId;
@@ -84,19 +85,19 @@ class Usuario{
 	 *
 	 * @param string $TipoUsuario
 	 *
-	 * @return Tipo_Usuario|null
+	 * @return TipoUsuario|null
 	 * @author Wallisson De Jesus Campos wallissondejesus@moobi.com.br
 	 *
 	 * @since 1.0.0 - Definição do versionamento da função
 	 */
-	public function validarTipoUsuario(string $TipoUsuario): ?Tipo_Usuario {
+	public function validarTipoUsuario(string $TipoUsuario): ?TipoUsuario {
 		switch ($TipoUsuario) {
 			case "Administrador":
-				return Tipo_Usuario::Administrador;
+				return TipoUsuario::Administrador;
 				break;
 
 			case "Comum":
-				return Tipo_Usuario::Comum;
+				return TipoUsuario::Comum;
 				break;
 
 			default:
