@@ -1,0 +1,10 @@
+{
+  "dataBase":
+  {
+    "Host": "db",
+    "Porta": "3306",
+    "Banco": "Wallisson",
+    "Usuario": "root",
+    "Senha": "sindicato@!#"
+  }
+}
