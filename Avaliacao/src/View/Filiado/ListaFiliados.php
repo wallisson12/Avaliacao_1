@@ -17,14 +17,18 @@ use Moobi\Avaliacao\Config\Session_Handler;
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Lista De Filiados</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 </head>
 
 <body>
 
-    <h3>Lista De Filiados</h3>
-
     <form action="<?php Ambiente::getUrl('Filiado/listar',true)?>" method="post">
+
+        <div class="form-group">
+            <div class="row d-flex justify-content-center p-2 m-2">
+                <h3>Lista De Filiados</h3>
+            </div>
+        </div>
 
         <div><?php echo Mensagem::getMensagem()?></div>
 
@@ -41,31 +45,36 @@ use Moobi\Avaliacao\Config\Session_Handler;
             <?php }?>
         </select>
 
-        <input type="submit" value="Filtrar">
-        <a href=<?php Ambiente::getUrl('Filiado/limparFiltros',true)?>>Limpar</a>
+        <input class="btn btn-secondary" type="submit" value="Filtrar">
+        <a class="btn btn-primary" role="button" href=<?php Ambiente::getUrl('Filiado/limparFiltros',true)?>>Limpar</a>
     </form>
 
     <form action="<?php Ambiente::getUrl('Filiado/excluirFiliadosMarcados',true)?>" method="post">
-        <input type="submit" value="Deletar">
-        <input type="hidden" id="inputFiliadosId" name="filiadosId[]">
+        <div class="form-group m-2">
+            <input class="btn btn-danger m-2" type="submit" value="Deletar">
+            <input type="hidden" id="inputFiliadosId" name="filiadosId[]">
+        </div>
     </form>
 
-    <section>
-        <table>
-            <thead>
+    <section class="p-2">
+        <table class="table table-hover table-bordered table-sm">
+            <thead class="thead-light">
                 <tr>
                     <th><input id="todosFiliados" type="checkbox"></th>
-                    <th>Nome</th>
-                    <th>CPF</th>
-                    <th>Idade</th>
-                    <th>RG</th>
-                    <th>Data Nascimento</th>
-                    <th>Empresa</th>
-                    <th>Cargo</th>
-                    <th>Situacao</th>
-                    <th>Telefone Residencial</th>
-                    <th>Celular</th>
-                    <th>Data Ultima Atualizacao</th>
+                    <th scope="col">Nome</th>
+                    <th scope="col">CPF</th>
+                    <th scope="col">Idade</th>
+                    <th scope="col">RG</th>
+                    <th scope="col">Data Nascimento</th>
+                    <th scope="col">Empresa</th>
+                    <th scope="col">Cargo</th>
+                    <th scope="col">Situacao</th>
+                    <th scope="col">Telefone Residencial</th>
+                    <th scope="col">Celular</th>
+                    <th scope="col">Data Ultima Atualizacao</th>
+                    <th scope="col"></th>
+                    <th scope="col"></th>
+                    <th scope="col"></th>
                 </tr>
             </thead>
 
@@ -85,20 +94,19 @@ use Moobi\Avaliacao\Config\Session_Handler;
                     <td><?php echo $oFiliado->getCelular()?></td>
                     <td><?php echo $oFiliado->getDataUltimaAtualizacao()?></td>
                     <?php if(Session_Handler::obterSessao('tipo') === 'Administrador') { ?>
-                        <td><a href=<?php Ambiente::getUrl('Filiado/editar',true)?>?id=<?php echo $oFiliado->getId()?>>Editar</td>
+                        <td><a class="btn btn-outline-info" href=<?php Ambiente::getUrl('Filiado/editar',true)?>?id=<?php echo $oFiliado->getId()?>>Editar</td>
                         <td>
                             <form action="<?php Ambiente::getUrl('Filiado/excluir',true)?>" method="post">
                                 <input type="hidden" name="id" value="<?php echo $oFiliado->getId()?>">
-                                <input type="submit" value="Excluir">
+                                <input class="btn btn-outline-danger" type="submit" value="Excluir">
                             </form>
                         </td>
                     <?php } ?>
-                    <td><a href=<?php Ambiente::getUrl('Dependente/listar',true)?>?id=<?php echo $oFiliado->getId()?>>Dependentes</a></td>
+                    <td><a class="btn btn-outline-primary" href=<?php Ambiente::getUrl('Dependente/listar',true)?>?id=<?php echo $oFiliado->getId()?>>Dependentes</a></td>
                 </tr>
 
             <?php } ?>
             </tbody>
-
         </table>
     </section>
 
@@ -120,12 +128,13 @@ use Moobi\Avaliacao\Config\Session_Handler;
         <a href=<?php Ambiente::getUrl('Filiado/listar',true)?>?pagina=<?php echo $iTotalPaginas ?>>Ultima</a>
     </div>
 
-    <br>
-
-    <a href=<?php Ambiente::getUrl('Filiado/indexDashborad',true)?>>Voltar</a>
+    <div class="col-auto col-md-4 p-3">
+        <a class="btn btn-dark btn-lg" role="button" href=<?php Ambiente::getUrl('Filiado/indexDashborad',true)?>>Voltar</a>
+    </div>
 
     <script src="/../Avaliacao/public/Js/ListaFiliados.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 </body>
 </html>

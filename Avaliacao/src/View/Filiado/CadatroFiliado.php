@@ -7,79 +7,117 @@ use Moobi\Avaliacao\Config\Mensagem;
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Cadastro De Filiado</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="/../Avaliacao/public/Css/main.css">
 </head>
 <body>
 
-    <h3>Cadastro De Filiado</h3>
+<form action="<?php Ambiente::getUrl('Filiado/cadastrar',true)?>" method="post">
 
-    <form action="<?php Ambiente::getUrl('Filiado/cadastrar',true)?>" method="post">
+
+    <div class="mb-3">
+
+        <div class="form-group">
+            <div class="row d-flex justify-content-center p-2">
+                <h3>Cadastro De Filiado</h3>
+            </div>
+        </div>
 
         <div><?php echo Mensagem::getMensagem() ?></div>
 
-        <div>
-            <label>Nome</label>
-            <input type="text" name="nome" required>
+        <div class="form-group">
+            <div class="col-auto mb-3 col-md-6 offset-md-3">
+                <label class="form-label col-form-label">Nome</label>
+                <input class="form-control form-control-lg" type="text" name="nome" required>
+            </div>
         </div>
 
-        <div>
-            <label>CPF</label>
-            <input type="text" name="cpf" required>
-            <span id=""></span>
+        <div class="form-group">
+            <div class="col-auto mb-3 col-md-6 offset-md-3">
+                <label class="form-label col-form-label">CPF</label>
+                <input class="form-control form-control-lg" type="text" name="cpf" required>
+                <span id=""></span>
+            </div>
         </div>
 
-        <div>
-            <label>RG</label>
-            <input type="text" name="rg" required>
+        <div class="form-group">
+            <div class="col-auto mb-3 col-md-6 offset-md-3">
+                <label class="form-label col-form-label">RG</label>
+                <input class="form-control form-control-lg" type="text" name="rg" required>
+            </div>
         </div>
 
-        <div>
-            <label>Data Nascimento</label>
-            <input id="dataNascimento" type="date" name="data_nascimento" required>
+        <div class="form-group">
+            <div class="col-auto mb-3 col-md-6 offset-md-3">
+                <label class="form-label col-form-label">Data Nascimento</label>
+                <input class="form-control form-control-lg" id="dataNascimento" type="date" name="data_nascimento" required>
+            </div>
         </div>
 
-        <div>
-            <label>Idade</label>
-            <input id="idade" type="number" name="idade" readonly>
+        <div class="form-group">
+            <div class="col-auto mb-3 col-md-6 offset-md-3">
+                <label class="form-label col-form-label">Idade</label>
+                <input class="form-control form-control-lg" id="idade" type="number" name="idade" readonly>
+            </div>
         </div>
 
-        <div>
-            <label>Empresa</label>
-            <input type="text" name="empresa">
+        <div class="form-group">
+            <div class="col-auto mb-3 col-md-6 offset-md-3">
+                <label class="form-label col-form-label">Empresa</label>
+                <input class="form-control form-control-lg" type="text" name="empresa">
+            </div>
         </div>
 
-        <div>
-            <label>Cargo</label>
-            <input type="text" name="cargo">
+        <div class="form-group">
+            <div class="col-auto mb-3 col-md-6 offset-md-3">
+                <label class="form-label col-form-label">Cargo</label>
+                <input class="form-control form-control-lg" type="text" name="cargo">
+            </div>
         </div>
 
-        <div>
-            <label>Situacao</label>
-            <select name="situacao">
-                <option value="Ativo">Ativo</option>
-                <option value="Aposentado">Aposentado</option>
-                <option value="Licenciado">Licenciado</option>
-                <option value=""></option>
-            </select>
+        <div class="form-group">
+            <div class="col-auto mb-3 col-md-6 offset-md-3">
+                <fieldset class="d-flex flex-column">
+                    <label class="form-label col-form-label">Situacao</label>
+                    <select class="form-select form-select-lg mb-3 p-3 rounded padraoSelects" name="situacao">
+                        <option value="Ativo">Ativo</option>
+                        <option value="Aposentado">Aposentado</option>
+                        <option value="Licenciado">Licenciado</option>
+                        <option value=""></option>
+                    </select>
+                </fieldset>
+            </div>
         </div>
 
-        <div>
-            <label>Telefone Residencial</label>
-            <input type="text" name="telefone" required>
+        <div class="form-group">
+            <div class="col-auto mb-3 col-md-6 offset-md-3">
+                <label class="form-label col-form-label">Telefone Residencial</label>
+                <input class="form-control form-control-lg" type="text" name="telefone" required>
+            </div>
         </div>
 
-        <div>
-            <label>Celular</label>
-            <input type="text" name="celular" required>
+        <div class="form-group">
+            <div class="col-auto mb-3 col-md-6 offset-md-3">
+                <label class="form-label col-form-label">Celular</label>
+                <input class="form-control form-control-lg" type="text" name="celular" required>
+            </div>
         </div>
 
-            <input type="submit" name="cadastrar" value="Cadastrar">
-    </form>
+        <div class="form-group">
+            <div class="col-auto mb-3 col-md-4 offset-md-4 p-4">
+                <input class="form-control btn btn-secondary btn-lg" type="submit" name="cadastrar" value="Cadastrar">
+            </div>
+        </div>
+    </div>
+</form>
 
-    <a href=<?php Ambiente::getUrl('Filiado/indexDashborad',true)?>>Voltar</a>
+    <div class="col-auto col-md-4">
+        <a class="btn btn-dark btn-lg" role="button" href=<?php Ambiente::getUrl('Filiado/indexDashborad',true)?>>Voltar</a>
+    </div>
 
     <script src="/../Avaliacao/public/Js/Filiados.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 </body>
 </html>
