@@ -11,6 +11,7 @@ use Moobi\Avaliacao\Config\Ambiente;
     <link rel="stylesheet" href="/../Avaliacao/public/Css/main.css">
 </head>
 <body>
+    <?php require(__DIR__ . '/../parcial/nav.php')?>
 
     <form action="<?php Ambiente::getUrl('Usuario/atualizar',true)?>?id=<?php echo $aUsuarios[0]->getId()?>" method="post">
 
@@ -42,7 +43,7 @@ use Moobi\Avaliacao\Config\Ambiente;
                 </div>
 
                 <div class="form-group">
-                    <div class="col-auto mb-3 col-md-4 offset-md-4">
+                    <div class="col-auto mb-3 col-md-4 offset-md-4 p-4">
                         <input class="form-control btn btn-secondary btn-lg" type="submit" name="editar" value="Editar">
                     </div>
                 </div>

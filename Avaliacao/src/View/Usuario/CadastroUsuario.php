@@ -1,6 +1,7 @@
 <?php
 use Moobi\Avaliacao\Config\Ambiente;
 use Moobi\Avaliacao\Config\Mensagem;
+use Moobi\Avaliacao\Config\Session_Handler;
 ?>
 <html lang="en">
 <head>
@@ -11,6 +12,7 @@ use Moobi\Avaliacao\Config\Mensagem;
     <link rel="stylesheet" href="/../Avaliacao/public/Css/main.css">
 </head>
 <body>
+    <?php require(__DIR__ . '/../parcial/nav.php')?>
 
 <form action="<?php Ambiente::getUrl('Usuario/cadastrar',true)?>" method="post">
 
@@ -22,7 +24,12 @@ use Moobi\Avaliacao\Config\Mensagem;
             </div>
         </div>
 
-        <div><?php echo Mensagem::getMensagem()?></div>
+        <div class="form-group">
+            <div class="row d-flex justify-content-center">
+			    <?php echo Mensagem::getMensagem()?>
+            </div>
+        </div>
+
 
         <div class="form-group">
             <div class="col-auto mb-3 col-md-6 offset-md-3">

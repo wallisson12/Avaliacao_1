@@ -19,7 +19,11 @@ use Moobi\Avaliacao\Config\Mensagem;
                 </div>
             </div>
 
-            <div><?php echo Mensagem::getMensagem()?></div>
+            <div class="form-group">
+                <div class="row d-flex justify-content-center">
+                    <?php echo Mensagem::getMensagem()?>
+                </div>
+            </div>
 
             <div class="form-group">
                 <div class="col-auto mb-3 col-md-6 offset-md-3">

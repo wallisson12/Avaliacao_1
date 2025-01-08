@@ -21,6 +21,7 @@ use Moobi\Avaliacao\Config\Session_Handler;
 </head>
 
 <body>
+    <?php require(__DIR__ . '/../parcial/nav.php')?>
 
     <form action="<?php Ambiente::getUrl('Filiado/listar',true)?>" method="post">
 
@@ -30,7 +31,11 @@ use Moobi\Avaliacao\Config\Session_Handler;
             </div>
         </div>
 
-        <div><?php echo Mensagem::getMensagem()?></div>
+        <div class="form-group">
+            <div class="row d-flex justify-content-center">
+			    <?php echo Mensagem::getMensagem()?>
+            </div>
+        </div>
 
         <label>Nome: </label>
         <input type="text" name="filtros[nome]" value="<?php echo $sNomeSelecionado ?>">

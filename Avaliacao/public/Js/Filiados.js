@@ -10,23 +10,22 @@ const inputDate = document.querySelector('#dataNascimento');
  *
  * @since 1.0.0 - Definição do versionamento da função
  */
-function calcularIdade(){
-    let dataAtual = new Date();
-    let mesAtual = dataAtual.getMonth();
-    let diaAtual = dataAtual.getDay();
-    let dataNascimento = new Date(inputDate.value)
-    let mesNascimento = dataNascimento.getMonth();
-    let diaNascimento = dataNascimento.getDay();
+function calcularIdade() {
+    const dataAtual = new Date();
+    const dataNascimento = new Date(inputDate.value);
 
-    if(!isNaN(dataNascimento.getDate())){
-        let idade = (dataAtual.getFullYear() - dataNascimento.getFullYear());
+    if (!isNaN(dataNascimento.getTime())) {
+        const mesAtual = dataAtual.getMonth();
+        const diaAtual = dataAtual.getDate();
+        const mesNascimento = dataNascimento.getMonth();
+        const diaNascimento = dataNascimento.getDate();
 
-        if(mesAtual<mesNascimento || (mesAtual === mesNascimento && diaAtual<diaNascimento)){
+        let idade = dataAtual.getFullYear() - dataNascimento.getFullYear();
+
+        if (mesAtual < mesNascimento || (mesAtual === mesNascimento && diaAtual < diaNascimento)) {
             idade--;
         }
 
-        inputIdade.value = idade >=0 ? idade : 0;
+        inputIdade.value = idade >= 0 ? idade : 0;
     }
 }
-
-inputDate.addEventListener('change',calcularIdade)

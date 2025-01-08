@@ -14,6 +14,7 @@ use Moobi\Avaliacao\Config\Session_Handler;
 </head>
 
 <body>
+    <?php require(__DIR__ . '/../parcial/nav.php')?>
 
 <section class="p-3">
     <div class="form-group">
@@ -22,7 +23,11 @@ use Moobi\Avaliacao\Config\Session_Handler;
         </div>
     </div>
 
-    <div><?php echo Mensagem::getMensagem()?></div>
+    <div class="form-group">
+        <div class="row d-flex justify-content-center">
+			<?php echo Mensagem::getMensagem()?>
+        </div>
+    </div>
 
     <table class="table table-hover table-bordered table-sm">
 

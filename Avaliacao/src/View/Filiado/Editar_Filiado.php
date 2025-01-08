@@ -13,6 +13,7 @@ use Moobi\Avaliacao\Config\Mensagem;
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 </head>
 <body>
+    <?php require(__DIR__ . '/../parcial/nav.php')?>
 
     <form action="<?php Ambiente::getUrl('Filiado/atualizar',true)?>?id=<?php echo $aFiliado[0]->getId()?>" method="post">
 
@@ -23,7 +24,11 @@ use Moobi\Avaliacao\Config\Mensagem;
                 </div>
             </div>
 
-            <div><?php echo Mensagem::getMensagem()?></div>
+            <div class="form-group">
+                <div class="row d-flex justify-content-center">
+			        <?php echo Mensagem::getMensagem()?>
+                </div>
+            </div>
 
             <div class="form-group">
                 <div class="col-auto mb-3 col-md-6 offset-md-3">
@@ -110,7 +115,7 @@ use Moobi\Avaliacao\Config\Mensagem;
             </div>
 
             <div class="form-group">
-                <div class="col-auto mb-3 col-md-4 offset-md-4">
+                <div class="col-auto mb-3 col-md-4 offset-md-4 p-4">
                     <input class="form-control btn btn-secondary btn-lg" type="submit" name="editar" value="Editar">
                 </div>
             </div>
@@ -118,7 +123,9 @@ use Moobi\Avaliacao\Config\Mensagem;
         </div>
     </form>
 
-    <a href="<?php Ambiente::getUrl('Filiado/indexListar',true)?>">Voltar</a>
+    <div class="col-auto col-md-4 p-3">
+        <a class="btn btn-dark btn-lg" href="<?php Ambiente::getUrl('Filiado/indexListar',true)?>">Voltar</a>
+    </div>
 
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
