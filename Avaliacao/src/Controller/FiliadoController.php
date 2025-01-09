@@ -1,6 +1,6 @@
 <?php
 namespace Moobi\Avaliacao\Controller;
-use Moobi\Avaliacao\Config\Ambiente;
+use FPDF;
 use Moobi\Avaliacao\Config\Mensagem;
 use Moobi\Avaliacao\Config\Session_Handler;
 use Moobi\Avaliacao\Controller\ControllerAbstract;

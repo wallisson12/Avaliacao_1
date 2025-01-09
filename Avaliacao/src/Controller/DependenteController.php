@@ -67,7 +67,7 @@ class DependenteController extends ControllerAbstract {
 	 */
 	public function cadastrar(array $aDados = null): void {
 		try {
-			if (isset($aDados["cadastrar"])) {
+			if (isset($aDados["cadastrar"]) && !empty($aDados["dependentes"])) {
 				foreach ($aDados["dependentes"] as $campo => $valor) {
 					Validacoes::validarDataNascimento($valor['data_nascimento']);
 					Validacoes::validarNomeDependente($valor['nome']);
@@ -80,7 +80,13 @@ class DependenteController extends ControllerAbstract {
 				$sPath = Ambiente::getUrl('Dependente/listar');
 				Mensagem::addMensagem("Dependente Cadastrado Com Sucesso");
 				header("Location: {$sPath}?id={$aDados['id']}");
+				return;
 			}
+
+				$sPath = Ambiente::getUrl('Dependente/listar');
+				Mensagem::addMensagem("Nenhum dependente para cadastrar");
+				header("Location: {$sPath}?id={$aDados['id']}");
+
 		} catch (Exception $e) {
 			$sPath = Ambiente::getUrl('Filiado/listar');
 			Mensagem::addMensagem($e->getMessage());
