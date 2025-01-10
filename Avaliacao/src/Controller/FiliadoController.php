@@ -1,6 +1,6 @@
 <?php
 namespace Moobi\Avaliacao\Controller;
-use FPDF;
+use Moobi\Avaliacao\FPDF\GerarPdfFiliados;
 use Moobi\Avaliacao\Config\Mensagem;
 use Moobi\Avaliacao\Config\Session_Handler;
 use Moobi\Avaliacao\Controller\ControllerAbstract;
@@ -63,6 +63,7 @@ class FiliadoController extends ControllerAbstract {
 
 			$oFiliadoDAO = new FiliadoDAO();
 			$aFiliados = $oFiliadoDAO->findByFiltros($aFiltros, $aDadosPaginacao);
+			//GerarPdfFiliados::gerarPdfFiliados($aFiliados);
 			$iTotalFiliados = $oFiliadoDAO->totalFiliados($aFiltros);
 			$iTotalPaginas = ceil($iTotalFiliados / $iLimite);
 			$aFiltroDecod = !empty(Session_Handler::obterSessao('filtros')) ? json_decode(Session_Handler::obterSessao('filtros'),true):[];
